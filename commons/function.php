@@ -21,3 +21,11 @@ function connectDB() {
         echo ("Connection failed: " . $e->getMessage());
     }
 }
+
+function deleteSesionError(){
+    if (isset($_SESSION['flash'])){
+        unset($_SESSION['flash']);
+        session_unset();
+        session_destroy();
+    }
+}

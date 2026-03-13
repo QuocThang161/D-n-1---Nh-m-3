@@ -37,12 +37,14 @@
             <form action="<?= BASE_URL_ADMIN . '?act=sua-san-pham' ?>" method="post" enctype="multipart/form-data">
             <div class="card-body">
               <div class="form-group">
+                <input type="hidden" name="san_pham_id" value="<?= $sanpham['id'] ?>">
                 <label for="ten_san_pham">Tên sản phẩm</label>
                 <input type="text" id="ten_san_pham" name="ten_san_pham" class="form-control" value="<?= $sanpham['ten_san_pham'] ?>">
                 <?php if(isset($_SESSION['error']['ten_san_pham'])){ ?>
                         <p class="text-danger"><?= $_SESSION['error']['ten_san_pham'] ?></p>
                         <?php } ?>
               </div>
+
               <div class="form-group">
                 <label for="gia_san_pham">Giá sản phẩm</label>
                 <input type="number" id="gia_san_pham" name="gia_san_pham" class="form-control" value="<?= $sanpham['gia_san_pham'] ?>">

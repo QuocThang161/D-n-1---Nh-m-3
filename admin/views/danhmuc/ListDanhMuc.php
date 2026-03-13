@@ -25,7 +25,9 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">DataTable with default features</h3>
+                            <a href="<?= BASE_URL_ADMIN . '?act=form-them-danh-muc'?>">
+                                <button class="btn btn-success"> Thêm danh mục</button>
+                            </a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -41,16 +43,22 @@
                                 <tbody>
                                     <?php foreach ($listDanhMuc as $key => $danhMuc): ?>
 
-                                        <tr>
-                                            <td><?= $key + 1 ?></td>
-                                            <td><?= $danhMuc['ten_danh_muc'] ?></td>
-                                            <td><?= $danhMuc['mo_ta'] ?></td>
-                                            <td>
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td><?= $danhMuc['ten_danh_muc'] ?></td>
+                                        <td><?= $danhMuc['mo_ta'] ?></td>
+                                        <td>
+                                            <a
+                                                href="<?= BASE_URL_ADMIN . '?act=form-sua-danh-muc&id_danh_muc=' . $danhMuc['id']?>">
                                                 <button class="btn btn-primary">Sửa</button>
+                                            </a>
+                                            <a href="<?= BASE_URL_ADMIN . '?act=xoa-danh-muc&id_danh_muc=' . $danhMuc['id']?>"
+                                                onclick="return confirm('Bạn có muốn xoá không')">
                                                 <button class="btn btn-danger">Xóa</button>
-                                            </td>
+                                            </a>
+                                        </td>
 
-                                        </tr>
+                                    </tr>
                                     <?php endforeach ?>
                                 </tbody>
                                 <tfoot>
@@ -81,23 +89,23 @@
 <!-- End footer -->
 <!-- Page specific script -->
 <script>
-    $(function() {
-        $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
+$(function() {
+    $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
     });
+});
 </script>
 <!-- Code injected by live-server -->
 

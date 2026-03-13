@@ -7,7 +7,7 @@ require_once '../commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/AdminDanhMucController.php';
 require_once './controllers/AdminSanPhamController.php';
-require_once './controllers/AdminBaoCaoThongKeController.php';
+
 
 
 // Require toàn bộ file Models
@@ -23,7 +23,6 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
 
    // route báo cáo thống kê - trang chủ
-    '/' => (new AdminBaoCaoThongKeController())->home(),
     // route danh mục
     'danh-muc' => (new AdminDanhMucController())->danhSachDanhMuc(),
     'form-them-danh-muc' => (new AdminDanhMucController())->formAddDanhMuc(),

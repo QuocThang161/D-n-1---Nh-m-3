@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-        <b>By Nhóm 3</b>
+        <b>By Nhóm 3 DA1 </b>
     </div>
     <strong>Website bán giày TBT</strong>
 </footer>

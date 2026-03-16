@@ -22,7 +22,7 @@ function connectDB() {
     }
 }
 
-function deleteSesionError(){
+function deleteSessionError(){
     if (isset($_SESSION['flash'])){
         unset($_SESSION['flash']);
         session_unset();

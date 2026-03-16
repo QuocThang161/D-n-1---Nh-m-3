@@ -12,7 +12,7 @@ class AdminDanhMucController
     public function danhSachDanhMuc()
     {
 
-        $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
+        $listDanhMuc = $this->modelDanhMuc->getAllDanhmuc();
 
         require_once './views/danhmuc/listDanhMuc.php';
     }
@@ -90,7 +90,7 @@ class AdminDanhMucController
                 // Nếu ko có lỗi thì tiến hành sửa danh mục
                 // var_dump('Oke');
 
-                $this->modelDanhMuc->updateDanhMuc($id, $ten_danh_muc, $mo_ta);
+                $this->modelDanhMuc->updateDanhmuc($id, $ten_danh_muc, $mo_ta);
                 header("Location: " . BASE_URL_ADMIN . '?act=danh-muc');
                 exit();
             } else {
@@ -107,7 +107,7 @@ class AdminDanhMucController
         $danhMuc = $this->modelDanhMuc->getDetailDanhMuc($id);
 
         if ($danhMuc) {
-            $this->modelDanhMuc->destroyDanhMuc($id);
+            $this->modelDanhMuc->destroyDanhmuc($id);
         }
 
         header("Location: " . BASE_URL_ADMIN . '?act=danh-muc');

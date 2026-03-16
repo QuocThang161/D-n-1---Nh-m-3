@@ -19,6 +19,7 @@ $act = $_GET['act'] ?? '/';
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
 match ($act) {
+    '/' => (new AdminSanPhamController())->danhSachSanPham(),
     'danh-muc' => (new AdminDanhMucController())->danhSachDanhMuc(),
     'form-them-danh-muc'=> (new AdminDanhMucController())->formAddDanhMuc(),
     'them-danh-muc'=> (new AdminDanhMucController())->postAddDanhMuc(),
@@ -31,5 +32,7 @@ match ($act) {
     'them-san-pham'=> (new AdminSanPhamController())->postAddSanPham(),
     'form-sua-san-pham'=> (new AdminSanPhamController())->formEditSanPham(),
     'sua-san-pham'=> (new AdminSanPhamController())->postEditSanPham(),
-
+    'sua-album-anh-san-pham' => (new AdminSanPhamController())->postEditAnhSanPham(),
+    'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
+    'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
 };

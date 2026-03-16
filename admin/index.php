@@ -8,9 +8,11 @@ require_once '../commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/AdminDanhMucController.php';
 require_once './controllers/AdminSanPhamController.php';
+require_once './controllers/AdminDonHangController.php';
 // Require toàn bộ file Models
 require_once './models/AdminDanhMuc.php';
 require_once './models/AdminSanPham.php';
+require_once './models/AdminDonHang.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -35,4 +37,11 @@ match ($act) {
     'sua-album-anh-san-pham' => (new AdminSanPhamController())->postEditAnhSanPham(),
     'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
     'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
+};
+    // Đơn hàng
+    'don-hang' => (new AdminDonHangController())->danhSachDonHang(),
+    'chi-tiet-don-hang' => (new AdminDonHangController())->detailDonHang(),
+    'form-sua-don-hang' => (new AdminDonHangController())->formEditDonHang(),
+    'sua-don-hang' => (new AdminDonHangController())->postEditDonHang(),
+
 };

@@ -7,14 +7,13 @@ require_once '../commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/AdminDanhMucController.php';
 require_once './controllers/AdminSanPhamController.php';
-
+require_once './controllers/AdminBaoCaoThongKeController.php';
 
 
 // Require toàn bộ file Models
 require_once './models/AdminDanhMuc.php';
 require_once './models/AdminSanPham.php';
-
-
+require_once './models/AdminTaiKhoan.php';
 
 
 
@@ -39,4 +38,10 @@ match ($act) {
     'sua-album-anh-san-pham' => (new AdminSanPhamController())->postEditAnhSanPham(),
     'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
     'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
+
+    // route quản lý tài khoản
+        // Quản lý tài khoản quản trị
+        'list-tai-khoan-quan-tri' =>(new AdminTaiKhoanController())->danhSachQuanTri(),
+        'form-them-quan-tri' =>(new AdminTaiKhoanController())->formAddQuanTri(),
+        'them-quan-tri' =>(new AdminTaiKhoanController())->postAddQuanTri(),
 };

@@ -137,11 +137,11 @@ class AdminSanPhamController
         //lấy ra thông tin của sản phẩm cần sửa
         $id = $_GET['id_san_pham'];
         $sanPham = $this->modelSanPham->getDetailSanPham($id);
-        $listSanPham = $this->modelSanPham->getListAnhSanPham($id);
+        $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
         $thisDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
         if($sanPham){
             require_once './views/sanpham/editSanPham.php';
-            deteleSessionError();
+            deleteSessionError();
         }else{
             header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
             exit();
@@ -161,6 +161,7 @@ class AdminSanPhamController
 
             $ten_san_pham = $_POST['ten_san_pham'] ?? '';
             $gia_san_pham = $_POST['gia_san_pham'] ?? '';
+            $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
             $so_luong = $_POST['so_luong'] ?? '';
             $ngay_nhap = $_POST['ngay_nhap'] ?? '';
             $danh_muc_id = $_POST['danh_muc_id'] ?? '';
@@ -284,28 +285,6 @@ class AdminSanPhamController
                 exit();
             }
         }
-    public function deleteSanPham()
-        {
-            $id = $_GET['id_san_pham'];
-            $sanPham = $this->modelSanPham->getDetailSanPham($id);
-
-            $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
-
-
-            if ($sanPham) {
-                deleteFile($sanPham['hinh_anh']);
-                $this->modelSanPham->destroySanPham($id);
-            }
-            if ($listAnhSanPham) {
-                foreach ($listAnhSanPham as $key => $anhSP) {
-                    deleteFile($anhSP['link_hinh_anh']);
-                    $this->modelSanPham->destroyAnhSanPham($anhSP['id']);
-                }
-            }
-
-            header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
-            exit();
-        }
 
 
         public function detailSanPham()
@@ -348,5 +327,24 @@ class AdminSanPhamController
                     }
                 }
             }
+        }
+
+        public function deleteSanPham(){
+            $id = $_GET['id_san_pham'];
+            $sanPham = $this->modelSanPham->getDetailSanPham($id);
+
+            $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+            if($sanPham){
+                deleteFile($sanPham['hinh_anh']);
+                $this->modelSanPham->destroySanPham($id);
+                if($listAnhSanPham){
+                    foreach ($listAnhSanPham as $key => $anhSP) {
+                        deleteFile($anhSP['link_hinh_anh']);
+                        $this->modelSanPham->destroyAnhSanPham($anhSP['id']);
+                    }
+                }
+            }
+            header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+            exit();
         }
 }

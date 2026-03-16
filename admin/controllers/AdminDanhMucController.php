@@ -1,16 +1,22 @@
 <?php
+
 class AdminDanhMucController
 {
-    public $modelDanhmuc;
+    public $modelDanhMuc;
+
     public function __construct()
     {
-        $this->modelDanhmuc = new AdminDanhMuc();
+        $this->modelDanhMuc = new AdminDanhMuc();
     }
+
     public function danhSachDanhMuc()
     {
-        $listDanhMuc = $this->modelDanhmuc->getAllDanhmuc();
-        require_once './views/danhmuc/DanhMuc.php';
+
+        $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
+
+        require_once './views/danhmuc/listDanhMuc.php';
     }
+
     public function formAddDanhMuc()
     {
         // Hàm này dùng để hiển thị form nhập

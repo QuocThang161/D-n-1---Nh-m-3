@@ -16,6 +16,7 @@
                 <div class="col-sm-11">
                     <h1>Sửa thông tin sản phẩm: <?= $sanPham['ten_san_pham'] ?></h1>
                 </div>
+                
                 <div class="col-sm-1">
                     <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="btn btn-secondary">Quay lại</a>
                 </div>
@@ -147,6 +148,7 @@
                 <!-- /.card -->
             </div>
         </div>
+        
         
     </section>
     <!-- /.content -->

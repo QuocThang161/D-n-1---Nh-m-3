@@ -119,9 +119,12 @@ class AdminSanPham {
         }
     }
 
-    public function getDatailSanPham($id){
+    public function getDetailSanPham($id){
         try{
-            $sql = 'SELECT * FROM san_phams WHERE id = :id';
+            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
+            FROM san_phams
+            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+            WHERE san_phams.id = :id';
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([':id'=>$id]);
             return $stmt->fetch();
@@ -132,10 +135,10 @@ class AdminSanPham {
 
     public function getListAnhSanPham($id){
         try{
-            $sql = 'SELECT *FROM hinh_anh_san_phams WHERE san_pham_id = :id';
+            $sql = 'SELECT * FROM hinh_anh_san_phams WHERE san_pham_id = :id';
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([':id'=>$id]);
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         }catch(Exception $e){
             echo "Lỗi" . $e->getMessage();
         }

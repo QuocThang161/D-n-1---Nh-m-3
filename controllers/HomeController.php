@@ -10,7 +10,8 @@ class HomeController
 
     public function home()
     {
-        echo "Đây là trang home của tôi";
+        $listSanPham = $this->modelSanPham->getAllSanPham();
+        require_once './views/home.php';
     }
     public function trangchu()
     {

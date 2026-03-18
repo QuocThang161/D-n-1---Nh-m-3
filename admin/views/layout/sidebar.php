@@ -3,7 +3,7 @@
     <a href="../../index3.html" class="brand-link">
         <img src="./assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">ADMIN</span>
+        <span class="brand-text font-weight-light">TbT</span>
     </a>
 
     <!-- Sidebar -->
@@ -25,26 +25,26 @@
                with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
-                    <a href="../widgets.html" class="nav-link">
+                    <a href="<?= BASE_URL_ADMIN ?>" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
+                            Trang chủ
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= BASE_URL_ADMIN . '?act=danh-muc'?>" class="nav-link">
+                    <a href="<?= BASE_URL_ADMIN . '?act=danh-muc' ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Danh mục sản phảm
+                            Danh mục sản phẩm
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= BASE_URL_ADMIN . '?act=san-pham'?>" class="nav-link">
-                        <i class="nav-icon fal fa-cat"></i>
+                    <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="nav-link">
+                        <i class="nav-icon fas fa-cat"></i>
                         <p>
                             Sản phẩm
                         </p>
@@ -52,12 +52,41 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= BASE_URL_ADMIN . '?act=don-hang'?>" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
+                    <a href="<?= BASE_URL_ADMIN . '?act=don-hang' ?>" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Đơn hàng
                         </p>
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Quản lý tài khoản</p>
+                        <i class="fas fa-angle-left right"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL_ADMIN . '?act=list-tai-khoan-quan-tri' ?>" class="nav-link">
+                                <i class="nav-icon far fa-user"></i>
+                                <p>Tài khoản quản trị</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL_ADMIN . '?act=list-tai-khoan-khach-hang' ?>" class="nav-link">
+                                <i class="nav-icon far fa-user"></i>
+                                <p>Tài khoản khách hàng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri' ?>"
+                                class="nav-link">
+                                <i class="nav-icon far fa-user"></i>
+                                <p>Tài khoản cá nhân</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

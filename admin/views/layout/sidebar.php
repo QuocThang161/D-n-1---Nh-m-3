@@ -44,7 +44,7 @@
 
                 <li class="nav-item">
                     <a href="<?= BASE_URL_ADMIN . '?act=san-pham'?>" class="nav-link">
-                        <i class="nav-icon fal fa-ice-skate"></i>
+                        <i class="nav-icon fal fa-cat"></i>
                         <p>
                             Sản phẩm
                         </p>

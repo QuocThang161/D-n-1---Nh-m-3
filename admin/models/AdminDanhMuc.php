@@ -6,7 +6,7 @@ class AdminDanhMuc
     {
         $this->conn =  connectDB();
     }
-    public function getAllDanhmuc()
+    public function getAllDanhMuc()
     {
         try {
             $sql = 'SELECT * FROM danh_mucs';

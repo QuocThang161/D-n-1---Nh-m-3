@@ -8,7 +8,7 @@ class AdminDanhMucController
     }
     public function danhSachDanhMuc()
     {
-        $listDanhMuc = $this->modelDanhmuc->getAllDanhmuc();
+        $listDanhMuc = $this->modelDanhmuc->getAllDanhMuc();
         require_once './views/danhmuc/ListDanhMuc.php';
     }
 

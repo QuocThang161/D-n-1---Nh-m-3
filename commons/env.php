@@ -3,7 +3,8 @@
 // Biến môi trường, dùng chung toàn hệ thống
 // Khai báo dưới dạng HẰNG SỐ để không phải dùng $GLOBALS
 
-define('BASE_URL', 'http://localhost/D-n-1---Nh-m-3/');
+// đường dẫn vào client
+define('BASE_URL', 'http://localhost/mvc-oop-basic/');
 // đường dẫn vào admin
 define('BASE_URL_ADMIN', 'http://localhost/mvc-oop-basic/admin/');
 

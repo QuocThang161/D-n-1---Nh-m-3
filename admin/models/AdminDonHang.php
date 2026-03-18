@@ -26,7 +26,7 @@ class AdminDonHang
         }
     }
 
-    public function getAlltrangThaiDonHang(){
+    public function getAllTrangThaiDonHang(){
         try {
             $sql = 'SELECT * FROM trang_thai_don_hangs';
 
@@ -83,4 +83,40 @@ class AdminDonHang
             echo "lỗi" . $e->getMessage();
         }
         }
+
+        public function updateDonHang( 
+                    $id,
+                    $ten_nguoi_nhan,
+                    $sdt_nguoi_nhan,
+                    $email_nguoi_nhan,
+                    $dia_chi_nguoi_nhan,
+                    $ghi_chu,
+                    $trang_thai_id){
+        try {
+               $sql = 'UPDATE don_hangs
+                    SET 
+                        
+                        ten_nguoi_nhan = :ten_nguoi_nhan,
+                        sdt_nguoi_nhan = :sdt_nguoi_nhan,
+                        email_nguoi_nhan = :email_nguoi_nhan,
+                        dia_chi_nguoi_nhan = :dia_chi_nguoi_nhan,
+                        ghi_chu = :ghi_chu,
+                        trang_thai_id = :trang_thai_id
+                    WHERE id = :id';
+                           $stmt = $this->conn->prepare($sql);
+                             $stmt->execute([
+                ':id' => $id,
+                ':ten_nguoi_nhan' => $ten_nguoi_nhan,
+                ':sdt_nguoi_nhan' => $sdt_nguoi_nhan,
+                ':email_nguoi_nhan' => $email_nguoi_nhan,
+                ':dia_chi_nguoi_nhan' => $dia_chi_nguoi_nhan,
+                ':ghi_chu' => $ghi_chu,
+                ':trang_thai_id' => $trang_thai_id,
+            ]);
+
+            return true;
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
 }

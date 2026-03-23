@@ -312,9 +312,21 @@ class AdminTaiKhoanController
 
 
     public function formEditCaNhanQuanTri(){
+        if (empty($_SESSION['user_admin'])) {
+            header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
+            exit();
+        }
+
         $email = $_SESSION['user_admin'];
         $thongTin = $this->modelTaiKhoan->getTaiKhoanformEmail($email);
-        // var_dump($thongTin);die;
+
+        if (!$thongTin || !is_array($thongTin)) {
+            // nếu user không tìm thấy, logout và chuyển về login
+            unset($_SESSION['user_admin']);
+            header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
+            exit();
+        }
+
         require_once './views/taikhoan/canhan/editCaNhan.php';
         deleteSessionError();
     }
@@ -329,10 +341,19 @@ class AdminTaiKhoanController
             
 
             
-            //Lấy thông tin user từ session
-            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+            if (empty($_SESSION['user_admin'])) {
+                header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
+                exit();
+            }
 
-            // var_dump($user);die;
+            // Lấy thông tin user từ session
+            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+            if (!$user || !is_array($user)) {
+                unset($_SESSION['user_admin']);
+                header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
+                exit();
+            }
+
             $checkPass = password_verify($old_pass, $user['mat_khau']);
 
             $errors = [];

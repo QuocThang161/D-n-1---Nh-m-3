@@ -7,6 +7,13 @@
 <!-- Main Sidebar Container -->
 <?php include './views/layout/sidebar.php'; ?>
 
+<?php
+$thongTin = $thongTin ?? [];
+$avatar = isset($thongTin['anh_dai_dien']) && $thongTin['anh_dai_dien'] ? BASE_URL . $thongTin['anh_dai_dien'] : 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+$ho_ten = $thongTin['ho_ten'] ?? 'Chưa cập nhật';
+$chuc_vu = isset($thongTin['chuc_vu_id']) ? ($thongTin['chuc_vu_id'] == 1 ? 'Quản trị' : 'Khách hàng') : 'Chưa xác định';
+?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -28,12 +35,10 @@
 
                 <div class="col-md-3">
                     <div class="text-center">
-                        <img src="<?= BASE_URL . $thongTin['anh_dai_dien']; ?>" style="width: 100px"
-                            class="avatar img-circle" alt="avatar"
+                        <img src="<?= $avatar ?>" style="width: 100px" class="avatar img-circle" alt="avatar"
                             onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?20200919003010'">
-                        <h6 class="mt-2">Họ tên: <?= $thongTin['ho_ten'] ?></h6>
-                        <h6 class="mt-2">Chức vụ: <?= $thongTin['chuc_vu_id'] ?></h6>
-
+                        <h6 class="mt-2">Họ tên: <?= htmlspecialchars($ho_ten) ?></h6>
+                        <h6 class="mt-2">Chức vụ: <?= htmlspecialchars($chuc_vu) ?></h6>
 
                     </div>
                 </div>

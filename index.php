@@ -8,17 +8,24 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 require_once './controllers/HomeController.php';
 
 // Require toàn bộ file Models
-require_once './models/Student.php';
+
 require_once './models/SanPham.php';
+require_once './models/TaiKhoan.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
-var_dump($_GET['act'] ?? '/');
+// var_dump($_GET['act'] ?? '/');
 
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
 match ($act) {
+    // route trang chủ
     '/' => (new HomeController())->home(),
-    'trangchu' => (new HomeController())->trangchu(),
-    'danh-sach-san-pham' => (new HomeController())->danhSachSanPham(),
+    // 'trangchu' => (new HomeController())->trangchu(),
+    
+
+    'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
+
+    'login' => (new HomeController())->formLogin(),
+    'check-login' => (new HomeController())->postLogin(),
 };

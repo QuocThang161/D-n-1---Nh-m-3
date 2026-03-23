@@ -38,9 +38,16 @@ match ($act) {
     'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
     'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
 
+    // route bình luận
+    'update-trang-thai-binh-luan' => (new AdminSanPhamController())->updateTrangThaiBinhLuan(),
+
     // route quản lý tài khoản
         // Quản lý tài khoản quản trị
         'list-tai-khoan-quan-tri' =>(new AdminTaiKhoanController())->danhSachQuanTri(),
         'form-them-quan-tri' =>(new AdminTaiKhoanController())->formAddQuanTri(),
         'them-quan-tri' =>(new AdminTaiKhoanController())->postAddQuanTri(),
+        'form-sua-quan-tri' =>(new AdminTaiKhoanController())->formEditQuanTri(),
+
+    // route reset password tài khoản
+    'reset-password' =>(new AdminTaiKhoanController())->resetPassword(),
 };

@@ -141,6 +141,7 @@
       $('.product-image').prop('src', $image_element.attr('src'))
       $('.product-image-thumb.active').removeClass('active')
       $(this).addClass('active')
+      
     })
   })
 </script>

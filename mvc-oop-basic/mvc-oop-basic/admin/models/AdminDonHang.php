@@ -130,6 +130,7 @@ class AdminDonHang {
             return $stmt->fetchAll();
         } catch (Exception $e) {
             echo "lỗi" . $e->getMessage();
+            
         }
     }
     

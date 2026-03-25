@@ -31,7 +31,7 @@ class GioHang
             
             
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':id'=>$id]);
+            $stmt->execute([':gio_hang_id'=>$id]);
             return $stmt->fetchAll();
         } catch (Exception $e) {
             echo " lỗi" . $e->getMessage();

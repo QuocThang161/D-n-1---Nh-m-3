@@ -5,11 +5,13 @@ class HomeController
     public $modelSanPham;
     public $modelTaikhoan;
     public $modelGioHang;
+    public $modelDonHang;
     public function __construct()
     {
         $this->modelSanPham = new SanPham();
         $this->modelTaikhoan = new TaiKhoan();
         $this->modelGioHang = new GioHang();
+        $this->modelDonHang = new DonHang();
     }
 
     public function home()
@@ -126,27 +128,82 @@ class HomeController
     }
 
     public function gioHang(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_SESSION['user_client'])){
-                $mail = $this->modelTaikhoan->getTaiKhoanformEmail($_SESSION['user_client']);
-                // var_dump($mail['id']);die;
-                $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
-                if(!$gioHang){
-                    $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
-                    $gioHang = ['id' => $gioHangId];
-                     $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        if(!isset($_SESSION['user_client'])){
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
 
-                }else{
-                     $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-                }
-                require_once './views/gioHang.php';
-            }else{
-                var_dump('Chưa đăng nhập');die;
+        $mail = $this->modelTaikhoan->getTaiKhoanformEmail($_SESSION['user_client']);
+        if(!$mail){
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $gioHang = $this->modelGioHang->getGioHangFromUser($mail['id']);
+        if(!$gioHang){
+            $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
+            $gioHang = ['id' => $gioHangId];
+        }
+
+        $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+        require_once './views/gioHang.php';
+    }
+
+    public function thanhToan(){
+        if(isset($_SESSION['user_client'])){
+            $user = $this->modelTaikhoan->getTaiKhoanformEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+            if(!$gioHang){
+                $gioHangId = $this->modelGioHang->addGioHang($user['id']);
+                $gioHang = ['id' => $gioHangId];
+            } else {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
             }
+            require_once './views/thanhToan.php';
+        } else {
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+    }
+    public function postThanhToan(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $ten_nguoi_nhan = $_POST['ten_nguoi_nhan'] ?? null;
+            $email_nguoi_nhan = $_POST['email_nguoi_nhan'] ?? null;
+            $sdt_nguoi_nhan = $_POST['sdt_nguoi_nhan'] ?? null;
+            $dia_chi_nguoi_nhan = $_POST['dia_chi'] ?? null;
+            $ghi_chu = $_POST['ghi_chu'] ?? '';
+            $tong_tien = $_POST['tong_tien'] ?? 0;
+            $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'] ?? null;
+
+            $ngay_dat =  date('Y-m-d');
+            $trang_thai_id = 1;
+            $user = $this->modelTaikhoan->getTaiKhoanformEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $ma_don_hang = 'DH-' . time() . rand(1000, 9999);
+
+            // thêm thông tin vào db
+
+            $this->modelDonHang->addDonHang(
+                $ghi_chu,
+                $email_nguoi_nhan,
+                $tai_khoan_id,
+                $ten_nguoi_nhan,
+                $sdt_nguoi_nhan,
+                $dia_chi_nguoi_nhan,
+                $phuong_thuc_thanh_toan_id,
+                $ngay_dat,
+                $trang_thai_id,
+                $ma_don_hang,
+                $tong_tien
+            );
+            var_dump('thanh toán thành công');die;
             
 
         }
     }
+        
+    
 
  
   

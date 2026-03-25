@@ -54,8 +54,11 @@ require_once 'layout/header.php'
                                         
                                         <?php
                                         $tongGioHang = 0;
-                                        foreach($chiTietGioHang as $key=>$sanPham):
-                                             ?>
+                                        if (!isset($chiTietGioHang) || !is_array($chiTietGioHang) || count($chiTietGioHang) === 0):
+                                            echo '<tr><td colspan="6" class="text-center">Giỏ hàng của bạn hiện đang trống.</td></tr>';
+                                        else:
+                                            foreach($chiTietGioHang as $key=>$sanPham):
+                                        ?>
                                         <tr>
                                             <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="Product" /></a></td>
                                             <td class="pro-title"><a href="#"><?= $sanPham['ten_san_pham'] ?></a></td>
@@ -84,7 +87,7 @@ require_once 'layout/header.php'
                                             </span></td>
                                             <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
                                         </tr>
-                                        <?php endforeach  ?>
+                                        <?php endforeach; endif; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -112,20 +115,20 @@ require_once 'layout/header.php'
                                         <table class="table">
                                             <tr>
                                                 <td>Tổng tiền sản phẩm</td>
-                                                <td><?= number_format($tongGioHang, 0, ',', '.') . 'đ' ?></td>
+                                                <td><?= number_format($tongGioHang, 0, ',', '.') . ' đ' ?></td>
                                             </tr>
                                             <tr>
                                                 <td>Vận chuyển</td>
-                                                <td><?= number_format(70, 0, ',', '.') . 'đ' ?></td>
+                                                <td><?= number_format(30000, 0, ',', '.') . ' đ' ?></td>
                                             </tr>
                                             <tr class="total">
                                                 <td>Tổng thanh toán</td>
-                                                <td class="total-amount"><?= number_format($tongGioHang + 70, 0, ',', '.') . 'đ' ?></td>
+                                                <td class="total-amount"><?= number_format($tongGioHang + 30000, 0, ',', '.') . ' đ' ?></td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
-                                <a href="checkout.html" class="btn btn-sqr d-block">Proceed Checkout</a>
+                                <a href="<?= BASE_URL . '?act=thanh-toan' ?>" class="btn btn-sqr d-block">Tiến hành đặt hàng</a>
                             </div>
                         </div>
                     </div>

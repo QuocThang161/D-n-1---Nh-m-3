@@ -34,20 +34,28 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Họ tên</label>
-                                    <input type="text" class="form-control" name="ho_ten" placeholder="Nhập họ tên">
+                                    <input type="text" class="form-control" name="ho_ten" placeholder="Nhập họ tên"
+                                        value="<?= $_POST['ho_ten'] ?? '' ?>">
                                     <?php if (isset($_SESSION['error']['ho_ten'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['ho_ten'] ?></p>
+                                    <p class="text-danger"><?= $_SESSION['error']['ho_ten'] ?></p>
                                     <?php } ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Nhập họ tên">
+                                    <input type="email" class="form-control" name="email" placeholder="Nhập email"
+                                        value="<?= $_POST['email'] ?? '' ?>">
                                     <?php if (isset($_SESSION['error']['email'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['email'] ?></p>
+                                    <p class="text-danger"><?= $_SESSION['error']['email'] ?></p>
                                     <?php } ?>
                                 </div>
-                                
+
+                                <?php if (isset($_SESSION['error']['database'])) { ?>
+                                <div class="alert alert-danger">
+                                    <p><?= $_SESSION['error']['database'] ?></p>
+                                </div>
+                                <?php } ?>
+
                             </div>
 
                             <div class="card-footer">

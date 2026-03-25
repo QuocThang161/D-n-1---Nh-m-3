@@ -7,7 +7,7 @@ class AdminSanPham {
         $this->conn = connectDB();
         $this->modelDanhMuc = new AdminDanhMuc();
     }
-    public function getAllSanpham(){
+    public function getAllSanPham(){
         try{
             $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
             FROM san_phams
@@ -22,7 +22,7 @@ class AdminSanPham {
 
     public function insertSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $hinh_anh){
         try{
-            $sql = 'INSERT INTO san_pham (ten_san_pham, gia_san_pham, gia_khuyen_mai, so_luong, ngay_nhap, danh_muc_id, trang_thai, mo_ta, hinh_anh)
+            $sql = 'INSERT INTO san_phams (ten_san_pham, gia_san_pham, gia_khuyen_mai, so_luong, ngay_nhap, danh_muc_id, trang_thai, mo_ta, hinh_anh)
             VALUES (:ten_san_pham, :gia_san_pham, :gia_khuyen_mai, :so_luong, :ngay_nhap, :danh_muc_id, :trang_thai, :mo_ta, :hinh_anh)';
 
             $stmt = $this->conn->prepare($sql);
@@ -41,10 +41,11 @@ class AdminSanPham {
             return $this->conn->lastInsertId();
         }catch (Exception $e){
             echo "Lỗi" . $e->getMessage();
+            return null;
         }
     }
-    public function formAddSanpham(){
-        $listDanhMuc = $this->modelDanhMuc->getAllDanhmuc();
+    public function formAddSanPham(){
+        $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
         require_once './views/sanpham/addSanPham.php';
 
         deleteSessionError();
@@ -293,5 +294,3 @@ class AdminSanPham {
     }
     
 }
-
-

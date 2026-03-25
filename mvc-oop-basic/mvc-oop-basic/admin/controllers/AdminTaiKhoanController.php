@@ -82,7 +82,7 @@ class AdminTaiKhoanController
         deleteSessionError();
     }
 
-    public function postEditCaNhanQuanTri()
+    public function postEditQuanTri()
     {
 
         // Kiểm tra xem dữ liệu có phải đc submit lên không

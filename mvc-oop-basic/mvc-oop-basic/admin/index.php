@@ -16,6 +16,13 @@ require_once './models/AdminSanPham.php';
 require_once './models/AdminTaiKhoan.php';
 require_once '/.models/AdminDonHang.php';
 
+// Route
+$act = $_GET['act'] ?? '/';
+
+if ($act !== 'login-admin'  && $act !== 'check-login-admin' && $act !== 'logout-admin') {
+    checkLoginAdmin();
+}
+
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 $act = $_GET['act'] ?? '/';
 match ($act) {
@@ -57,6 +64,11 @@ match ($act) {
         'form-sua-khach-hang' =>(new AdminTaiKhoanController())->formEditKhachHang(),
         'sua-khach-hang' =>(new AdminTaiKhoanController())->postEditKhachHang(),
         'chi-tiet-khach-hang' =>(new AdminTaiKhoanController())->deltailKhachHang(),
+
+        // route quản lý tài khoản cá nhân(quản trị)
+        'form-sua-thong-tin-ca-nhan-quan-tri' =>(new AdminTaiKhoanController())->formEditCaNhanQuanTri(),
+        'sua-thong-tin-ca-nhan-quan-tri' =>(new AdminTaiKhoanController())->postEditCaNhanQuanTri(),
+        'sua-mat-khau-ca-nhan-quan-tri' =>(new AdminTaiKhoanController())->postEditMatKhauCaNhan(),
 
         // route auth
         'login-admin' => (new AdminTaiKhoanController())->formLogin(),

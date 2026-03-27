@@ -70,9 +70,13 @@
                                             <i class="pe-7s-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
+                                            <?php if(!isset($_SESSION['user_client'])){?>
                                             <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
-                                            <li><a href="login-register.html">Đăng ký</a></li>
-                                            <li><a href="my-account.html">Tài khoản</a></li>
+                                            <?php } else {?>
+                                            <li><a href="#">Tài khoản</a></li>
+                                            <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Lịch sử mua hàng</a>
+                                            </li>
+                                            <?php }?>
                                         </ul>
                                     </li>
 

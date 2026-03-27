@@ -332,8 +332,6 @@ class AdminTaiKhoanController
                     $ho_ten,
                     $email,
                     $so_dien_thoai,
-                    $ngay_sinh,
-                    $dia_chi,
                     $trang_thai
                 );
 

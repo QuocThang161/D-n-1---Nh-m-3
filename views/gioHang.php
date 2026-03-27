@@ -1,16 +1,8 @@
-<?php
+<?php require_once 'layout/header.php'; ?>
 
-require_once 'layout/header.php'
+<?php require_once 'layout/menu.php'; ?>
 
-?>
-
-<?php 
-    
-    require_once 'layout/menu.php'
-    
-    ?>
-
-    <main>
+<main>
         <!-- breadcrumb area start -->
         <div class="breadcrumb-area">
             <div class="container">
@@ -110,7 +102,7 @@ require_once 'layout/header.php'
                             <!-- Cart Calculation Area -->
                             <div class="cart-calculator-wrapper">
                                 <div class="cart-calculate-items">
-                                    <h6>Cart Totals</h6>
+                                    <h6>Tổng đơn hàng</h6>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>

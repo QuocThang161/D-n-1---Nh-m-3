@@ -24,139 +24,77 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
-                    <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" style="width: 70%" alt=""
-                        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?20200919003010'">
-                </div>
-                <div class="col-6">
-                    <div class="container">
-                        <table class="table table-borderless">
-                            <tbody style="font-size: large;">
-                                <tr>
-                                    <th>Họ tên: </th>
-                                    <td><?= $khachHang['ho_ten'] ?? '' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Ngày sinh: </th>
-                                    <td><?= $khachHang['ngay_sinh'] ?? '' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Email: </th>
-                                    <td><?= $khachHang['email'] ?? '' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Số điện thoại: </th>
-                                    <td><?= $khachHang['so_dien_thoai'] ?? '' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Giới tính: </th>
-                                    <td><?= $khachHang['gioi_tinh'] == 1 ? 'Nam' : 'Nữ'; ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Địa chỉ: </th>
-                                    <td><?= $khachHang['dia_chi'] ?? '' ?></td>
-                                </tr>
-                                <tr>
-                                    <th>Trạng thái: </th>
-                                    <td><?= $khachHang['trang_thai'] == 1 ? 'Active' : 'Inactive' ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 <div class="col-12">
-                    <hr>
-                    <h2>Lịch sử mua hàng</h2>
-                    <div>
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã đơn hàng</th>
-                                    <th>Tên người nhận</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($listDonHang as $key => $donHang) : ?>
-                                <tr>
-                                    <td><?= $key + 1 ?></td>
-                                    <td><?= $donHang['ma_don_hang'] ?></td>
-                                    <td><?= $donHang['ten_nguoi_nhan'] ?></td>
-                                    <td><?= $donHang['sdt_nguoi_nhan'] ?></td>
-                                    <td><?= $donHang['ngay_dat'] ?></td>
-                                    <td><?= $donHang['tong_tien'] ?></td>
-                                    <td><?= $donHang['ten_trang_thai'] ?></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a
-                                                href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                <button class="btn btn-primary"><i class="far fa-eye"></i></button>
-                                            </a>
-                                            <a
-                                                href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                <button class="btn btn-warning"><i class="fas fa-cogs"></i></button>
-                                            </a>
-                                        </div>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Sửa thông tin tài khoản khách hàng: <?= $khachHang['ho_ten']; ?></h3>
+                        </div>
 
-                                    </td>
-                                </tr>
-                                <?php endforeach ?>
-                            </tbody>
+                        <form action="<?= BASE_URL_ADMIN . '?act=sua-khach-hang' ?>" method="POST">
+                            <input type="hidden" name="khach_hang_id" value="<?= $khachHang['id'] ?>">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Họ tên</label>
+                                    <input type="text" class="form-control" name="ho_ten" value="<?= $khachHang['ho_ten'] ?>" placeholder="Nhập họ tên">
+                                    <?php if (isset($_SESSION['error']['ho_ten'])) { ?>
+                                        <p class="text-danger"><?= $_SESSION['error']['ho_ten'] ?></p>
+                                    <?php } ?>
+                                </div>
 
-                        </table>
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" name="email" value="<?= $khachHang['email'] ?>" placeholder="Nhập email">
+                                    <?php if (isset($_SESSION['error']['email'])) { ?>
+                                        <p class="text-danger"><?= $_SESSION['error']['email'] ?></p>
+                                    <?php } ?>
+                                </div>
 
-                <div class="col-12">
-                    <hr>
-                    <h2>Lịch sử bình luận</h2>
-                    <div>
-                        <table id="example2" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày bình luận</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($listBinhLuan as $key => $binhLuan) : ?>
-                                <tr>
-                                    <td><?= $key + 1 ?></td>
-                                    <td>
-                                        <a target="_blank"
-                                            href="<?= BASE_URL_ADMIN. '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id'];?>">
-                                            <?= $binhLuan['ten_san_pham'] ?>
-                                        </a>
-                                    </td>
-                                    <td><?= $binhLuan['noi_dung'] ?></td>
-                                    <td><?= $binhLuan['ngay_dang'] ?></td>
-                                    <td><?= $binhLuan['trang_thai'] == 1 ? 'Hiển thị' : 'Bị ẩn' ?></td>
-                                    <td>
-                                        <form action="<?= BASE_URL_ADMIN . '?act=update-trang-thai-binh-luan' ?>"
-                                            method="POST">
-                                            <input type="hidden" name="id_binh_luan" value="<?= $binhLuan['id'] ?>">
-                                            <input type="hidden" name="name_view" value="detail_khach">
-                                            <button onclick="return confirm('Bạn có muốn ẩn bình luận này không?')"
-                                                class="btn btn-warning">
-                                                <?= $binhLuan['trang_thai'] == 1 ? 'Ẩn':'Bỏ ẩn' ?>
-                                            </button>
-                                        </form>
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" class="form-control" name="so_dien_thoai" value="<?= $khachHang['so_dien_thoai'] ?>" placeholder="Nhập số điện thoại">
+                                    <?php if (isset($_SESSION['error']['so_dien_thoai'])) { ?>
+                                        <p class="text-danger"><?= $_SESSION['error']['so_dien_thoai'] ?></p>
+                                    <?php } ?>
+                                </div>
 
-                                    </td>
-                                </tr>
-                                <?php endforeach ?>
-                            </tbody>
+                                <div class="form-group">
+                                    <label>Ngày sinh</label>
+                                    <input type="date" class="form-control" name="ngay_sinh" value="<?= $khachHang['ngay_sinh'] ?>">
+                                    <?php if (isset($_SESSION['error']['ngay_sinh'])) { ?>
+                                        <p class="text-danger"><?= $_SESSION['error']['ngay_sinh'] ?></p>
+                                    <?php } ?>
+                                </div>
 
-                        </table>
+                                <div class="form-group">
+                                    <label>Giới tính</label>
+                                    <select id="inputStatus" name="gioi_tinh" class="form-control custom-select">
+                                    <option <?= $khachHang['gioi_tinh'] == 1 ? 'selected': '' ?> value="1">Nam</option>
+                                    <option <?= $khachHang['gioi_tinh'] !== 1 ? 'selected': '' ?> value="2">Nữ</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Địa chỉ</label>
+                                    <input type="text" class="form-control" name="dia_chi" value="<?= $khachHang['dia_chi'] ?>" placeholder="Địa chỉ">
+                                    <?php if (isset($_SESSION['error']['dia_chi'])) { ?>
+                                        <p class="text-danger"><?= $_SESSION['error']['dia_chi'] ?></p>
+                                    <?php } ?>
+                                </div>
+
+                                <div class="form-group">
+                                <label for="inputStatus">Trạng thái tài khoản</label>
+                                <select id="inputStatus" name="trang_thai" class="form-control custom-select">
+                                    <option <?= $khachHang['trang_thai'] == 1 ? 'selected': '' ?> value="1">Active</option>
+                                    <option <?= $khachHang['trang_thai'] !== 1 ? 'selected': '' ?> value="2">Inactive</option>
+                                </select>
+                            </div>
+                                
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /.col -->

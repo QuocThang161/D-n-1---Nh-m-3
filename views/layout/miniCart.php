@@ -13,16 +13,16 @@
                         <li class="minicart-item">
                             <div class="minicart-thumb">
                                 <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-1.jpg" alt="product">
+                                    <img src="assets/img/cart/anh1.jpg" alt="product">
                                 </a>
                             </div>
                             <div class="minicart-content">
                                 <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
+                                    <a href="product-details.html">Phốc Sóc Trắng Đực</a>
                                 </h3>
                                 <p>
                                     <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$100.00</span>
+                                    <span class="cart-price">2.000.000đ</span>
                                 </p>
                             </div>
                             <button class="minicart-remove"><i class="pe-7s-close"></i></button>
@@ -30,16 +30,16 @@
                         <li class="minicart-item">
                             <div class="minicart-thumb">
                                 <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-2.jpg" alt="product">
+                                    <img src="assets/img/cart/anh2.jpg" alt="product">
                                 </a>
                             </div>
                             <div class="minicart-content">
                                 <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
+                                    <a href="product-details.html">Phốc Sóc Vàng Ghi Đực</a>
                                 </h3>
                                 <p>
                                     <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$80.00</span>
+                                    <span class="cart-price">1.000.000</span>
                                 </p>
                             </div>
                             <button class="minicart-remove"><i class="pe-7s-close"></i></button>
@@ -50,20 +50,20 @@
                 <div class="minicart-pricing-box">
                     <ul>
                         <li>
-                            <span>sub-total</span>
-                            <span><strong>$300.00</strong></span>
+                            <span>Tạm tính</span>
+                            <span><strong>$3.000.000đ</strong></span>
                         </li>
                         <li>
-                            <span>Eco Tax (-2.00)</span>
-                            <span><strong>$10.00</strong></span>
+                            <span>Thuế môi trường (-20.000đ)</span>
+                            <span><strong>20.000đ</strong></span>
                         </li>
                         <li>
                             <span>VAT (20%)</span>
-                            <span><strong>$60.00</strong></span>
+                            <span><strong>600.000đ</strong></span>
                         </li>
                         <li class="total">
-                            <span>total</span>
-                            <span><strong>$370.00</strong></span>
+                            <span>Tổng giá</span>
+                            <span><strong>3.620.000đ</strong></span>
                         </li>
                     </ul>
                 </div>

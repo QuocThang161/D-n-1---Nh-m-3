@@ -1,13 +1,13 @@
 <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-        <b>By Nhóm 3</b>
-    </div>
-    <strong>Website bán giày TBT</strong>
+  <div class="float-right d-none d-sm-block">
+    By <b>Trần Xuân Dũng</b>
+  </div>
+  <strong>Website bán thú cưng Trần Xuân Dũng</strong>
 </footer>
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
+  <!-- Control sidebar content goes here -->
 </aside>
 <!-- /.control-sidebar -->
 </div>

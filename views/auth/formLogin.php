@@ -31,11 +31,26 @@
                         <div class="col-lg-12">
                             <div class="login-reg-form-wrap">
                                 <h5 class="text-center">ĐĂNG NHẬP</h5>
-                                <?php if (isset($_SESSION['error'])) {?>
-                                <p class="text-danger login-box-msg text-center"><?= $_SESSION['error'] ?></p>
-                                <?php }else{ ?>
-                                <p class="login-box-msg text-center">Vui lòng đăng nhập</p>
-                                <?php } ?>
+                                <?php if (isset($_SESSION['error'])): ?>
+    <?php if (is_array($_SESSION['error'])): ?>
+        <?php foreach ($_SESSION['error'] as $error): ?>
+            <p class="text-danger login-box-msg text-center" style="margin-bottom: 5px;">
+                <i class="fa fa-exclamation-circle"></i> <?= $error ?>
+            </p>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="text-danger login-box-msg text-center">
+            <i class="fa fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
+        </p>
+    <?php endif; ?>
+    
+    <?php 
+        
+        unset($_SESSION['error']); 
+    ?>
+<?php else: ?>
+    <p class="login-box-msg text-center">Vui lòng đăng nhập để tiếp tục</p>
+<?php endif; ?>
                                 <form action="<?= BASE_URL . '?act=check-login' ?>" method="post">
                                     <div class="single-input-item">
                                         <input type="email" placeholder="Email or Username "name="email" required />

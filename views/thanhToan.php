@@ -1,14 +1,6 @@
-<?php
+<?php require_once 'layout/header.php'; ?>
 
-require_once 'layout/header.php'
-
-?>
-
-<?php
-
-require_once 'layout/menu.php'
-
-?>
+<?php require_once 'layout/menu.php'; ?>
 
 <main>
     <!-- breadcrumb area start -->
@@ -59,7 +51,7 @@ require_once 'layout/menu.php'
                     <!-- Checkout Login Coupon Accordion End -->
                 </div>
             </div>
-            <form action="<?= BASE_URL . '?act=xu-li-thanh-toan' ?>" method="post">
+            <form action="<?= BASE_URL . '?act=xu-ly-thanh-toan' ?>" method="POST">
             <div class="row">
                 <!-- Checkout Billing Details -->
                 <div class="col-lg-6">
@@ -171,7 +163,7 @@ require_once 'layout/menu.php'
                                         </div>
                                     </div>
                                     <div class="payment-method-details" data-method="cash">
-                                        <p>Khách hàng có thể thanh toán sau khi nhận hàng thành công (cần xác nhận đơn hàng)</p>
+                                        <p>Khách hàng có thể thanh toán sau khi đã nhận hàng thành công(cần xác nhận đơn hàng).</p>
                                     </div>
                                 </div>
                                 <div class="single-payment-method">
@@ -206,10 +198,7 @@ require_once 'layout/menu.php'
 </main>
 
 
-<?php require_once 'layout/miniCart.php' ?>
 
-<?php
+<?php require_once 'layout/miniCart.php'; ?>
 
-require_once 'layout/footer.php'
-
-?>
+<?php require_once 'layout/footer.php'; ?>

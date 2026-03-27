@@ -120,7 +120,7 @@ $chuc_vu = isset($thongTin['chuc_vu_id']) ? ($thongTin['chuc_vu_id'] == 1 ? 'Quá
                             <div class="col-md-12">
                                 <input class="form-control" type="text" name="old_pass" value="">
                                 <?php if (isset($_SESSION['error']['old_pass'])) { ?>
-                                <p class="text-danger"><?= $_SESSION['error']['old_pass'] ?></p>
+                                        <p class="text-danger"><?= $_SESSION['error']['old_pass'] ?></p>
                                 <?php } ?>
                             </div>
                         </div>
@@ -129,7 +129,7 @@ $chuc_vu = isset($thongTin['chuc_vu_id']) ? ($thongTin['chuc_vu_id'] == 1 ? 'Quá
                             <div class="col-md-12">
                                 <input class="form-control" type="text" name="new_pass" value="">
                                 <?php if (isset($_SESSION['error']['new_pass'])) { ?>
-                                <p class="text-danger"><?= $_SESSION['error']['new_pass'] ?></p>
+                                        <p class="text-danger"><?= $_SESSION['error']['new_pass'] ?></p>
                                 <?php } ?>
                             </div>
                         </div>
@@ -138,7 +138,7 @@ $chuc_vu = isset($thongTin['chuc_vu_id']) ? ($thongTin['chuc_vu_id'] == 1 ? 'Quá
                             <div class="col-md-12">
                                 <input class="form-control" type="text" name="confirm_pass" value="">
                                 <?php if (isset($_SESSION['error']['confirm_pass'])) { ?>
-                                <p class="text-danger"><?= $_SESSION['error']['confirm_pass'] ?></p>
+                                        <p class="text-danger"><?= $_SESSION['error']['confirm_pass'] ?></p>
                                 <?php } ?>
                             </div>
                         </div>
@@ -148,8 +148,8 @@ $chuc_vu = isset($thongTin['chuc_vu_id']) ? ($thongTin['chuc_vu_id'] == 1 ? 'Quá
                                 <input type="submit" class="btn btn-primary" value="Save Changes">
                             </div>
                         </div>
-                    </form>
-
+                        </form>
+                    
                 </div>
             </div>
         </div>

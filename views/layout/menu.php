@@ -65,23 +65,17 @@
                             </div>
                             <div class="header-configure-area">
                                 <ul class="nav justify-content-end">
-                                    <label for="">
-                                        <?php if(isset($_SESSION['user_client'])){ 
-                                        echo $_SESSION['user_client'];
-                                     } ?>
-                                
-                                </label>
                                     <li class="user-hover">
                                         <a href="#">
                                             <i class="pe-7s-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
-                                            <?php if(!isset($_SESSION['user_client'])){ ?>
-                                        <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
-                                    <?php }else{ ?>
-                                            
-                                            
-                                            <li><a href="my-account.html">Tài khoản</a></li>
+                                            <?php if (!isset($_SESSION['user_client'])) { ?>
+                                                <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
+                                            <?php } else { ?>
+                                                <li><a href="#">Tài khoản</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Lịch sử mua hàng</a>
+                                                </li>
                                             <?php } ?>
                                         </ul>
                                     </li>
@@ -89,7 +83,17 @@
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="pe-7s-shopbag"></i>
-                                            <div class="notification">2</div>
+                                            <div class="notification">
+                                                <?php
+                                                // Kiểm tra nếu có giỏ hàng và nó là một mảng thì đếm số phần tử
+                                                if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                                                    echo count($_SESSION['cart']);
+                                                } else {
+                                                    // Nếu không có giỏ hàng hoặc chưa có sản phẩm thì hiện số 0
+                                                    echo "0";
+                                                }
+                                                ?>
+                                            </div>
                                         </a>
                                     </li>
                                 </ul>

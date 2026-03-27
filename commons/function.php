@@ -47,7 +47,6 @@ function deleteFile($file)
     }
 }
 
-
 // Xóa session sau khi load trang 
 function deleteSessionError()
 {

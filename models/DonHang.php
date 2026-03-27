@@ -173,6 +173,28 @@ class DonHang
         }
     }
 
+
+       public function getChiTietDonHangById($donHangId){
+        try{
+            $sql = "SELECT chi_tiet_don_hangs.*,
+                san_phams.ten_san_pham, san_phams.hinh_anh
+                FROM chi_tiet_don_hangs 
+                JOIN san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id 
+                WHERE chi_tiet_don_hangs.don_hang_id = :don_hang_id";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':don_hang_id' => $donHangId
+            ]);
+
+            return $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+
+        }catch (Exception $e){
+            echo "Lỗi" . $e->getMessage();
+        }
+    }
+
        public function updateTrangThaiDonHang($donHangId, $trangThaiId){
         try{
             $sql = "SELECT * FROM don_hangs SET trang_thai_id = :trang_thai_id WHERE id = :id";
@@ -190,6 +212,7 @@ class DonHang
             echo "Lỗi" . $e->getMessage();
         }
     }
+    
 
             
     

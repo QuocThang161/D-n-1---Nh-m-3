@@ -1,17 +1,6 @@
-<?php
+<?php require_once 'layout/header.php'; ?>
 
-require_once 'layout/header.php'
-
-?>
-
-
-
-
-<?php 
-    
-    require_once 'layout/menu.php'
-    
-    ?>
+<?php require_once 'layout/menu.php'; ?>
 
 <main>
     <!-- breadcrumb area start -->
@@ -22,7 +11,8 @@ require_once 'layout/header.php'
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="<?= BASE_URL?>"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a>
+                                </li>
                                 <li class="breadcrumb-item"><a href="shop.html">Sản phẩm</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Chi tiết sản phẩm</li>
                             </ul>
@@ -45,18 +35,17 @@ require_once 'layout/header.php'
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="product-large-slider">
-                                    <?php foreach($listAnhSanPham as $key=>$anhSanPham): ?>
+                                    <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                     <div class="pro-large-img img-zoom">
-                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh']?>"
+                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
                                             alt="product-details" />
                                     </div>
                                     <?php endforeach ?>
                                 </div>
-
                                 <div class="pro-nav slick-row-10 slick-arrow-style">
-                                    <?php foreach($listAnhSanPham as $key=>$anhSanPham): ?>
+                                    <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                     <div class="pro-nav-thumb">
-                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh']?>"
+                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
                                             alt="product-details" />
                                     </div>
                                     <?php endforeach ?>
@@ -65,67 +54,44 @@ require_once 'layout/header.php'
                             <div class="col-lg-7">
                                 <div class="product-details-des">
                                     <div class="manufacturer-name">
-                                        <a href="#"><?= $sanPham['ten_danh_muc']?></a>
+                                        <a href="#"><?= $sanPham['ten_danh_muc'] ?></a>
                                     </div>
-                                    <h3 class="product-name"><?= $sanPham['ten_san_pham']?></h3>
+                                    <h3 class="product-name"><?= $sanPham['ten_san_pham'] ?></h3>
                                     <div class="ratings d-flex">
                                         <div class="pro-review">
-                                            <?php $countComment = count($listBinhLuan)?>
-                                            <span><?= $countComment . 'bình luận'?></span>
+                                            <?php $countComment = count($listBinhLuan); ?>
+                                            <span><?= $countComment . ' bình luận' ?></span>
                                         </div>
                                     </div>
                                     <div class="price-box">
-                                        <?php if($sanPham['gia_khuyen_mai']){ ?>
-
-
+                                        <?php if ($sanPham['gia_khuyen_mai']) { ?>
                                         <span
-                                            class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']) ?>₫</span>
+                                            class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']) . 'đ'; ?></span>
                                         <span
-                                            class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']) ?>₫</del></span>
+                                            class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']) . 'đ'; ?></del></span>
                                         <?php } else { ?>
-                                        <span class="price-regular"><?= formatPrice($sanPham['gia_san_pham']) ?>₫</span>
+                                        <span
+                                            class="price-regular"><?= formatPrice($sanPham['gia_san_pham']) . 'đ'; ?></span>
                                         <?php } ?>
                                     </div>
                                     <div class="availability">
                                         <i class="fa fa-check-circle"></i>
-                                        <span><?= $sanPham['so_luong'] . ' trong kho'?></span>
+                                        <span><?= $sanPham['so_luong'] . ' trong kho' ?></span>
                                     </div>
-                                    <p class="pro-desc"><?= $sanPham['mo_ta']?></p>
-                                    <div class="quantity-cart-box d-flex align-items-center">
-                                        <h6 class="option-title">Số lượng</h6>
-                                        <div class="quantity">
-                                            <div class="pro-qty"><input type="text" value="1"></div>
+                                    <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>
+                                    <form action="<?= BASE_URL . '?act=them-gio-hang' ?>" method="post">
+                                        <div class="quantity-cart-box d-flex align-items-center">
+                                            <h6 class="option-title">Số lượng:</h6>
+                                            <div class="quantity">
+                                                <input type="hidden" name="san_pham_id" value="<?= $sanPham['id']; ?>">
+                                                <div class="pro-qty"><input type="text" value="1" name="so_luong"></div>
+                                            </div>
+                                            <div class="action_link">
+                                                <button class="btn btn-cart2">Thêm giỏ hàng</button>
+                                            </div>
                                         </div>
-                                        <div class="action_link">
-                                            <a class="btn btn-cart2" href="#">Add to cart</a>
-                                        </div>
-                                    </div>
-                                    <div class="pro-size">
-                                        <h6 class="option-title">size :</h6>
-                                        <select class="nice-select">
-                                            <option>S</option>
-                                            <option>M</option>
-                                            <option>L</option>
-                                            <option>XL</option>
-                                        </select>
-                                    </div>
-                                    <div class="color-option">
-                                        <h6 class="option-title">color :</h6>
-                                        <ul class="color-categories">
-                                            <li>
-                                                <a class="c-lightblue" href="#" title="LightSteelblue"></a>
-                                            </li>
-                                            <li>
-                                                <a class="c-darktan" href="#" title="Darktan"></a>
-                                            </li>
-                                            <li>
-                                                <a class="c-grey" href="#" title="Grey"></a>
-                                            </li>
-                                            <li>
-                                                <a class="c-brown" href="#" title="Brown"></a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    </form>
+
 
                                 </div>
                             </div>
@@ -146,31 +112,35 @@ require_once 'layout/header.php'
                                         </li>
                                     </ul>
                                     <div class="tab-content reviews-tab">
+
                                         <div class="tab-pane fade show active" id="tab_three">
-                                            <?php foreach ($listBinhLuan as $binhluan): ?>
+                                            <?php foreach ($listBinhLuan as $binhLuan): ?>
                                             <div class="total-reviews">
                                                 <div class="rev-avatar">
-                                                    <img src="<?= $binhluan['anh_dai_dien']?>" alt="">
+                                                    <img src="<?= $binhLuan['anh_dai_dien'] ?>" alt="">
                                                 </div>
                                                 <div class="review-box">
+
                                                     <div class="post-author">
-                                                        <p><span>Khách hàng - </span><?= $binhluan['ngay_dang']?></p>
+                                                        <p><span><?= $binhLuan['ho_ten'] ?> -
+                                                            </span><?= $binhLuan['ngay_dang'] ?></p>
                                                     </div>
-                                                    <p><?= $binhluan['noi_dung']?></p>
+                                                    <p><?= $binhLuan['noi_dung'] ?></p>
                                                 </div>
                                             </div>
-                                            <?php endforeach?>
-                                            <form action="#" class="review-form"></form>
-                                            <div class="form-group row">
-                                                <div class="col">
-                                                    <label class="col-form-label"><span class="text-danger">*</span>
-                                                        Nội dung bình luận</label>
-                                                    <textarea class="form-control" required></textarea>
+                                            <?php endforeach ?>
+                                            <form action="#" class="review-form">
+                                                <div class="form-group row">
+                                                    <div class="col">
+                                                        <label class="col-form-label"><span class="text-danger">*</span>
+                                                            Nội dung bình luận</label>
+                                                        <textarea class="form-control" required></textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="buttons">
-                                                <button class="btn btn-sqr" type="submit">Bình luận</button>
-                                            </div>
+
+                                                <div class="buttons">
+                                                    <button class="btn btn-sqr" type="submit">Bình luận</button>
+                                                </div>
                                             </form> <!-- end of review-form -->
                                         </div>
                                     </div>
@@ -194,6 +164,7 @@ require_once 'layout/header.php'
                     <!-- section title start -->
                     <div class="section-title text-center">
                         <h2 class="title">Sản phẩm liên quan</h2>
+                        <p class="sub-title"></p>
                     </div>
                     <!-- section title start -->
                 </div>
@@ -201,62 +172,65 @@ require_once 'layout/header.php'
             <div class="row">
                 <div class="col-12">
                     <div class="product-carousel-4 slick-row-10 slick-arrow-style">
-                        <?php foreach($listSanPhamCungDanhMuc as $sanPham): ?>
+                        <!-- product item start -->
+                        <?php foreach ($listSanPhamCungDanhMuc as $key => $sanPham): ?>
                         <!-- product item start -->
                         <div class="product-item">
                             <figure class="product-thumb">
-                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']?>">
-                                    <img class="pri-img" src="<?= BASE_URL. $sanPham['hinh_anh'] ?>" alt="product">
-                                    <img class="sec-img" src="<?= BASE_URL. $sanPham['hinh_anh'] ?>" alt="product">
+                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
+                                    <img class="pri-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                    <img class="sec-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
                                 </a>
                                 <div class="product-badge">
-                                    <?php $ngayNhap = new DateTime($sanPham['ngay_nhap']);
-                                                          $ngayHienTai = new DateTime();
-                                                          $tinhNgay = $ngayHienTai->diff($ngayNhap);
-                                                        if($tinhNgay->days <= 7){
-                                                    ?>
+                                    <?php
+                                        $ngayNhap = new DateTime($sanPham['ngay_nhap']);
+                                        $ngayHienTai = new DateTime();
+                                        $tinhNgay = $ngayHienTai->diff($ngayNhap);
+
+                                        if ($tinhNgay->days <= 7) {
+                                        ?>
                                     <div class="product-label new">
                                         <span>Mới</span>
                                     </div>
                                     <?php
-                                                        }
-
-                                                    ?>
-                                    <?php if($sanPham['gia_khuyen_mai']){ ?>
+                                        }
+                                        ?>
+                                    <?php if ($sanPham['gia_khuyen_mai']) { ?>
                                     <div class="product-label discount">
                                         <span>Giảm giá</span>
                                     </div>
 
                                     <?php } ?>
-
-
                                 </div>
-
                                 <div class="cart-hover">
-                                    <button class="btn btn-cart">Xem chi tiết</button>
+                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><button
+                                            class="btn btn-cart">Xem chi tiết</button></a>
                                 </div>
                             </figure>
                             <div class="product-caption text-center">
 
                                 <h6 class="product-name">
                                     <a
-                                        href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham='  . $sanPham['id']?>"><?= $sanPham['ten_san_pham'] ?></a>
+                                        href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><?= $sanPham['ten_san_pham'] ?></a>
                                 </h6>
                                 <div class="price-box">
-                                    <?php if($sanPham['gia_khuyen_mai']){ ?>
-
-
-                                    <span class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']) ?>₫</span>
+                                    <?php if ($sanPham['gia_khuyen_mai']) { ?>
                                     <span
-                                        class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']) ?>₫</del></span>
+                                        class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']) . 'đ'; ?></span>
+                                    <span
+                                        class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']) . 'đ'; ?></del></span>
                                     <?php } else { ?>
-                                    <span class="price-regular"><?= formatPrice($sanPham['gia_san_pham']) ?>₫</span>
+                                    <span
+                                        class="price-regular"><?= formatPrice($sanPham['gia_san_pham']) . 'đ'; ?></span>
                                     <?php } ?>
-
                                 </div>
                             </div>
                         </div>
+                        <!-- product item end -->
+
                         <?php endforeach ?>
+                        <!-- product item end -->
+
                     </div>
                 </div>
             </div>
@@ -265,94 +239,8 @@ require_once 'layout/header.php'
     <!-- related products area end -->
 </main>
 
-<!-- Scroll to top start -->
-<div class="scroll-top not-visible">
-    <i class="fa fa-angle-up"></i>
-</div>
-<!-- Scroll to Top End -->
-
-<!-- offcanvas mini cart start -->
-<div class="offcanvas-minicart-wrapper">
-    <div class="minicart-inner">
-        <div class="offcanvas-overlay"></div>
-        <div class="minicart-inner-content">
-            <div class="minicart-close">
-                <i class="pe-7s-close"></i>
-            </div>
-            <div class="minicart-content-box">
-                <div class="minicart-item-wrapper">
-                    <ul>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-1.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$100.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-2.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$80.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="minicart-pricing-box">
-                    <ul>
-                        <li>
-                            <span>sub-total</span>
-                            <span><strong>$300.00</strong></span>
-                        </li>
-                        <li>
-                            <span>Eco Tax (-2.00)</span>
-                            <span><strong>$10.00</strong></span>
-                        </li>
-                        <li>
-                            <span>VAT (20%)</span>
-                            <span><strong>$60.00</strong></span>
-                        </li>
-                        <li class="total">
-                            <span>total</span>
-                            <span><strong>$370.00</strong></span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="minicart-button">
-                    <a href="cart.html"><i class="fa fa-shopping-cart"></i> View Cart</a>
-                    <a href="cart.html"><i class="fa fa-share"></i> Checkout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- offcanvas mini cart end -->
 
 
-<?php 
+<?php require_once 'layout/miniCart.php'; ?>
 
-    require_once 'layout/footer.php'
-
-    ?>
+<?php require_once 'layout/footer.php'; ?>

@@ -25,8 +25,8 @@ class AdminTaiKhoan
 
     public function insertTaiKhoan($ho_ten, $email, $password, $chuc_vu_id){
         try {
-            $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id, ngay_sinh, gioi_tinh, so_dien_thoai, dia_chi, trang_thai)
-                    VALUES (:ho_ten, :email, :password, :chuc_vu_id, :ngay_sinh, :gioi_tinh, :so_dien_thoai, :dia_chi, :trang_thai)';
+            $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id)
+                    VALUES (:ho_ten, :email, :password, :chuc_vu_id)';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -35,16 +35,11 @@ class AdminTaiKhoan
                 ':email' => $email,
                 ':password' => $password,
                 ':chuc_vu_id' => $chuc_vu_id,
-                ':ngay_sinh' => '1990-01-01',
-                ':gioi_tinh' => 0,
-                ':so_dien_thoai' => '',
-                ':dia_chi' => '',
-                ':trang_thai' => 1,
             ]);
 
             return true;
         } catch (Exception $e) {
-            throw new Exception("Lỗi thêm tài khoản: " . $e->getMessage());
+            echo "lỗi" . $e->getMessage();
         }
     }
 

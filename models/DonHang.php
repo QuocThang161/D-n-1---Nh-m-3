@@ -96,7 +96,7 @@ class DonHang
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
-                ':gio_hang_id' => $taiKhoanId
+                ':tai_khoan_id' => $taiKhoanId
             ]);
 
             return true;
@@ -126,7 +126,7 @@ class DonHang
         }
     }
 
-         public function getTrangThaiDonHang($taiKhoanId){
+         public function getTrangThaiDonHang(){
         try{
             $sql = "SELECT * FROM  trang_thai_don_hangs";
 
@@ -141,7 +141,7 @@ class DonHang
         }
     }
 
-         public function getPhuongThucThanhToan($taiKhoanId){
+         public function getPhuongThucThanhToan(){
         try{
             $sql = "SELECT * FROM phuong_thuc_thanh_toans";
 
@@ -197,7 +197,6 @@ class DonHang
 
        public function updateTrangThaiDonHang($donHangId, $trangThaiId){
         try{
-            $sql = "SELECT * FROM don_hangs SET trang_thai_id = :trang_thai_id WHERE id = :id";
             $sql = "UPDATE don_hangs SET trang_thai_id = :trang_thai_id WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);

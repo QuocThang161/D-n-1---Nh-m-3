@@ -49,7 +49,7 @@ class AdminSanPhamController
             $hinh_anh = $_FILES['hinh_anh'] ?? null;
 
             // Lưu hình ảnh vào 
-            $file_thumb = uploadFile($hinh_anh, '../uploads/');
+            $file_thumb = uploadFile($hinh_anh, 'uploads/');
 
             // mảng hình ảnh 
             $img_array = $_FILES['img_array'];
@@ -64,9 +64,6 @@ class AdminSanPhamController
             }
             if (empty($gia_san_pham)) {
                 $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
-            }
-            if (empty($gia_khuyen_mai)) {
-                $errors['gia_khuyen_mai'] = 'giá khuyến mãi sản phẩm không được để trống';
             }
             if (empty($so_luong)) {
                 $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
@@ -105,7 +102,7 @@ class AdminSanPhamController
                 );
 
                 // Xử lý thêm album ảnh sản phẩm img_array
-                if (!empty($img_array['name'])) {
+                if (!empty($img_array['name'][0])) {
                     foreach ($img_array['name'] as $key => $value) {
                         $file = [
                             'name' => $img_array['name'][$key],
@@ -115,7 +112,7 @@ class AdminSanPhamController
                             'size' => $img_array['size'][$key]
                         ];
 
-                        $link_hinh_anh = uploadFile($file, '../uploads/');
+                        $link_hinh_anh = uploadFile($file, 'uploads/');
                         $this->modelSanPham->insertAlbumAnhSanPham($san_pham_id, $link_hinh_anh);
                     }
                 }
@@ -189,9 +186,6 @@ class AdminSanPhamController
             if (empty($gia_san_pham)) {
                 $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
             }
-            if (empty($gia_khuyen_mai)) {
-                $errors['gia_khuyen_mai'] = 'giá khuyến mãi sản phẩm không được để trống';
-            }
             if (empty($so_luong)) {
                 $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
             }
@@ -211,7 +205,7 @@ class AdminSanPhamController
             // logic sửa ảnh 
             if (isset($hinh_anh) && $hinh_anh['error'] == UPLOAD_ERR_OK) {
                 // upload ảnh mới lên 
-                $new_file = uploadFile($hinh_anh, '../uploads/');
+                $new_file = uploadFile($hinh_anh, 'uploads/');
 
                 if (!empty($old_file)) { // Nếu có ảnh cũ thì xóa đi
                     deleteFile($old_file);
@@ -283,7 +277,7 @@ class AdminSanPhamController
             // Upload ảnh mới hoặc thay thế ảnh cũ 
             foreach ($img_array['name'] as $key => $value) {
                 if ($img_array['error'][$key] == UPLOAD_ERR_OK) {
-                    $new_file = uploadFileAlbum($img_array, '../uploads/', $key);
+                    $new_file = uploadFileAlbum($img_array, 'uploads/', $key);
                     if ($new_file) {
                         $upload_file[] = [
                             'id' => $current_img_ids[$key] ?? null,
@@ -388,7 +382,10 @@ class AdminSanPhamController
                 }else{
                     header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id']);
                 }
+                exit();
             }
         }
+        header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+        exit();
     }
 }

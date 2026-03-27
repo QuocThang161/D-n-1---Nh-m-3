@@ -140,31 +140,43 @@ class AdminTaiKhoan
         }
     }
 
-    public function checkLogin($email, $mat_khau){
-        try {
-            $sql = "SELECT * FROM tai_khoans WHERE email = :email";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute(['email'=>$email]);
-            $user = $stmt->fetch();
+  public function checkLogin($email, $mat_khau){
+    try {
+        $sql = "SELECT * FROM tai_khoans WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':email'=>$email]);
+        $user = $stmt->fetch();
 
-            if ($user && password_verify($mat_khau, $user['mat_khau'])) {
+        // var_dump(password_verify($mat_khau, $user['mat_khau']));
+        // die;
+
+        if ($user) {
+            if (password_verify($mat_khau, $user['mat_khau'])) {
+
                 if ($user['chuc_vu_id'] == 1) {
+
                     if ($user['trang_thai'] == 1) {
-                        return $user['email']; // Trường hợp đăng nhập thành công
-                    }else{
+                        return $user; 
+                    } else {
                         return "Tài khoản bị cấm";
                     }
-                }else{
+
+                } else {
                     return "Tài khoản không có quyền đăng nhập";
                 }
-            }else{
-                return "Bạn nhập sai thông tin mật khẩu hoặc tài khoản";
+
+            } else {
+                return "Sai mật khẩu";
             }
-        } catch (\Exception $e) {
-            echo "lỗi" . $e->getMessage();
-            return false;
+        } else {
+            return "Email không tồn tại";
         }
+
+    } catch (\Exception $e) {
+        echo "lỗi" . $e->getMessage();
+        return false;
     }
+}
 
     public function getTaiKhoanformEmail($email){
         try {

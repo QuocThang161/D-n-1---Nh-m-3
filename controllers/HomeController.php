@@ -127,6 +127,23 @@ class HomeController
         }
     }
 
+    public function xoaSanPhamGioHang(){
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+            
+            if ($gioHang) {
+                $san_pham_id = $_GET['id_san_pham'];
+                $this->modelGioHang->deleteDetailGioHang($gioHang['id'], $san_pham_id);
+            }
+            header("Location: " . BASE_URL . '?act=gio-hang');
+            exit();
+        } else {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
+    }
+
     public function gioHang(){
         if (isset($_SESSION['user_client'])) {
             $mail = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
@@ -246,7 +263,7 @@ class HomeController
             $tai_khoan_id = $user['id'];
 
             // Lấy ra danh sách trạng thái đơn hàng
-            $arrTrangThaiDonHang = $this->modelDonHang->getTrangThaiDonHang();
+            $arrTrangThaiDonHang = $this->modelDonHang->getTrangThaiDonHang(); // Đảm bảo gọi không tham số
             $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'ten_trang_thai', 'id');
 
             // Lấy ra danh sách phương thức thanh toán
@@ -255,7 +272,7 @@ class HomeController
 
 
             // Lấy ra danh sách đơn hàng của tài khoản
-            $don_hangs = $this->modelDonHang->getDonHangFromUser($tai_khoan_id);
+            $donHangs = $this->modelDonHang->getDonHangFromUser($tai_khoan_id);
            require_once './views/lichSuMuaHang.php';
 
 
@@ -275,7 +292,7 @@ class HomeController
             $donHangId = $_GET['id'];
 
              // Lấy ra danh sách trạng thái đơn hàng
-            $arrTrangThaiDonHang = $this->modelDonHang->getTrangThaiDonHang();
+            $arrTrangThaiDonHang = $this->modelDonHang->getTrangThaiDonHang(); // Đảm bảo gọi không tham số
             $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'ten_trang_thai', 'id');
 
             // Lấy ra danh sách phương thức thanh toán
@@ -341,5 +358,27 @@ class HomeController
     
     }
 
+    public function postBinhLuan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_SESSION['user_client'])) {
+                $userId = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client'])['id'];
+                $san_pham_id = $_POST['san_pham_id'];
+                $noi_dung = $_POST['noi_dung'];
+                $ngay_dang = date('Y-m-d');
 
+                // Gọi model để thêm bình luận
+                $status = $this->modelSanPham->insertBinhLuan($userId, $san_pham_id, $noi_dung, $ngay_dang);
+                
+                if ($status) {
+                    header("Location: " . BASE_URL . "?act=chi-tiet-san-pham&id_san_pham=" . $san_pham_id);
+                    exit();
+                }
+            } else {
+                $_SESSION['error'] = "Vui lòng đăng nhập để bình luận";
+                header("Location: " . BASE_URL . "?act=login");
+                exit();
+            }
+        }
+    }
 }

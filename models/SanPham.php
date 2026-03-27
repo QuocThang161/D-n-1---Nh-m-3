@@ -61,7 +61,7 @@ class SanPham {
             $sql = 'SELECT binh_luans.*, tai_khoans.ho_ten, tai_khoans.anh_dai_dien
             FROM binh_luans
             INNER JOIN tai_khoans ON binh_luans.tai_khoan_id = tai_khoans.id
-            WHERE binh_luans.san_pham_id = :id
+            WHERE binh_luans.san_pham_id = :id AND binh_luans.trang_thai = 1
             ';
 
             $stmt = $this->conn->prepare($sql);
@@ -73,6 +73,23 @@ class SanPham {
             echo "lỗi" . $e->getMessage();
         }
     }
+
+    public function insertBinhLuan($tai_khoan_id, $san_pham_id, $noi_dung, $ngay_dang) {
+    try {
+        $sql = "INSERT INTO binh_luans (tai_khoan_id, san_pham_id, noi_dung, ngay_dang) 
+                VALUES (:tai_khoan_id, :san_pham_id, :noi_dung, :ngay_dang)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':tai_khoan_id' => $tai_khoan_id,
+            ':san_pham_id' => $san_pham_id,
+            ':noi_dung' => $noi_dung,
+            ':ngay_dang' => $ngay_dang
+        ]);
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+    }
+}
+
 
     public function getListSanPhamDanhMuc($danh_muc_id){
         try {

@@ -129,12 +129,15 @@
                                                 </div>
                                             </div>
                                             <?php endforeach ?>
-                                            <form action="#" class="review-form">
+                                            <form action="<?= BASE_URL . '?act=gui-binh-luan' ?>" method="post"
+                                                class="review-form">
+                                                <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
                                                 <div class="form-group row">
                                                     <div class="col">
                                                         <label class="col-form-label"><span class="text-danger">*</span>
                                                             Nội dung bình luận</label>
-                                                        <textarea class="form-control" required></textarea>
+                                                        <textarea name="noi_dung" class="form-control"
+                                                            required></textarea>
                                                     </div>
                                                 </div>
 

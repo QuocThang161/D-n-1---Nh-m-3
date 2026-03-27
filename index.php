@@ -30,8 +30,10 @@ match ($act) {
     '/' => (new HomeController())->home(), // route trang chủ
 
     'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
+    'gui-binh-luan'     => (new HomeController())->postBinhLuan(), 
     'them-gio-hang' =>(new HomeController())->addGioHang(),
     'gio-hang' =>(new HomeController())->gioHang(),
+    'xoa-san-pham-gio-hang' => (new HomeController())->xoaSanPhamGioHang(),
     'thanh-toan' =>(new HomeController())->thanhToan(),
     'xu-ly-thanh-toan' =>(new HomeController())->postThanhToan(),
     'lich-su-mua-hang' =>(new HomeController())->lichSuMuaHang(),

@@ -33,8 +33,8 @@
                         <div class="cart-table table-responsive">
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr colspan="5">
-                                        <th>Thông tin sản phẩm</th>
+                                    <tr>
+                                        <th colspan="5">Thông tin sản phẩm</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,7 +42,7 @@
                                         <th>Hình ảnh</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Đơn giá</th>
-                                        <th></th>Số lượng</th>
+                                        <th>Số lượng</th>
                                         <th>Thành tiền</th>
                                     </tr>
 
@@ -57,13 +57,13 @@
                                             <?= $item['ten_san_pham']; ?>
                                         </td>
                                         <td>
-                                            <?= formatPrice($item['gia_san_pham']) . 'đ'; ?>
+                                            <?= formatPrice($item['don_gia']) . 'đ'; ?>
                                         </td>
                                         <td>
                                             <?= $item['so_luong']; ?>
                                         </td>
                                         <td>
-                                            <?= formatPrice($item['tong_tien']) . 'đ'; ?>
+                                            <?= formatPrice($item['thanh_tien']) . 'đ'; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach;?>
@@ -77,8 +77,8 @@
                         <div class="cart-table table-responsive">
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr colspan="2">
-                                        <th>Thông tin đơn hàng</th>
+                                    <tr>
+                                        <th colspan="2">Thông tin đơn hàng</th>
                                     </tr>
                                 </thead>
                                 <tbody>

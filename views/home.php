@@ -8,7 +8,7 @@
         <div class="hero-slider-active slick-arrow-style slick-arrow-style_hero slick-dot-style">
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/1.jpg">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider.png">
                     <div class="container">
                         <div class="row">
 
@@ -19,7 +19,7 @@
             <!-- single slider item start -->
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/2.jpg">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider1.jpg">
                     <div class="container">
                         <div class="row">
 
@@ -30,7 +30,7 @@
             <!-- single slider item start -->
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/3.jpg">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider2.jpg">
                     <div class="container">
                         <div class="row">
 

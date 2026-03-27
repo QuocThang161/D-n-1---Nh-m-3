@@ -41,8 +41,8 @@
                                     <tr class="text-center">
                                         <th>Hình ảnh</th>
                                         <th>Tên sản phẩm</th>
-                                        <th>Đơn giá/th>
-                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th></th>Số lượng</th>
                                         <th>Thành tiền</th>
                                     </tr>
 
@@ -65,7 +65,7 @@
                                         <td>
                                             <?= formatPrice($item['tong_tien']) . 'đ'; ?>
                                         </td>
-                                    </tr> ?>
+                                    </tr>
                                     <?php endforeach;?>
                                 </tbody>
                             </table>

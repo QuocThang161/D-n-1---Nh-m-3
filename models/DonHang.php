@@ -198,6 +198,7 @@ class DonHang
        public function updateTrangThaiDonHang($donHangId, $trangThaiId){
         try{
             $sql = "SELECT * FROM don_hangs SET trang_thai_id = :trang_thai_id WHERE id = :id";
+            $sql = "UPDATE don_hangs SET trang_thai_id = :trang_thai_id WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([            

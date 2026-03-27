@@ -290,7 +290,7 @@ class HomeController
 
             if ($donHang['tai_khoan_id'] != $tai_khoan_id) {
                 echo "Bạn không có quyền truy cập đơn hàng này";
-                exit;"
+                exit;
             }
 
             require_once './views/chiTietMuaHang.php';
@@ -315,9 +315,9 @@ class HomeController
             $donHangId = $_GET['id'];
 
             //Kiểm tra đơn hàng
-            $donHang = $this->modelDonHang->getlDonHangById($donHangId);
+            $donHang = $this->modelDonHang->getDonHangById($donHangId);
 
-            if($donHang['tai_khoan_id'] == $tai_khoan_id){
+            if($donHang['tai_khoan_id'] != $tai_khoan_id){
                 echo "Bạn không có quyền huỷ đơn hàng này";
                 exit;
             }

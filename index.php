@@ -37,6 +37,9 @@ match ($act) {
     'lich-su-mua-hang' =>(new HomeController())->lichSuMuaHang(),
     'chi-tiet-mua-hang' =>(new HomeController())->chiTietMuaHang(),
     'huy-don-hang' =>(new HomeController())->huyDonHang(),
+    'gui-binh-luan' => (new HomeController())->postBinhLuan(),
+    'thong-tin-tai-khoan' => (new HomeController())->thongTinTaiKhoan(),
+    'sua-thong-tin-ca-nhan' => (new HomeController())->postEditCaNhan(),
 
 
 

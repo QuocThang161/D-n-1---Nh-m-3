@@ -126,7 +126,7 @@ class DonHang
         }
     }
 
-         public function getTrangThaiDonHang($taiKhoanId){
+         public function getTrangThaiDonHang(){
         try{
             $sql = "SELECT * FROM  trang_thai_don_hangs";
 
@@ -141,7 +141,7 @@ class DonHang
         }
     }
 
-         public function getPhuongThucThanhToan($taiKhoanId){
+         public function getPhuongThucThanhToan(){
         try{
             $sql = "SELECT * FROM phuong_thuc_thanh_toans";
 

@@ -43,7 +43,7 @@ class TaiKhoan
             if ($user && $passwordMatches) {
                 if ($user['chuc_vu_id'] == 2) {
                     if ($user['trang_thai'] == 1) {
-                        return $user['email']; // Trường hợp đăng nhập thành công
+                        return $user; // Trường hợp đăng nhập thành công
                     } else {
                         return "Tài khoản bị cấm";
                     }
@@ -74,4 +74,79 @@ class TaiKhoan
             echo "lỗi" . $e->getMessage();
         }
     }
+    public function getTaiKhoanById($id)
+{
+    try {
+        $sql = 'SELECT * FROM tai_khoans WHERE id = :id';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+    }
+}
+
+    public function updateThongTinCaNhan($id, $ho_ten, $so_dien_thoai, $dia_chi, $ngay_sinh, $gioi_tinh, $anh_dai_dien = null) {
+        try {
+            $sql = 'UPDATE tai_khoans 
+                    SET ho_ten = :ho_ten, 
+                        so_dien_thoai = :so_dien_thoai, 
+                        dia_chi = :dia_chi, 
+                        ngay_sinh = :ngay_sinh, 
+                        gioi_tinh = :gioi_tinh';
+
+            if ($anh_dai_dien) {
+                $sql .= ', anh_dai_dien = :anh_dai_dien';
+            }
+
+            $sql .= ' WHERE id = :id';
+
+            $stmt = $this->conn->prepare($sql);
+
+            $params = [
+                ':ho_ten' => $ho_ten,
+                ':so_dien_thoai' => $so_dien_thoai,
+                ':dia_chi' => $dia_chi,
+                ':ngay_sinh' => $ngay_sinh,
+                ':gioi_tinh' => $gioi_tinh,
+                ':id' => $id
+            ];
+
+            if ($anh_dai_dien) {
+                $params[':anh_dai_dien'] = $anh_dai_dien;
+            }
+
+            return $stmt->execute($params);
+        } catch (Exception $e) {
+            echo "Lỗi cập nhật thông tin cá nhân: " . $e->getMessage();
+            return false;
+        }
+    }
+    public function updateTaiKhoan($id, $ho_ten, $so_dien_thoai, $dia_chi, $ngay_sinh, $gioi_tinh, $anh_dai_dien) {
+    try {
+        $sql = "UPDATE tai_khoans 
+                SET ho_ten = :ho_ten, 
+                    so_dien_thoai = :so_dien_thoai, 
+                    dia_chi = :dia_chi, 
+                    ngay_sinh = :ngay_sinh, 
+                    gioi_tinh = :gioi_tinh, 
+                    anh_dai_dien = :anh_dai_dien 
+                WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':ho_ten' => $ho_ten,
+            ':so_dien_thoai' => $so_dien_thoai,
+            ':dia_chi' => $dia_chi,
+            ':ngay_sinh' => $ngay_sinh,
+            ':gioi_tinh' => $gioi_tinh,
+            ':anh_dai_dien' => $anh_dai_dien,
+            ':id' => $id
+        ]);
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+        return false;
+    }
+}
 }

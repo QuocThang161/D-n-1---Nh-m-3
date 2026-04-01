@@ -41,9 +41,12 @@ function uploadFile($file, $folderUpload)
 // Xóa file 
 function deleteFile($file)
 {
-    $pathDelete = PATH_ROOT . $file;
-    if (file_exists($pathDelete)) {
-        unlink($pathDelete);
+    // Chỉ thực hiện xóa nếu đường dẫn file không rỗng và thực sự tồn tại
+    if (!empty($file)) {
+        $pathDelete = PATH_ROOT . $file;
+        if (file_exists($pathDelete) && is_file($pathDelete)) {
+            unlink($pathDelete);
+        }
     }
 }
 

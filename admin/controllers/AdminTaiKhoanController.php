@@ -332,7 +332,7 @@ class AdminTaiKhoanController
             $_SESSION['errors'] = $errors;
 
             if (empty($errors)) {
-                $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_admin']);
                 $trang_thai = $user['trang_thai'] ?? 1;
 
                 $status = $this->modelTaiKhoan->updateTaiKhoan(
@@ -364,7 +364,7 @@ class AdminTaiKhoanController
 
     public function formEditCaNhanQuanTri(){
         $email = $_SESSION['user_admin'];
-        $thongTin = $this->modelTaiKhoan->getTaiKhoanformEmail($email);
+        $thongTin = $this->modelTaiKhoan->getTaiKhoanFromEmail($email);
         // var_dump($thongTin);die;
         require_once './views/taikhoan/canhan/editCaNhan.php';
         deleteSessionError();
@@ -386,7 +386,7 @@ class AdminTaiKhoanController
             }
 
             // Lấy thông tin user từ session
-            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_admin']);
             if (!$user || !is_array($user)) {
                 unset($_SESSION['user_admin']);
                 header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');

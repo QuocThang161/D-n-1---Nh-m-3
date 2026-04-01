@@ -47,4 +47,7 @@ match ($act) {
     'login' => (new HomeController())->formLogin(),
     'check-login' => (new HomeController())->postLogin(),
     'logout' => (new HomeController())->logout(),
+
+    'update-so-luong-gio-hang' =>(new HomeController())->updateQuantity(),
+    
 };

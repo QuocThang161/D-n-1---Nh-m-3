@@ -42,31 +42,25 @@
                                         <th>Hình ảnh</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Đơn giá</th>
-                                        <th></th>Số lượng</th>
+                                        <th>Số lượng</th>
                                         <th>Thành tiền</th>
                                     </tr>
 
-                                    <?php foreach ($chiTietDonHang as $item) : 
-                                    ?>
+                                    <?php foreach ($chiTietDonHang as $item) : ?>
                                     <tr>
                                         <td>
-                                            <img class="img-fluid" src="<?= BASE_URL . $item['hinh_anh']?>"
-                                                alt="Product" width="100px">
+                                            <img class="img-fluid" src="<?= BASE_URL . $item['hinh_anh'] ?>" alt="Product" width="100px">
                                         </td>
+                                        <td><?= $item['ten_san_pham']; ?></td>
                                         <td>
-                                            <?= $item['ten_san_pham']; ?>
+                                            <?= formatPrice($item['don_gia'] ?? 0) . 'đ'; ?>
                                         </td>
+                                        <td><?= $item['so_luong']; ?></td>
                                         <td>
-                                            <?= formatPrice($item['gia_san_pham']) . 'đ'; ?>
-                                        </td>
-                                        <td>
-                                            <?= $item['so_luong']; ?>
-                                        </td>
-                                        <td>
-                                            <?= formatPrice($item['tong_tien']) . 'đ'; ?>
+                                            <?= formatPrice($item['thanh_tien'] ?? 0) . 'đ'; ?>
                                         </td>
                                     </tr>
-                                    <?php endforeach;?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

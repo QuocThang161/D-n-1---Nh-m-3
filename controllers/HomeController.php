@@ -108,24 +108,46 @@ class HomeController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_SESSION['user_client'])) {
-                $tai_khoan_id = $_SESSION['user_client']['id']; // Lấy ID nhanh gọn
+                $tai_khoan_id = $_SESSION['user_client']['id'];
 
-                // Tìm giỏ hàng
+                // Lấy dữ liệu từ form (nút Thêm vào giỏ hàng)
+                $san_pham_id = $_POST['san_pham_id'];
+                $so_luong = $_POST['so_luong'];
+
+                // Bước 1: Tìm giỏ hàng của người dùng
                 $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+
+                // Nếu người dùng chưa có giỏ hàng thì tạo mới
                 if (!$gioHang) {
                     $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
                     $gioHang = ['id' => $gioHangId];
                 }
 
+                // Bước 2: Lấy toàn bộ sản phẩm đang có trong giỏ để kiểm tra trùng
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-                // ... (Logic thêm sản phẩm giữ nguyên)
 
-                header("Location:" . BASE_URL . '?act=gio-hang');
+                $checkSanPham = false;
+                foreach ($chiTietGioHang as $detail) {
+                    if ($detail['san_pham_id'] == $san_pham_id) {
+                        // Nếu sản phẩm đã tồn tại -> Cập nhật cộng dồn số lượng
+                        $newSoLuong = $detail['so_luong'] + $so_luong;
+                        $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $newSoLuong);
+                        $checkSanPham = true;
+                        break;
+                    }
+                }
+
+                // Bước 3: Nếu sản phẩm chưa có trong giỏ -> Thêm mới vào chi tiết
+                if (!$checkSanPham) {
+                    $this->modelGioHang->addDetailGioHang($gioHang['id'], $san_pham_id, $so_luong);
+                }
+
+                // Bước 4: Chuyển hướng sang trang giỏ hàng để xem kết quả
+                header("Location: " . BASE_URL . '?act=gio-hang');
                 exit();
             } else {
-                // Chuyển hướng thay vì die
-                $_SESSION['error'] = "Vui lòng đăng nhập để mua hàng!";
-                header("Location: " . BASE_URL . "?act=login");
+                // Nếu chưa đăng nhập, bắt quay lại trang login
+                header("Location: " . BASE_URL . '?act=login');
                 exit();
             }
         }
@@ -134,7 +156,7 @@ class HomeController
     public function gioHang()
     {
         if (isset($_SESSION['user_client'])) {
-            $tai_khoan_id = $_SESSION['user_client']['id']; 
+            $tai_khoan_id = $_SESSION['user_client']['id'];
             $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
             if (!$gioHang) {
                 $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
@@ -152,25 +174,30 @@ class HomeController
     }
 
     public function thanhToan()
-    {
-        if (isset($_SESSION['user_client'])) {
-            $tai_khoan_id = $_SESSION['user_client']['id'];
-            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
-            if (!$gioHang) {
-                $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
-                $gioHang = ['id' => $gioHangId];
-                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-            } else {
-                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-            }
-            // var_dump($chiTietGioHang);die;
+{
+    if (isset($_SESSION['user_client'])) {
+        $tai_khoan_id = $_SESSION['user_client']['id'];
+        
+        // --- THÊM DÒNG NÀY ---
+        // Lấy thông tin chi tiết của người dùng để đổ vào form thanh toán
+        $user = $this->modelTaiKhoan->getTaiKhoanById($tai_khoan_id);
+        // ---------------------
 
-            require_once './views/thanhToan.php';
+        $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+        if (!$gioHang) {
+            $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHangId);
         } else {
-            var_dump('Chưa đăng nhập');
-            die;
+            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
         }
+
+        // Truyền cả $user và $chiTietGioHang sang view
+        require_once './views/thanhToan.php';
+    } else {
+        header("Location: " . BASE_URL . '?act=login');
+        exit();
     }
+}
 
     public function postThanhToan()
     {
@@ -187,8 +214,8 @@ class HomeController
             $ngay_dat = date('Y-m-d');
             $trang_thai_id = 1;
 
-            
-            $tai_khoan_id =$_SESSION['user_client']['id'];
+
+            $tai_khoan_id = $_SESSION['user_client']['id'];
 
             $ma_don_hang = 'DH-' . rand(1000, 9999);
 
@@ -345,45 +372,68 @@ class HomeController
             var_dump('Chưa đăng nhập');
             die;
         }
-}
+    }
     // Trong HomeController.php
-public function postEditCaNhan() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
-        $id = $_SESSION['user_client']['id'];
-        $userOld = $this->modelTaiKhoan->getTaiKhoanById($id);
+    public function postEditCaNhan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+            $id = $_SESSION['user_client']['id'];
+            $userOld = $this->modelTaiKhoan->getTaiKhoanById($id);
 
-        // Chuẩn bị dữ liệu
-        $ho_ten = $_POST['ho_ten'];
-        $so_dien_thoai = $_POST['so_dien_thoai'];
-        $dia_chi = $_POST['dia_chi'];
-        $ngay_sinh = $_POST['ngay_sinh'];
-        $gioi_tinh = $_POST['gioi_tinh'];
-        
-        $anh_dai_dien = $_FILES['anh_dai_dien'];
-        $path_anh_dai_dien = $userOld['anh_dai_dien']; // Mặc định là ảnh cũ
+            // Chuẩn bị dữ liệu
+            $ho_ten = $_POST['ho_ten'];
+            $so_dien_thoai = $_POST['so_dien_thoai'];
+            $dia_chi = $_POST['dia_chi'];
+            $ngay_sinh = $_POST['ngay_sinh'];
+            $gioi_tinh = $_POST['gioi_tinh'];
 
-        if ($anh_dai_dien['error'] == 0) {
-            // Upload ảnh mới vào thư mục ./uploads/
-            $new_path = uploadFile($anh_dai_dien, './uploads/');
-            if ($new_path) {
-                $path_anh_dai_dien = $new_path;
-                // Xóa ảnh cũ nếu nó tồn tại
-                deleteFile($userOld['anh_dai_dien']);
+            $anh_dai_dien = $_FILES['anh_dai_dien'];
+            $path_anh_dai_dien = $userOld['anh_dai_dien']; // Mặc định là ảnh cũ
+
+            if ($anh_dai_dien['error'] == 0) {
+                // Upload ảnh mới vào thư mục ./uploads/
+                $new_path = uploadFile($anh_dai_dien, './uploads/');
+                if ($new_path) {
+                    $path_anh_dai_dien = $new_path;
+                    // Xóa ảnh cũ nếu nó tồn tại
+                    deleteFile($userOld['anh_dai_dien']);
+                }
+            }
+
+            $status = $this->modelTaiKhoan->updateTaiKhoan($id, $ho_ten, $so_dien_thoai, $dia_chi, $ngay_sinh, $gioi_tinh, $path_anh_dai_dien);
+
+            if ($status) {
+                // Cập nhật lại session user
+                $_SESSION['user_client'] = $this->modelTaiKhoan->getTaiKhoanById($id);
+
+                // Lưu thông báo vào session (chỉ tồn tại 1 lần)
+                $_SESSION['success'] = "Cập nhật thông tin thành công!";
+
+                header("Location: " . BASE_URL . "?act=thong-tin-tai-khoan");
+                exit();
             }
         }
-
-        $status = $this->modelTaiKhoan->updateTaiKhoan($id, $ho_ten, $so_dien_thoai, $dia_chi, $ngay_sinh, $gioi_tinh, $path_anh_dai_dien);
-
-        if ($status) {
-    // Cập nhật lại session user
-    $_SESSION['user_client'] = $this->modelTaiKhoan->getTaiKhoanById($id);
-    
-    // Lưu thông báo vào session (chỉ tồn tại 1 lần)
-    $_SESSION['success'] = "Cập nhật thông tin thành công!";
-    
-    header("Location: " . BASE_URL . "?act=thong-tin-tai-khoan");
-    exit();
-}
     }
-}
+
+    public function updateQuantity() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+        $tai_khoan_id = $_SESSION['user_client']['id'];
+        $san_pham_id = $_POST['product_id'];
+        $so_luong = $_POST['quantity'];
+
+        // Bước 1: Tìm giỏ hàng của người dùng
+        $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+
+        if ($gioHang) {
+            // Bước 2: Cập nhật trực tiếp số lượng vào Database
+            // Hàm updateSoLuong này bạn đã có và đang dùng ở hàm addGioHang rồi
+            $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);
+            
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Không tìm thấy giỏ hàng']);
+        }
+        exit;
+        }
+    }
 }

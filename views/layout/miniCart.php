@@ -1,5 +1,3 @@
-
-<!-- offcanvas mini cart start -->
 <div class="offcanvas-minicart-wrapper">
     <div class="minicart-inner">
         <div class="offcanvas-overlay"></div>
@@ -10,40 +8,37 @@
             <div class="minicart-content-box">
                 <div class="minicart-item-wrapper">
                     <ul>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/anh1.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Phốc Sóc Trắng Đực</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">2.000.000đ</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/anh2.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Phốc Sóc Vàng Ghi Đực</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">1.000.000</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
+                        <?php 
+                        $tongTien = 0;
+                        if (isset($chiTietGioHang) && !empty($chiTietGioHang)): 
+                            foreach ($chiTietGioHang as $item): 
+                                $giaSanPham = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+                                $thanhTien = $giaSanPham * $item['so_luong'];
+                                $tongTien += $thanhTien;
+                        ?>
+                            <li class="minicart-item">
+                                <div class="minicart-thumb">
+                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $item['san_pham_id'] ?>">
+                                        <img src="<?= BASE_URL . $item['hinh_anh'] ?>" alt="product">
+                                    </a>
+                                </div>
+                                <div class="minicart-content">
+                                    <h3 class="product-name">
+                                        <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $item['san_pham_id'] ?>"><?= $item['ten_san_pham'] ?></a>
+                                    </h3>
+                                    <p>
+                                        <span class="cart-quantity"><?= $item['so_luong'] ?> <strong>&times;</strong></span>
+                                        <span class="cart-price"><?= formatPrice($giaSanPham) ?>đ</span>
+                                    </p>
+                                </div>
+                                <button class="minicart-remove"><i class="pe-7s-close"></i></button>
+                            </li>
+                        <?php 
+                            endforeach; 
+                        else: 
+                        ?>
+                            <li class="text-center">Giỏ hàng trống</li>
+                        <?php endif; ?>
                     </ul>
                 </div>
 
@@ -51,19 +46,15 @@
                     <ul>
                         <li>
                             <span>Tạm tính</span>
-                            <span><strong>$3.000.000đ</strong></span>
+                            <span><strong><?= formatPrice($tongTien) ?>đ</strong></span>
                         </li>
                         <li>
-                            <span>Thuế môi trường (-20.000đ)</span>
-                            <span><strong>20.000đ</strong></span>
-                        </li>
-                        <li>
-                            <span>VAT (20%)</span>
-                            <span><strong>600.000đ</strong></span>
+                            <span>VAT (0%)</span>
+                            <span><strong>0đ</strong></span>
                         </li>
                         <li class="total">
                             <span>Tổng giá</span>
-                            <span><strong>3.620.000đ</strong></span>
+                            <span><strong><?= formatPrice($tongTien) ?>đ</strong></span>
                         </li>
                     </ul>
                 </div>
@@ -76,4 +67,3 @@
         </div>
     </div>
 </div>
-<!-- offcanvas mini cart end -->

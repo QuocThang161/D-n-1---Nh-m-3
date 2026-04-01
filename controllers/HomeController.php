@@ -27,6 +27,11 @@ class HomeController
 
         $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
 
+        // Luôn đảm bảo ảnh chính cũng xuất hiện trong gallery (dù album rỗng)
+        if (!empty($sanPham['hinh_anh'])) {
+            array_unshift($listAnhSanPham, ['link_hinh_anh' => $sanPham['hinh_anh']]);
+        }
+
         $listBinhLuan = $this->modelSanPham->getBinhLuanFromSanPham($id);
 
         $listSanPhamCungDanhMuc = $this->modelSanPham->getListSanPhamDanhMuc($sanPham['danh_muc_id']);

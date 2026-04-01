@@ -8,7 +8,7 @@
         <div class="hero-slider-active slick-arrow-style slick-arrow-style_hero slick-dot-style">
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider.png">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider.avif">
                     <div class="container">
                         <div class="row">
 
@@ -16,10 +16,9 @@
                     </div>
                 </div>
             </div>
-            <!-- single slider item start -->
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider1.jpg">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider123.jpg">
                     <div class="container">
                         <div class="row">
 
@@ -27,7 +26,6 @@
                     </div>
                 </div>
             </div>
-            <!-- single slider item start -->
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
                 <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider2.jpg">
@@ -102,357 +100,23 @@
                     <div class="group-product-banner">
                         <figure class="banner-statistics">
                             <a href="#">
-                                <img src="assets/img/banner/anh2.jpg" alt="product banner">
+                                <img src="assets/img/banner/banner1.png" alt="product banner">
                             </a>
 
                         </figure>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="categories-group-wrapper">
-                        <!-- section title start -->
-                        <div class="section-title-append">
-                            <h4>Chó mèo yêu thích</h4>
-                            <div class="slick-append"></div>
-                        </div>
-                        <!-- section title start -->
+                <div class="col-lg-6">
+                    <div class="group-product-banner">
+                        <figure class="banner-statistics">
+                            <a href="#">
+                                <img src="assets/img/banner/banner2.jpg" alt="product banner">
+                            </a>
 
-                        <!-- group list carousel start -->
-                        <div class="group-list-item-wrapper">
-                            <div class="group-list-carousel">
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh1.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="#">
-                                                    Phốc Sóc Vàng Ghi Đực</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">2.000.000đ</span>
-                                                <span class="price-old"><del>2.500.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Phốc Sóc Trắng Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">2.000.000đ</span>
-                                                <span class="price-old"><del>3.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    mèo anh lông dài</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">4.500.000đ</span>
-                                                <span class="price-old"><del>5.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh4.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Maria – Alaska Đen Trắng Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">3.000.000đ</span>
-                                                <span class="price-old"><del>4.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh5.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Marty – Alaska Nâu Đỏ Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">9.000.000đ</span>
-                                                <span class="price-old"><del>10.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh6.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Fred – Anh Lông Ngắn Golden Ny12 Đực</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">2.000.000đ</span>
-                                                <span class="price-old"><del>3.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh7.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Pumpkin – Anh Lông Ngắn Choco Classic Đực</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">10.000.000đ</span>
-                                                <span class="price-old"><del>2.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh8.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    mèo anh lông ngắn</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">4.500.000đ</span>
-                                                <span class="price-old"><del>5.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-                            </div>
-                        </div>
-                        <!-- group list carousel start -->
+                        </figure>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="categories-group-wrapper">
-                        <!-- section title start -->
-                        <div class="section-title-append">
-                            <h4>Chó Mèo bán chạy</h4>
-                            <div class="slick-append"></div>
-                        </div>
-                        <!-- section title start -->
-
-                        <!-- group list carousel start -->
-                        <div class="group-list-item-wrapper">
-                            <div class="group-list-carousel">
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh9.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Anh Lông Ngắn Bicolor Cinamon Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">5.000.000đ</span>
-                                                <span class="price-old"><del>6.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh10.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Arya – Anh Lông Ngắn Golden Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">7.000.000đ</span>
-                                                <span class="price-old"><del>8.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh11.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Freya – Phốc Sóc Parti Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">4.500.000đ</span>
-                                                <span class="price-old"><del>5.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh12.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Rambo – Phốc Sóc Trắng Đực</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">3.000.000đ</span>
-                                                <span class="price-old"><del>4.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh1.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="#">
-                                                    Phốc Sóc Vàng Ghi Đực</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">2.000.000đ</span>
-                                                <span class="price-old"><del>2.500.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Phốc Sóc Trắng Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">2.000.000đ</span>
-                                                <span class="price-old"><del>3.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    mèo anh lông dài</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">4.500.000đ</span>
-                                                <span class="price-old"><del>5.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- group list item end -->
-
-                                <!-- group list item start -->
-                                <div class="group-slide-item">
-                                    <div class="group-item">
-                                        <div class="group-item-thumb">
-                                            <a href="product-details.html">
-                                                <img src="assets/img/product/anh4.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="group-item-desc">
-                                            <h5 class="group-product-name"><a href="product-details.html">
-                                                    Maria – Alaska Đen Trắng Cái</a></h5>
-                                            <div class="price-box">
-                                                <span class="price-regular">3.000.000đ</span>
-                                                <span class="price-old"><del>4.000.000đ</del></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            </div>
     </section>
     <!-- product area start -->
     <section class="product-area section-padding">
@@ -594,7 +258,7 @@
                     <!-- section title start -->
                     <div class="section-title text-center">
                         <h2 class="title">Blog Mới Nhất</h2>
-                        <p class="sub-title">Nơi cập nhật tin tức về thú cưng</p>
+                        <p class="sub-title">Nơi cập nhật tin tức về shop giầy TBT</p>
                     </div>
                     <!-- section title start -->
                 </div>

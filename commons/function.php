@@ -95,6 +95,47 @@ function checkLoginAdmin()
     }
 }
 
+function getCartSummary()
+{
+    $summary = [
+        'items' => [],
+        'count' => 0,
+        'subtotal' => 0,
+    ];
+
+    if (!isset($_SESSION['user_client'])) {
+        return $summary;
+    }
+
+    $userModel = new TaiKhoan();
+    $cartModel = new GioHang();
+
+    $user = $userModel->getTaiKhoanFromEmail($_SESSION['user_client']);
+    if (!$user) {
+        return $summary;
+    }
+
+    $gioHang = $cartModel->getGioHangFromUser($user['id']);
+    if (!$gioHang) {
+        return $summary;
+    }
+
+    $items = $cartModel->getDetailGioHang($gioHang['id']);
+    if (!$items) {
+        return $summary;
+    }
+
+    $summary['items'] = $items;
+
+    foreach ($items as $item) {
+        $unitPrice = !empty($item['gia_khuyen_mai']) ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
+        $summary['count'] += intval($item['so_luong']);
+        $summary['subtotal'] += $unitPrice * intval($item['so_luong']);
+    }
+
+    return $summary;
+}
+
 function formatPrice($price)
 {
     return number_format($price, 0, ',', '.');

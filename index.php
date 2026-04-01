@@ -29,6 +29,8 @@ match ($act) {
 // route 
     '/' => (new HomeController())->home(), // route trang chủ
 
+    'cua-hang' => (new HomeController())->cuaHang(),
+
     'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
     'gui-binh-luan'     => (new HomeController())->postBinhLuan(), 
     'them-gio-hang' =>(new HomeController())->addGioHang(),

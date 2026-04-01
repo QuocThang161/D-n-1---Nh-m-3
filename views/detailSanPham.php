@@ -37,16 +37,14 @@
                                 <div class="product-large-slider">
                                     <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                     <div class="pro-large-img img-zoom">
-                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
-                                            alt="product-details" />
+                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>" alt="product-details" />
                                     </div>
                                     <?php endforeach ?>
                                 </div>
                                 <div class="pro-nav slick-row-10 slick-arrow-style">
                                     <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                     <div class="pro-nav-thumb">
-                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
-                                            alt="product-details" />
+                                        <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>" alt="product-details" />
                                     </div>
                                     <?php endforeach ?>
                                 </div>

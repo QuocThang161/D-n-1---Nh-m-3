@@ -179,6 +179,11 @@ class AdminTaiKhoanController
             // Lấy ra dữ liệu
             
             $khach_hang_id = $_POST['khach_hang_id'] ?? '';
+            // Lấy thông tin cũ của khách hàng
+            $khachHangOld = $this->modelTaiKhoan->getDetailTaiKhoan($khach_hang_id);
+            $old_file = $khachHangOld['anh_dai_dien'];
+
+            $anh_dai_dien = $_FILES['anh_dai_dien'] ?? null;
 
 
             $ho_ten = $_POST['ho_ten'] ?? '';
@@ -213,6 +218,18 @@ class AdminTaiKhoanController
             }
             
             $_SESSION['error'] = $errors;
+
+            // Logic sửa ảnh
+            if (isset($anh_dai_dien) && $anh_dai_dien['error'] == UPLOAD_ERR_OK) {
+                // Upload ảnh mới
+                $new_file = uploadFile($anh_dai_dien, 'uploads/');
+
+                if (!empty($old_file)) { // Nếu có ảnh cũ thì xóa đi
+                    deleteFile($old_file);
+                }
+            } else {
+                $new_file = $old_file;
+            }
             
             if (empty($errors)) {
                 
@@ -223,7 +240,8 @@ class AdminTaiKhoanController
                                                     $ngay_sinh, 
                                                     $gioi_tinh, 
                                                     $dia_chi, 
-                                                    $trang_thai
+                                                    $trang_thai,
+                                                    $new_file
                                                 );
 
                 // var_dump($abc);die;

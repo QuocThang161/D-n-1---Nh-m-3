@@ -80,10 +80,11 @@
                                         </ul>
                                     </li>
 
+                                    <?php $cartSummary = getCartSummary(); ?>
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="pe-7s-shopbag"></i>
-                                            <div class="notification">2</div>
+                                            <div class="notification"><?= $cartSummary['count'] ?: 0 ?></div>
                                         </a>
                                     </li>
                                 </ul>

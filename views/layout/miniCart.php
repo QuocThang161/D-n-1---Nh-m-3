@@ -1,4 +1,5 @@
 <!-- offcanvas mini cart start -->
+<?php $cartSummary = getCartSummary(); ?>
 <div class="offcanvas-minicart-wrapper">
     <div class="minicart-inner">
         <div class="offcanvas-overlay"></div>
@@ -8,61 +9,49 @@
             </div>
             <div class="minicart-content-box">
                 <div class="minicart-item-wrapper">
-                    <ul>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-1.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$100.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-2.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$80.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                    </ul>
+                    <?php if (empty($cartSummary['items'])) : ?>
+                        <div class="text-center" style="padding: 20px;">Giỏ hàng của bạn đang trống.</div>
+                    <?php else : ?>
+                        <ul>
+                            <?php foreach ($cartSummary['items'] as $item) :
+                                $unitPrice = !empty($item['gia_khuyen_mai']) ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
+                                $itemTotal = $unitPrice * $item['so_luong'];
+                            ?>
+                                <li class="minicart-item">
+                                    <div class="minicart-thumb">
+                                        <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $item['san_pham_id'] ?>">
+                                            <img src="<?= BASE_URL . $item['hinh_anh'] ?>" alt="<?= htmlspecialchars($item['ten_san_pham']) ?>">
+                                        </a>
+                                    </div>
+                                    <div class="minicart-content">
+                                        <h3 class="product-name">
+                                            <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $item['san_pham_id'] ?>"><?= htmlspecialchars($item['ten_san_pham']) ?></a>
+                                        </h3>
+                                        <p>
+                                            <span class="cart-quantity"><?= intval($item['so_luong']) ?> <strong>&times;</strong></span>
+                                            <span class="cart-price"><?= formatPrice($itemTotal) ?> đ</span>
+                                        </p>
+                                    </div>
+                                    <a class="minicart-remove" href="<?= BASE_URL . '?act=xoa-san-pham-gio-hang&id_san_pham=' . $item['san_pham_id'] ?>" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này khỏi giỏ hàng?');"><i class="pe-7s-close"></i></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
                 </div>
 
                 <div class="minicart-pricing-box">
                     <ul>
                         <li>
-                            <span>sub-total</span>
-                            <span><strong>$300.00</strong></span>
+                            <span>Tổng tiền</span>
+                            <span><strong><?= formatPrice($cartSummary['subtotal']) ?> đ</strong></span>
                         </li>
                         <li>
-                            <span>Eco Tax (-2.00)</span>
-                            <span><strong>$10.00</strong></span>
-                        </li>
-                        <li>
-                            <span>VAT (20%)</span>
-                            <span><strong>$60.00</strong></span>
+                            <span>Phí vận chuyển</span>
+                            <span><strong>30.000 đ</strong></span>
                         </li>
                         <li class="total">
-                            <span>total</span>
-                            <span><strong>$370.00</strong></span>
+                            <span>Thanh toán</span>
+                            <span><strong><?= formatPrice($cartSummary['subtotal'] + 30000) ?> đ</strong></span>
                         </li>
                     </ul>
                 </div>

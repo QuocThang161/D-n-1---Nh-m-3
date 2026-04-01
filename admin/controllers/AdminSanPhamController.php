@@ -233,8 +233,8 @@ class AdminSanPhamController
                     $new_file
                 );
 
-
-                header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+                // Chuyển hướng về trang chi tiết sản phẩm để thấy ngay dữ liệu mới
+                header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
                 exit();
             } else {
                 // Trả về form và lỗi

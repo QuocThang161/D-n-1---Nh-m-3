@@ -436,4 +436,22 @@ class HomeController
         exit;
         }
     }
+
+    public function xoaGioHang()
+{
+    if (isset($_SESSION['user_client'])) {
+        // Lấy ID chi tiết giỏ hàng từ URL
+        $chiTietGioHangId = $_GET['id_chi_tiet_gio_hang'];
+
+        // Gọi Model để xóa
+        $this->modelGioHang->deleteDetailGioHang($chiTietGioHangId);
+
+        // Chuyển hướng quay lại trang cũ (hoặc trang giỏ hàng)
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
+    } else {
+        header("Location: " . BASE_URL . '?act=login');
+        exit();
+    }
+}
 }

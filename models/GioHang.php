@@ -104,4 +104,16 @@ public function clearGioHang($tai_khoan_id) {
         echo "Lỗi xóa giỏ hàng: " . $e->getMessage();
     }
 }
+
+public function deleteDetailGioHang($id)
+{
+    try {
+        $sql = "DELETE FROM chi_tiet_gio_hangs WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        return true;
+    } catch (Exception $e) {
+        echo "Lỗi: " . $e->getMessage();
+    }
+}
 }

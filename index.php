@@ -49,5 +49,6 @@ match ($act) {
     'logout' => (new HomeController())->logout(),
 
     'update-so-luong-gio-hang' =>(new HomeController())->updateQuantity(),
+    'xoa-gio-hang'=>(new HomeController())->xoaGioHang(),
     
 };

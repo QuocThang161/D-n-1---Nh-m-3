@@ -85,12 +85,22 @@
                                             <i class="pe-7s-shopbag"></i>
                                             <div class="notification">
                                                 <?php
-                                                // Kiểm tra nếu có giỏ hàng và nó là một mảng thì đếm số phần tử
-                                                if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
-                                                    echo count($_SESSION['cart']);
+                                                // Logic lấy dữ liệu (giữ nguyên hoặc đưa lên đầu file cho sạch code)
+                                                if (isset($_SESSION['user_client'])) {
+                                                    require_once './models/GioHang.php';
+                                                    $modelGioHang = new GioHang();
+                                                    $tai_khoan_id = $_SESSION['user_client']['id'];
+
+                                                    $gioHang = $modelGioHang->getGioHangFromUser($tai_khoan_id);
+                                                    if ($gioHang) {
+                                                        $chiTietGioHangMini = $modelGioHang->getDetailGioHang($gioHang['id']);
+                                                        // Đếm tổng số loại sản phẩm hoặc tổng số lượng
+                                                        echo count($chiTietGioHangMini);
+                                                    } else {
+                                                        echo 0;
+                                                    }
                                                 } else {
-                                                    // Nếu không có giỏ hàng hoặc chưa có sản phẩm thì hiện số 0
-                                                    echo "0";
+                                                    echo 0;
                                                 }
                                                 ?>
                                             </div>

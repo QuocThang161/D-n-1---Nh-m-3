@@ -174,30 +174,30 @@ class HomeController
     }
 
     public function thanhToan()
-{
-    if (isset($_SESSION['user_client'])) {
-        $tai_khoan_id = $_SESSION['user_client']['id'];
-        
-        // --- THÊM DÒNG NÀY ---
-        // Lấy thông tin chi tiết của người dùng để đổ vào form thanh toán
-        $user = $this->modelTaiKhoan->getTaiKhoanById($tai_khoan_id);
-        // ---------------------
+    {
+        if (isset($_SESSION['user_client'])) {
+            $tai_khoan_id = $_SESSION['user_client']['id'];
 
-        $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
-        if (!$gioHang) {
-            $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
-            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHangId);
+            // --- THÊM DÒNG NÀY ---
+            // Lấy thông tin chi tiết của người dùng để đổ vào form thanh toán
+            $user = $this->modelTaiKhoan->getTaiKhoanById($tai_khoan_id);
+            // ---------------------
+
+            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($tai_khoan_id);
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHangId);
+            } else {
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }
+
+            // Truyền cả $user và $chiTietGioHang sang view
+            require_once './views/thanhToan.php';
         } else {
-            $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
         }
-
-        // Truyền cả $user và $chiTietGioHang sang view
-        require_once './views/thanhToan.php';
-    } else {
-        header("Location: " . BASE_URL . '?act=login');
-        exit();
     }
-}
 
     public function postThanhToan()
     {
@@ -240,31 +240,95 @@ class HomeController
 
             // Lưu sản phẩm vào chi tiết đơn hàng
             if ($gioHang) {
-                // Lấy ra toàn bộ sản phẩm trong giỏ hàng
-                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-                foreach ($chiTietGioHang as $item) {
-                    $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+                // Lấy thông tin giỏ hàng để lưu chi tiết đơn hàng
+                $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
-                    $this->modelDonHang->addChiTietDonHang(
-                        $don_hang_id,  // ID đơn hàng vừa tạo (số nguyên)
-                        $item['san_pham_id'], // ID sản phẩm
-                        $donGia,  // đơn giá
-                        $item['so_luong'], //số lượng 
-                        $donGia * $item['so_luong'] // Thành tiền
-                    );
+                if ($don_hang_id && $gioHang) {
+                    // Lấy ra toàn bộ sản phẩm trong giỏ hàng
+                    $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+
+                    foreach ($chiTietGioHang as $item) {
+                        $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+
+                        $this->modelDonHang->addChiTietDonHang(
+                            $don_hang_id,
+                            $item['san_pham_id'],
+                            $donGia,
+                            $item['so_luong'],
+                            $donGia * $item['so_luong']
+                        );
+                    }
+
+                    // Xóa giỏ hàng sau khi đã đặt hàng thành công
+                    $this->modelGioHang->clearDetailGioHang($gioHang['id']);
+                    $this->modelGioHang->clearGioHang($tai_khoan_id);
+
+                    // --- PHẦN THAY ĐỔI LOGIC CHUYỂN HƯỚNG ---
+                    if ($phuong_thuc_thanh_toan_id == 1) {
+                        // COD
+                        header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
+                    } elseif ($phuong_thuc_thanh_toan_id == 2) {
+                        // Chuyển khoản ngân hàng (Trang QR mà mình đã tạo cho bạn ở trên)
+                        header("Location: " . BASE_URL . '?act=thanh-toan-online&id=' . $don_hang_id);
+                    } elseif ($phuong_thuc_thanh_toan_id == 3) {
+                        // MoMo: Chuyển hướng đến trang giả lập thanh toán MoMo
+                        header("Location: " . BASE_URL . '?act=thanh-toan-momo&id=' . $don_hang_id);
+                    } elseif ($phuong_thuc_thanh_toan_id == 4) {
+                        // VNPAY: Chuyển hướng đến trang giả lập VNPAY
+                        header("Location: " . BASE_URL . '?act=thanh-toan-vnpay&id=' . $don_hang_id);
+                    }
+                    exit();
+                    // -----------------------------------------------
+
+                } else {
+                    echo "Lỗi đặt hàng, vui lòng thử lại sau!";
+                    die;
                 }
-
-                $this->modelGioHang->clearDetailGioHang($gioHang['id']);
-                $this->modelGioHang->clearGioHang($tai_khoan_id);
-
-                header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
-                exit();
-            } else {
-                var_dump("Lỗi đặt hàng vui lòng thử lại sau");
-                die;
             }
         }
     }
+
+    // Hàm hiển thị trang Chuyển khoản ngân hàng
+// 1. Sửa hàm thanhToanOnline (Chuyển khoản)
+public function thanhToanOnline() {
+    $id = $_GET['id'] ?? null;
+    // Đổi getDetailDonHang thành getDonHangById
+    $donHang = $this->modelDonHang->getDonHangById($id); 
+    require_once './views/thanh-toan-online.php';
+}
+
+// 2. Sửa hàm thanhToanMomo
+public function thanhToanMomo() {
+    $id = $_GET['id'] ?? null;
+    $donHang = $this->modelDonHang->getDonHangById($id); // Phải dùng hàm này
+
+    if ($donHang) {
+        require_once './views/thanh-toan-momo.php';
+    } else {
+        echo "Không tìm thấy đơn hàng!";
+    }
+}
+
+// 3. Sửa hàm thanhToanVnpay
+public function thanhToanVnpay() {
+    $id = $_GET['id'] ?? null;
+    // Đổi getDetailDonHang thành getDonHangById
+    $donHang = $this->modelDonHang->getDonHangById($id);
+    require_once './views/thanh-toan-vnpay.php';
+}
+
+public function thanhToanThanhCong() {
+    $id = $_GET['id'] ?? null;
+    // Sử dụng hàm lấy đơn hàng bạn đã có sẵn
+    $donHang = $this->modelDonHang->getDonHangById($id); 
+
+    if ($donHang) {
+        require_once './views/thanhToanThanhCong.php';
+    } else {
+        header("Location: " . BASE_URL);
+        exit();
+    }
+}
 
     public function lichSuMuaHang()
     {
@@ -415,43 +479,56 @@ class HomeController
         }
     }
 
-    public function updateQuantity() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
-        $tai_khoan_id = $_SESSION['user_client']['id'];
-        $san_pham_id = $_POST['product_id'];
-        $so_luong = $_POST['quantity'];
+    public function updateQuantity()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+            $tai_khoan_id = $_SESSION['user_client']['id'];
+            $san_pham_id = $_POST['product_id'];
+            $so_luong = $_POST['quantity'];
 
-        // Bước 1: Tìm giỏ hàng của người dùng
-        $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+            // Bước 1: Tìm giỏ hàng của người dùng
+            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
-        if ($gioHang) {
-            // Bước 2: Cập nhật trực tiếp số lượng vào Database
-            // Hàm updateSoLuong này bạn đã có và đang dùng ở hàm addGioHang rồi
-            $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);
-            
-            echo json_encode(['status' => 'success']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Không tìm thấy giỏ hàng']);
-        }
-        exit;
+            if ($gioHang) {
+                // Bước 2: Cập nhật trực tiếp số lượng vào Database
+                // Hàm updateSoLuong này bạn đã có và đang dùng ở hàm addGioHang rồi
+                $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);
+
+                echo json_encode(['status' => 'success']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Không tìm thấy giỏ hàng']);
+            }
+            exit;
         }
     }
 
     public function xoaGioHang()
-{
-    if (isset($_SESSION['user_client'])) {
-        // Lấy ID chi tiết giỏ hàng từ URL
-        $chiTietGioHangId = $_GET['id_chi_tiet_gio_hang'];
+    {
+        if (isset($_SESSION['user_client'])) {
+            // Lấy ID chi tiết giỏ hàng từ URL
+            $chiTietGioHangId = $_GET['id_chi_tiet_gio_hang'];
 
-        // Gọi Model để xóa
-        $this->modelGioHang->deleteDetailGioHang($chiTietGioHangId);
+            // Gọi Model để xóa
+            $this->modelGioHang->deleteDetailGioHang($chiTietGioHangId);
 
-        // Chuyển hướng quay lại trang cũ (hoặc trang giỏ hàng)
-        header("Location: " . $_SERVER['HTTP_REFERER']);
-        exit();
-    } else {
-        header("Location: " . BASE_URL . '?act=login');
-        exit();
+            // Chuyển hướng quay lại trang cũ (hoặc trang giỏ hàng)
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit();
+        } else {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
     }
-}
+
+    public function gioiThieu()
+    {
+        require_once './views/gioiThieu.php';
+    }
+
+    public function lienHe()
+    {
+        require_once './views/lienHe.php';
+    }
+
+    
 }

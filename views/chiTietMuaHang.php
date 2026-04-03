@@ -110,11 +110,11 @@
                                     </tr>
                                     <tr class="text-center">
                                         <th>Phương thức thanh toán:</th>
-                                        <td><?= $phuongThucThanhToan[$donHang['phuong_thuc_thanh_toan_id']]; ?></td>
+                                        <td><?= $phuongThucThanhToan[$donHang['phuong_thuc_thanh_toan_id']] ?? 'Chưa xác định'; ?></td>
                                     </tr>
                                     <tr class="text-center">
                                         <th>Trạng thái đơn hàng:</th>
-                                        <td><?= $trangThaiDonHang[$donHang['trang_thai_id']]; ?></td>
+                                        <td><?= $trangThaiDonHang[$donHang['trang_thai_id']] ?? 'Chưa xác định'; ?></td>
                                     </tr>
                                 </tbody>
                             </table>

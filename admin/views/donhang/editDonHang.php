@@ -77,29 +77,31 @@
                                 <div class="form-group">
                                 <label for="inputStatus">Trạng thái đơn hàng</label>
                                 <select id="inputStatus" name="trang_thai_id" class="form-control custom-select">
-                                    <?php foreach ($listTrangThaiDonHang as $trangThai) : ?>
-                                        <option 
-                                            <?php
-                                                if ($donHang['trang_thai_id'] > $trangThai['id'] 
-                                                    || $donHang['trang_thai_id'] == 9
-                                                    || $donHang['trang_thai_id'] == 10
-                                                    || $donHang['trang_thai_id'] == 11) 
-                                                    {
-                                                    echo 'disabled';
-                                                    }
-                                            ?>
-                                            <?= $trangThai['id'] == $donHang['trang_thai_id'] ? 'selected' : '' ?>
-                                            value="<?= $trangThai['id']; ?>">
-                                                <?= $trangThai['ten_trang_thai']; ?>
-                                        </option>
-                                    <?php endforeach ?>
-                                </select>
+    <?php foreach ($listTrangThaiDonHang as $trangThai) : ?>
+        <option 
+            <?php
+                // Kiểm tra điều kiện để disabled các trạng thái không hợp lệ
+                if (
+                    $donHang['trang_thai_id'] > $trangThai['id'] 
+                    || $donHang['trang_thai_id'] == 9
+                    || $donHang['trang_thai_id'] == 10
+                    || $donHang['trang_thai_id'] == 11
+                ) {
+                    echo 'disabled ';
+                }
+            ?>
+            <?= $trangThai['id'] == $donHang['trang_thai_id'] ? 'selected' : '' ?>
+            value="<?= $trangThai['id']; ?>">
+            <?= $trangThai['ten_trang_thai']; ?>
+        </option>
+    <?php endforeach ?>
+</select>
                             </div>
 
                             </div>
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                             </div>
                         </form>
                     </div>

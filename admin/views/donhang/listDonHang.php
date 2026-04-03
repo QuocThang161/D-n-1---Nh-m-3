@@ -51,7 +51,7 @@
                       <td><?= $donHang['ten_nguoi_nhan'] ?></td>
                       <td><?= $donHang['sdt_nguoi_nhan'] ?></td>
                       <td><?= $donHang['ngay_dat'] ?></td>
-                      <td><?= $donHang['tong_tien'] ?></td>
+                      <td><?= number_format($donHang['tong_tien']) ?>đ</td>
                       <td><?= $donHang['ten_trang_thai'] ?></td>
                       <td>
                         <div class="btn-group">

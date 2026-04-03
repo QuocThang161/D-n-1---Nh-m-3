@@ -5,103 +5,86 @@
 <!-- Scroll to Top End -->
 
 <!-- footer area start -->
-<footer class="footer-widget-area">
+<footer class="footer-widget-area" style="background-color: #f8f8f8;">
     <div class="footer-top section-padding">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="widget-item">
                         <div class="widget-title">
-                            <div class="logo">
-                                <a href="<?= BASE_URL ?>">
-                                    <img src="assets/img/logo/logo.jpg.png" class="img-fluid" style="max-width: 200px;"
-                                        alt="Brand Logo">
-                                </a>
-                            </div>
+                            <a href="<?= BASE_URL ?>">
+                                <img src="assets/img/logo/logo.jpg.png" class="img-fluid" style="max-width: 150px;" alt="TBT Logo">
+                            </a>
                         </div>
-                        <div class="widget-body">
-                            <p>We are a team of designers and developers that create high quality wordpress, shopify,
-                                Opencart </p>
+                        <div class="widget-body mt-3">
+                            <p class="desc" style="font-size: 14px; line-height: 1.6;">
+                                TBT Sneaker & Jewelry - Chuyên cung cấp giày thể thao và trang sức cao cấp, mang đến phong cách thời thượng.
+                            </p>
+                            <div class="social-link">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-youtube"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+
+                <div class="col-lg-4 col-md-6">
                     <div class="widget-item">
-                        <h6 class="widget-title">Contact Us</h6>
+                        <h6 class="widget-title">Địa chỉ cửa hàng</h6>
                         <div class="widget-body">
-                            <address class="contact-block">
-                                <ul>
-                                    <li><i class="pe-7s-home"></i> 4710-4890 Breckinridge USA</li>
-                                    <li><i class="pe-7s-mail"></i> <a
-                                            href="mailto:demo@plazathemes.com">demo@yourdomain.com </a></li>
-                                    <li><i class="pe-7s-call"></i> <a href="tel:(012)800456789987">(012) 800 456
-                                            789-987</a></li>
+                            <div class="map-container mb-3 shadow-sm" style="border-radius: 10px; overflow: hidden; height: 150px;">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639311820666!2d105.7445984153321!3d21.037622192832924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b991d80fd5%3A0x680c665675095e!2zMTMgVHLhu4tuaCBWxINuIELDtCwgWHXDom4gUGjGsMahbmcsIE5hbSBU4burIExpw6ptLCBIw6AgTuG7mWksIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1712147572000!5m2!1svi!2s" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                                </iframe>
+                            </div>
+                            <address class="contact-block" style="font-size: 14px;">
+                                <ul class="info-list">
+                                    <li><i class="pe-7s-home"></i> 13 Trịnh Văn Bô, Nam Từ Liêm, HN</li>
+                                    <li><i class="pe-7s-call"></i> 0334 901 927</li>
                                 </ul>
                             </address>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+
+                <div class="col-lg-2 col-md-6">
                     <div class="widget-item">
-                        <h6 class="widget-title">Information</h6>
+                        <h6 class="widget-title">Thông tin</h6>
                         <div class="widget-body">
                             <ul class="info-list">
-                                <li><a href="#">about us</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">privet policy</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">contact us</a></li>
-                                <li><a href="#">site map</a></li>
+                                <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>">Giới thiệu</a></li>
+                                <li><a href="<?= BASE_URL . '?act=chinh-sach' ?>">Chính sách</a></li>
+                                <li><a href="<?= BASE_URL . '?act=giao-hang' ?>">Giao hàng</a></li>
+                                <li><a href="<?= BASE_URL . '?act=lien-he' ?>">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-3 col-md-6">
                     <div class="widget-item">
-                        <h6 class="widget-title">Follow Us</h6>
-                        <div class="widget-body social-link">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube"></i></a>
+                        <h6 class="widget-title">Thanh toán Online</h6>
+                        <div class="widget-body">
+                            <div class="payment-icons d-flex flex-wrap">
+                                <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Square.png" alt="MoMo" style="height: 30px; margin: 5px;">
+                                <img src="https://vinadesign.vn/uploads/images/2023/05/vnpay-logo-vinadesign-25-12-57-55.jpg" alt="VNPAY" style="height: 30px; margin: 5px;">
+                                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" style="height: 30px; margin: 5px;">
+                            </div>
+                            <p class="mt-3 small text-muted">Bảo mật thanh toán 100%</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center mt-20">
-                <div class="col-md-6">
-                    <div class="newsletter-wrapper">
-                        <h6 class="widget-title-text">Signup for newsletter</h6>
-                        <form class="newsletter-inner" id="mc-form">
-                            <input type="email" class="news-field" id="mc-email" autocomplete="off"
-                                placeholder="Enter your email address">
-                            <button class="news-btn" id="mc-submit">Subscribe</button>
-                        </form>
-                        <!-- mail-chimp-alerts Start -->
-                        <div class="mailchimp-alerts">
-                            <div class="mailchimp-submitting"></div><!-- mail-chimp-submitting end -->
-                            <div class="mailchimp-success"></div><!-- mail-chimp-success end -->
-                            <div class="mailchimp-error"></div><!-- mail-chimp-error end -->
-                        </div>
-                        <!-- mail-chimp-alerts end -->
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="footer-payment">
-                        <img src="assets/img/payment.png" alt="payment method">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer-bottom">
+
+    <div class="footer-bottom" style="border-top: 1px solid #ddd; padding: 20px 0;">
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <div class="copyright-text text-center">
-                        <p>&copy; 2026 <b>BTB</b> Made with <i class="fa fa-heart text-danger"></i> by <a
-                                href="https://hasthemes.com/"><b>BTB</b></a></p>
-                    </div>
+                <div class="col-12 text-center">
+                    <p class="copyright-text">&copy; 2026 <b>TBT Store</b> - FPT Polytechnic.</p>
                 </div>
             </div>
         </div>

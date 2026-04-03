@@ -89,9 +89,9 @@ class AdminDonHangController
             if (empty($dia_chi_nguoi_nhan)) {
                 $errors['dia_chi_nguoi_nhan'] = 'Địa chỉ người nhận không được để trống';
             }
-            if (empty($ghi_chu)) {
-                $errors['ghi_chu'] = '';
-            }
+            // if (empty($ghi_chu)) {
+            //     $errors['ghi_chu'] = '';
+            // }
             if (empty($trang_thai_id)) {
                 $errors['trang_thai_id'] = 'Trạng thái đơn hàng';
             }
@@ -119,11 +119,12 @@ class AdminDonHangController
                 header("Location: " . BASE_URL_ADMIN . '?act=don-hang');
                 exit();
             } else {
+                // var_dump($errors); die;
                 // Trả về form và lỗi
                 // Đặt chỉ thị xóa session sau khi hiển thị form 
                 $_SESSION['flash'] = true;
 
-                header("Location: " . BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang' . $don_hang_id);
+                header("Location: " . BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $don_hang_id);
                 exit();
             }
         }

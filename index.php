@@ -50,5 +50,16 @@ match ($act) {
 
     'update-so-luong-gio-hang' =>(new HomeController())->updateQuantity(),
     'xoa-gio-hang'=>(new HomeController())->xoaGioHang(),
+
+    
+    'gioi-thieu' => (new HomeController())->gioiThieu(),
+    'lien-he' => (new HomeController())->lienHe(),
+
+    'thanh-toan-online' => (new HomeController())->thanhToanOnline(),
+    'thanh-toan-momo' => (new HomeController())->thanhToanMomo(),
+    'thanh-toan-vnpay' => (new HomeController())->thanhToanVnpay(),
+    'thanh-toan-thanh-cong' => (new HomeController())->thanhToanThanhCong(),
+
+
     
 };

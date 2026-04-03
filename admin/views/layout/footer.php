@@ -1,8 +1,8 @@
 <footer class="main-footer">
   <div class="float-right d-none d-sm-block">
-    By <b>Trần Xuân Dũng</b>
+    By <b>TBT Store</b>
   </div>
-  <strong>Website bán thú cưng Trần Xuân Dũng</strong>
+  <strong>Website bán giày TBT Store</strong>
 </footer>
 
 <!-- Control Sidebar -->

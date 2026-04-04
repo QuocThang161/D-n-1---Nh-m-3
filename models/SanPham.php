@@ -235,4 +235,81 @@ class SanPham {
         }
     }
 
+    public function countAllSanPham() {
+        try {
+            $sql = 'SELECT COUNT(*) FROM san_phams';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function countSanPhamByDanhMuc($danh_muc_id) {
+        try {
+            $sql = 'SELECT COUNT(*) FROM san_phams WHERE danh_muc_id = :danh_muc_id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':danh_muc_id' => $danh_muc_id]);
+            return $stmt->fetchColumn();
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function getSanPhamPage($limit, $offset, $sort = '') {
+        $orderBy = $this->getOrderByString($sort);
+        try {
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+                    FROM san_phams
+                    INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+                    $orderBy
+                    LIMIT :limit OFFSET :offset";
+            $stmt = $this->conn->prepare($sql);
+            // Cần bindValue để ép kiểu số nguyên cho LIMIT/OFFSET
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function getSanPhamByDanhMucPage($danh_muc_id, $limit, $offset, $sort = '') {
+        $orderBy = $this->getOrderByString($sort);
+        try {
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+                    FROM san_phams
+                    INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+                    WHERE san_phams.danh_muc_id = :danh_muc_id
+                    $orderBy
+                    LIMIT :limit OFFSET :offset";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':danh_muc_id', $danh_muc_id);
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    private function getOrderByString($sort) {
+        switch ($sort) {
+            case 'gia_asc':
+                return 'ORDER BY (CASE WHEN gia_khuyen_mai > 0 THEN gia_khuyen_mai ELSE gia_san_pham END) ASC';
+            case 'gia_desc':
+                return 'ORDER BY (CASE WHEN gia_khuyen_mai > 0 THEN gia_khuyen_mai ELSE gia_san_pham END) DESC';
+            case 'ten_asc':
+                return 'ORDER BY ten_san_pham ASC';
+            case 'ten_desc':
+                return 'ORDER BY ten_san_pham DESC';
+            default:
+                // Mặc định sắp xếp theo sản phẩm mới nhất
+                return 'ORDER BY san_phams.id DESC';
+        }
+    }
+
 }

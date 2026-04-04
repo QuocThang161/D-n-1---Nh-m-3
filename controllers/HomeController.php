@@ -21,18 +21,25 @@ class HomeController
     }
 
     public function cuaHang(){
-        // Lấy id_dan_muc từ URL nếu có
         $id_dan_muc = $_GET['id_dan_muc'] ?? null;
+        $sort = $_GET['sort'] ?? '';
+        
+        // Logic phân trang
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $perPage = 9;
+        $offset = ($page - 1) * $perPage;
 
         if ($id_dan_muc) {
-            // Nếu có id_dan_muc, lọc sản phẩm theo danh mục đó
-            $listSanPham = $this->modelSanPham->getListSanPhamDanhMuc($id_dan_muc);
+            $totalItems = $this->modelSanPham->countSanPhamByDanhMuc($id_dan_muc);
+            $listSanPham = $this->modelSanPham->getSanPhamByDanhMucPage($id_dan_muc, $perPage, $offset, $sort);
         } else {
-            // Nếu không có, lấy toàn bộ sản phẩm
-            $listSanPham = $this->modelSanPham->getAllSanPham();
+            $totalItems = $this->modelSanPham->countAllSanPham();
+            $listSanPham = $this->modelSanPham->getSanPhamPage($perPage, $offset, $sort);
         }
 
-        $listDanhMuc = $this->modelSanPham->getAllDanhMuc(); // Lấy để hiện menu & sidebar
+        $totalPages = ceil($totalItems / $perPage);
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc();
+        
         require_once './views/cuaHang.php';
     }
 
@@ -251,7 +258,7 @@ class HomeController
                     $requiredQty = (int)$so_luong;
                     $availableQty = (int)$checkVariant['variant']['so_luong_bien_the'];
                     if ($requiredQty > $availableQty) {
-                        $_SESSION['error'] = 'Số lượng yêu cầu vượt quá tồn kho biến thể.';
+                        $_SESSION['error'] = 'Số lượng đặt hàng vượt quá số lượng tồn kho.';
                         header("Location: " . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
                         exit();
                     }

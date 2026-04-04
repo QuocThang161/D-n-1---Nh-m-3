@@ -100,7 +100,7 @@
                 <div class="col-12">
                     <div class="copyright-text text-center">
                         <p>&copy; 2026 <b>BTB</b> Made with <i class="fa fa-heart text-danger"></i> by <a
-                                href="https://hasthemes.com/"><b>BTB</b></a></p>
+                                href="https://hasthemes.com/"><b>NDA</b></a></p>
                     </div>
                 </div>
             </div>

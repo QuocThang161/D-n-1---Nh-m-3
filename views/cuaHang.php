@@ -81,15 +81,26 @@
                                     <div class="col-lg-5 col-md-6 order-1 order-md-2">
                                         <div class="top-bar-right">
                                             <div class="product-short">
-                                                <p>Sort By : </p>
-                                                <select class="nice-select" name="sortby">
-                                                    <option value="trending">Relevance</option>
-                                                    <option value="sales">Name (A - Z)</option>
-                                                    <option value="sales">Name (Z - A)</option>
-                                                    <option value="rating">Price (Low &gt; High)</option>
-                                                    <option value="date">Rating (Lowest)</option>
-                                                    <option value="price-asc">Model (A - Z)</option>
-                                                    <option value="price-asc">Model (Z - A)</option>
+                                                <p>Sắp xếp theo:</p>
+                                                <select class="nice-select" id="sortSelect"
+                                                    onchange="location = this.value;">
+                                                    <option
+                                                        value="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') ?>"
+                                                        <?= $sort == '' ? 'selected' : '' ?>>Mặc định</option>
+                                                    <option
+                                                        value="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . '&sort=gia_asc' ?>"
+                                                        <?= $sort == 'gia_asc' ? 'selected' : '' ?>>Giá: Thấp đến cao
+                                                    </option>
+                                                    <option
+                                                        value="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . '&sort=gia_desc' ?>"
+                                                        <?= $sort == 'gia_desc' ? 'selected' : '' ?>>Giá: Cao đến thấp
+                                                    </option>
+                                                    <option
+                                                        value="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . '&sort=ten_asc' ?>"
+                                                        <?= $sort == 'ten_asc' ? 'selected' : '' ?>>Tên: A-Z</option>
+                                                    <option
+                                                        value="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . '&sort=ten_desc' ?>"
+                                                        <?= $sort == 'ten_desc' ? 'selected' : '' ?>>Tên: Z-A</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -158,11 +169,26 @@
                             <!-- start pagination area -->
                             <div class="paginatoin-area text-center">
                                 <ul class="pagination-box">
-                                    <li><a class="previous" href="#"><i class="pe-7s-angle-left"></i></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a class="next" href="#"><i class="pe-7s-angle-right"></i></a></li>
+                                    <?php if ($page > 1): ?>
+                                    <li><a class="previous"
+                                            href="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . ($sort ? '&sort='.$sort : '') . '&page=' . ($page - 1) ?>"><i
+                                                class="pe-7s-angle-left"></i></a></li>
+                                    <?php endif; ?>
+
+                                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="<?= $i == $page ? 'active' : '' ?>">
+                                        <a
+                                            href="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . ($sort ? '&sort='.$sort : '') . '&page=' . $i ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                    <?php endfor; ?>
+
+                                    <?php if ($page < $totalPages): ?>
+                                    <li><a class="next"
+                                            href="<?= BASE_URL . '?act=cua-hang' . ($id_dan_muc ? '&id_dan_muc='.$id_dan_muc : '') . ($sort ? '&sort='.$sort : '') . '&page=' . ($page + 1) ?>"><i
+                                                class="pe-7s-angle-right"></i></a></li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
                             <!-- end pagination area -->

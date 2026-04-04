@@ -353,6 +353,8 @@ class AdminSanPhamController
         $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
 
         $listBinhLuan = $this->modelSanPham->getBinhLuanFromSanPham($id);
+
+        $listBienThe = $this->modelSanPham->getVariantsBySanPhamId($id);
         // var_dump($listAnhSanPham);die;
         if ($sanPham) {
             require_once './views/sanpham/detailSanPham.php';
@@ -360,6 +362,69 @@ class AdminSanPhamController
             header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
             exit();
         }
+    }
+
+    public function listVariantSanPham()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        $listBienThe = $this->modelSanPham->getVariantsBySanPhamId($id);
+
+        require_once './views/sanpham/listVariant.php';
+    }
+
+    public function formAddVariant()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        require_once './views/sanpham/addVariant.php';
+    }
+
+    public function postAddVariant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $san_pham_id = $_POST['san_pham_id'];
+            $mau_sac = $_POST['mau_sac'] ?? '';
+            $size = $_POST['size'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? 0;
+
+            $this->modelSanPham->insertVariant($san_pham_id, $mau_sac, $size, $so_luong);
+            header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
+        }
+    }
+
+    public function formEditVariant()
+    {
+        $id = $_GET['id'];
+        $variant = $this->modelSanPham->getVariantById($id);
+        $sanPham = $this->modelSanPham->getDetailSanPham($variant['san_pham_id']);
+        require_once './views/sanpham/editVariant.php';
+    }
+
+    public function postEditVariant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'];
+            $san_pham_id = $_POST['san_pham_id'];
+            $mau_sac = $_POST['mau_sac'] ?? '';
+            $size = $_POST['size'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? 0;
+
+            $this->modelSanPham->updateVariant($id, $mau_sac, $size, $so_luong);
+            header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
+        }
+    }
+
+    public function deleteVariant()
+    {
+        $id = $_GET['id'];
+        $variant = $this->modelSanPham->getVariantById($id);
+        $san_pham_id = $variant['san_pham_id'];
+        $this->modelSanPham->deleteVariant($id);
+        header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+        exit();
     }
 
     public function updateTrangThaiBinhLuan()

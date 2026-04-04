@@ -47,6 +47,12 @@ match ($act) {
     'sua-album-anh-san-pham' => (new AdminSanPhamController())->postEditAnhSanPham(),
     'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
     'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
+    'variant-san-pham' => (new AdminSanPhamController())->listVariantSanPham(),
+    'form-them-bien-the' => (new AdminSanPhamController())->formAddVariant(),
+    'them-bien-the' => (new AdminSanPhamController())->postAddVariant(),
+    'form-sua-bien-the' => (new AdminSanPhamController())->formEditVariant(),
+    'sua-bien-the' => (new AdminSanPhamController())->postEditVariant(),
+    'xoa-bien-the' => (new AdminSanPhamController())->deleteVariant(),
 
     // route bình luận
     'update-trang-thai-binh-luan' => (new AdminSanPhamController())->updateTrangThaiBinhLuan(),

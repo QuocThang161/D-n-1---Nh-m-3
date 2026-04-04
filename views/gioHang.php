@@ -12,8 +12,9 @@
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?= BASE_URL?>"><i class="fa fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="shop.html">shop</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">cart</li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL . '?act=cua-hang' ?>">Cửa hàng</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
                             </ul>
                         </nav>
                     </div>
@@ -36,6 +37,7 @@
                                     <tr>
                                         <th class="pro-thumbnail">Ảnh sản phẩm</th>
                                         <th class="pro-title">Tên sản phẩm</th>
+                                        <th class="pro-title">Phiên bản</th>
                                         <th class="pro-price">Giá tiền</th>
                                         <th class="pro-quantity">Số lượng</th>
                                         <th class="pro-subtotal">Tổng tiền</th>
@@ -52,12 +54,23 @@
                                                     src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="Product" /></a>
                                         </td>
                                         <td class="pro-title"><a href="#"><?= $sanPham['ten_san_pham'] ?></a></td>
+                                        <td class="pro-title">
+                                            <?php 
+                                            $variantInfo = '';
+                                            if (!empty($sanPham['mau_sac'])) {
+                                                $variantInfo .= 'Màu: ' . htmlspecialchars($sanPham['mau_sac']);
+                                            }
+                                            if (!empty($sanPham['bien_the_size'])) {
+                                                $variantInfo .= (!empty($variantInfo) ? ' / ' : '') . 'Size: ' . htmlspecialchars($sanPham['bien_the_size']);
+                                            }
+                                            echo !empty($variantInfo) ? $variantInfo : 'Không có biến thể';
+                                            ?>
+                                        </td>
                                         <td class="pro-price"><span>
-                                                <?php if ($sanPham['gia_khuyen_mai']) { ?>
-                                                <?= formatPrice($sanPham['gia_khuyen_mai']) . ' đ' ?>
-                                                <?php } else { ?>
-                                                <?= formatPrice($sanPham['gia_san_pham']) . ' đ' ?>
-                                                <?php } ?>
+                                                <?php 
+                                                $price = $sanPham['gia_khuyen_mai'] ?? $sanPham['gia_san_pham'];
+                                                echo formatPrice($price) . ' đ';
+                                                ?>
                                             </span></td>
                                         <td class="pro-quantity">
                                             <div class="pro-qty"><input type="text" value="<?= $sanPham['so_luong'] ?>">
@@ -65,18 +78,13 @@
                                         </td>
                                         <td class="pro-subtotal"><span>
                                                 <?php 
-                                                    $tongTien = 0;
-                                                    if ($sanPham['gia_khuyen_mai']) {
-                                                        $tongTien = $sanPham['gia_khuyen_mai'] * $sanPham['so_luong'];
-                                                    }else{
-                                                        $tongTien = $sanPham['gia_san_pham'] * $sanPham['so_luong'];
-                                                    }
+                                                    $tongTien = $price * $sanPham['so_luong'];
                                                     $tongGioHang += $tongTien;
                                                     echo formatPrice($tongTien) . ' đ';
                                                 ?>
                                             </span></td>
                                         <td class="pro-remove">
-                                            <a href="<?= BASE_URL . '?act=xoa-san-pham-gio-hang&id_san_pham=' . $sanPham['san_pham_id'] ?>"
+                                            <a href="<?= BASE_URL . '?act=xoa-san-pham-gio-hang&id_san_pham=' . $sanPham['san_pham_id'] . '&id_bien_the=' . ($sanPham['san_pham_bien_the_id'] ?? '') ?>"
                                                 onclick="return confirm('Bạn có muốn xoá sản phẩm này không?')">
                                                 <i class="fa fa-trash-o"></i></a>
                                         </td>
@@ -85,18 +93,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Cart Update Option -->
-                        <div class="cart-update-option d-block d-md-flex justify-content-between">
-                            <div class="apply-coupon-wrapper">
-                                <form action="#" method="post" class=" d-block d-md-flex">
-                                    <input type="text" placeholder="Enter Your Coupon Code" required />
-                                    <button class="btn btn-sqr">Apply Coupon</button>
-                                </form>
-                            </div>
-                            <div class="cart-update">
-                                <a href="#" class="btn btn-sqr">Update Cart</a>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="row">

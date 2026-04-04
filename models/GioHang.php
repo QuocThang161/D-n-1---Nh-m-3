@@ -25,16 +25,18 @@ class GioHang
 
     public function getDetailGioHang($id){
         try {
-            $sql = 'SELECT chi_tiet_gio_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai
+            $sql = 'SELECT chi_tiet_gio_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai,
+                   san_pham_bien_the.mau_sac, san_pham_bien_the.size AS bien_the_size
             FROM chi_tiet_gio_hangs
             INNER JOIN san_phams ON chi_tiet_gio_hangs.san_pham_id = san_phams.id
+            LEFT JOIN san_pham_bien_the ON chi_tiet_gio_hangs.san_pham_bien_the_id = san_pham_bien_the.id
             WHERE chi_tiet_gio_hangs.gio_hang_id = :gio_hang_id';
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->execute([':gio_hang_id'=>$id]);
             
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Lỗi" . $e->getMessage();
         }
@@ -53,15 +55,38 @@ class GioHang
         }
     }
 
-    public function updateSoLuong($gio_hang_id, $san_pham_id, $so_luong){
+    public function updateSoLuong($gio_hang_id, $san_pham_id, $so_luong, $san_pham_bien_the_id = null){
         try {
             $sql = 'UPDATE chi_tiet_gio_hangs
                     SET so_luong = :so_luong
-                    WHERE gio_hang_id = :gio_hang_id AND san_pham_id = :san_pham_id
+                    WHERE gio_hang_id = :gio_hang_id 
+                      AND san_pham_id = :san_pham_id 
+                      AND (san_pham_bien_the_id = :bt_id OR (:bt_id_null IS NULL AND san_pham_bien_the_id IS NULL))
             ';
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id, ':so_luong'=>$so_luong]);
+            $stmt->execute([
+                ':gio_hang_id' => $gio_hang_id, 
+                ':san_pham_id' => $san_pham_id, 
+                ':so_luong' => $so_luong, 
+                ':bt_id' => $san_pham_bien_the_id,
+                ':bt_id_null' => $san_pham_bien_the_id
+            ]);
+
+            return true;
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+        }
+    }
+
+    public function addDetailGioHang($gio_hang_id, $san_pham_id, $so_luong, $san_pham_bien_the_id = null){
+        try {
+            $sql = 'INSERT INTO chi_tiet_gio_hangs (gio_hang_id, san_pham_id, san_pham_bien_the_id, so_luong)
+                        VALUES (:gio_hang_id, :san_pham_id, :san_pham_bien_the_id, :so_luong)
+            ';
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id, ':san_pham_bien_the_id'=>$san_pham_bien_the_id, ':so_luong'=>$so_luong]);
             
             return true;
         } catch (Exception $e) {
@@ -69,28 +94,21 @@ class GioHang
         }
     }
 
-    public function addDetailGioHang($gio_hang_id, $san_pham_id, $so_luong){
+    public function deleteDetailGioHang($gio_hang_id, $san_pham_id, $san_pham_bien_the_id = null){
         try {
-            $sql = 'INSERT INTO chi_tiet_gio_hangs (gio_hang_id, san_pham_id, so_luong)
-                        VALUES (:gio_hang_id, :san_pham_id, :so_luong)
-            ';
+            $sql = 'DELETE FROM chi_tiet_gio_hangs 
+                    WHERE gio_hang_id = :gio_hang_id 
+                      AND san_pham_id = :san_pham_id 
+                      AND (san_pham_bien_the_id = :bt_id OR (:bt_id_null IS NULL AND san_pham_bien_the_id IS NULL))';
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id, ':so_luong'=>$so_luong]);
-            
-            return true;
-        } catch (Exception $e) {
-            echo "Lỗi" . $e->getMessage();
-        }
-    }
+            $stmt->execute([
+                ':gio_hang_id' => $gio_hang_id, 
+                ':san_pham_id' => $san_pham_id, 
+                ':bt_id' => $san_pham_bien_the_id,
+                ':bt_id_null' => $san_pham_bien_the_id
+            ]);
 
-    public function deleteDetailGioHang($gio_hang_id, $san_pham_id){
-        try {
-            $sql = 'DELETE FROM chi_tiet_gio_hangs WHERE gio_hang_id = :gio_hang_id AND san_pham_id = :san_pham_id';
-            $stmt = $this->conn->prepare($sql);
-
-            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id]);
-            
             return true;
         } catch (Exception $e) {
             echo "Lỗi" . $e->getMessage();

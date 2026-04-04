@@ -11,7 +11,8 @@
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a>
+                                </li>
                                 <li class="breadcrumb-item"><a href="shop.html">shop</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">bills details</li>
                             </ul>
@@ -34,13 +35,14 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th colspan="5">Thông tin sản phẩm</th>
+                                        <th colspan="6">Thông tin sản phẩm</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="text-center">
                                         <th>Hình ảnh</th>
                                         <th>Tên sản phẩm</th>
+                                        <th>Phiên bản</th>
                                         <th>Đơn giá</th>
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
@@ -55,6 +57,24 @@
                                         </td>
                                         <td>
                                             <?= $item['ten_san_pham']; ?>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            $variantInfo = '';
+                                            if (!empty($item['mau_sac'])) {
+                                                $variantInfo .= 'Màu: ' . htmlspecialchars($item['mau_sac']);
+                                            }
+                                            if (!empty($item['bien_the_size'])) {
+                                                $variantInfo .= (!empty($variantInfo) ? ' / ' : '') . 'Size: ' . htmlspecialchars($item['bien_the_size']);
+                                            }
+                                            echo !empty($variantInfo) ? $variantInfo : 'Không có biến thể';
+                                            ?>
+                                            <?php if(isset($_GET['debug'])): ?>
+                                            <br><small class="text-muted">Debug:
+                                                ID_BT=<?= $item['san_pham_bien_the_id'] ?? 'null' ?>,
+                                                Mau=<?= $item['mau_sac'] ?? 'null' ?>,
+                                                Size=<?= $item['bien_the_size'] ?? 'null' ?></small>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?= formatPrice($item['don_gia']) . 'đ'; ?>

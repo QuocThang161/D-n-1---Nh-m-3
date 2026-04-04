@@ -48,4 +48,6 @@ match ($act) {
     'login' => (new HomeController())->formLogin(),
     'check-login' => (new HomeController())->postLogin(),
     'logout' => (new HomeController())->logout(),
+    'thong-tin-tai-khoan' => (new HomeController())->thongTinTaiKhoan(),
+    'sua-thong-tin-ca-nhan' => (new HomeController())->postEditCaNhan(),
 };

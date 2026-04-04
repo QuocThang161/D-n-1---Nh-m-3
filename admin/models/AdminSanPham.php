@@ -209,8 +209,71 @@ class AdminSanPham {
             echo "lỗi" . $e->getMessage();
         }
     }
-    
-    
+
+    public function getVariantsBySanPhamId($san_pham_id){
+        try {
+            $sql = 'SELECT * FROM san_pham_bien_the WHERE san_pham_id = :san_pham_id ORDER BY id DESC';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':san_pham_id' => $san_pham_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function getVariantById($id){
+        try {
+            $sql = 'SELECT * FROM san_pham_bien_the WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function insertVariant($san_pham_id, $mau_sac, $size, $so_luong){
+        try {
+            $sql = 'INSERT INTO san_pham_bien_the (san_pham_id, mau_sac, size, so_luong_bien_the) VALUES (:san_pham_id, :mau_sac, :size, :so_luong)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':san_pham_id' => $san_pham_id,
+                ':mau_sac' => $mau_sac,
+                ':size' => $size,
+                ':so_luong' => $so_luong,
+            ]);
+            return true;
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function updateVariant($id, $mau_sac, $size, $so_luong){
+        try {
+            $sql = 'UPDATE san_pham_bien_the SET mau_sac = :mau_sac, size = :size, so_luong_bien_the = :so_luong WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':mau_sac' => $mau_sac,
+                ':size' => $size,
+                ':so_luong' => $so_luong,
+                ':id' => $id,
+            ]);
+            return true;
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function deleteVariant($id){
+        try {
+            $sql = 'DELETE FROM san_pham_bien_the WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':id' => $id]);
+            return true;
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
 
     // Bình luận
     public function getBinhLuanFromKhachHang($id){

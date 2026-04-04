@@ -110,7 +110,13 @@ function getCartSummary()
     $userModel = new TaiKhoan();
     $cartModel = new GioHang();
 
-    $user = $userModel->getTaiKhoanFromEmail($_SESSION['user_client']);
+    $sessionUser = $_SESSION['user_client'];
+    if (is_array($sessionUser)) {
+        $user = $sessionUser;
+    } else {
+        $user = $userModel->getTaiKhoanFromEmail($sessionUser);
+    }
+
     if (!$user) {
         return $summary;
     }

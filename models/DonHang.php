@@ -36,30 +36,33 @@ class DonHang
 
     public function getDetailDonHang($id){
         try {
-            $sql = 'SELECT chi_tiet_don_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai
+            $sql = 'SELECT chi_tiet_don_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai,
+                   san_pham_bien_the.mau_sac, san_pham_bien_the.size AS bien_the_size
             FROM chi_tiet_don_hangs
             INNER JOIN san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id
+            LEFT JOIN san_pham_bien_the ON chi_tiet_don_hangs.san_pham_bien_the_id = san_pham_bien_the.id
             WHERE chi_tiet_don_hangs.don_hang_id = :don_hang_id';
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->execute([':don_hang_id' => $id]);
             
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Lỗi" . $e->getMessage();
         }
     }
 
-    public function addChiTietDonHang($donHangId, $sanPhamId, $donGia, $soLuong, $thanhTien){
+    public function addChiTietDonHang($donHangId, $sanPhamId, $donGia, $soLuong, $thanhTien, $san_pham_bien_the_id = null){
         try{
-            $sql = "INSERT INTO chi_tiet_don_hangs (don_hang_id, san_pham_id, don_gia, so_luong, thanh_tien)
-                    VALUES (:don_hang_id, :san_pham_id, :don_gia, :so_luong, :thanh_tien)";
+            $sql = "INSERT INTO chi_tiet_don_hangs (don_hang_id, san_pham_id, san_pham_bien_the_id, don_gia, so_luong, thanh_tien)
+                    VALUES (:don_hang_id, :san_pham_id, :san_pham_bien_the_id, :don_gia, :so_luong, :thanh_tien)";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
                 ':don_hang_id' => $donHangId,
                 ':san_pham_id' => $sanPhamId,
+                ':san_pham_bien_the_id' => $san_pham_bien_the_id,
                 ':don_gia'     => $donGia,
                 ':so_luong'    => $soLuong,
                 ':thanh_tien'  => $thanhTien
@@ -177,9 +180,11 @@ class DonHang
        public function getChiTietDonHangById($donHangId){
         try{
             $sql = "SELECT chi_tiet_don_hangs.*,
-                san_phams.ten_san_pham, san_phams.hinh_anh
+                san_phams.ten_san_pham, san_phams.hinh_anh,
+                san_pham_bien_the.mau_sac, san_pham_bien_the.size AS bien_the_size
                 FROM chi_tiet_don_hangs 
                 JOIN san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id 
+                LEFT JOIN san_pham_bien_the ON chi_tiet_don_hangs.san_pham_bien_the_id = san_pham_bien_the.id
                 WHERE chi_tiet_don_hangs.don_hang_id = :don_hang_id";
 
             $stmt = $this->conn->prepare($sql);

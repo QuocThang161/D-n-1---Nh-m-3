@@ -63,6 +63,10 @@
                                         <td>
                                             <div class="btn-group">
                                                 <a
+                                                    href="<?= BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $sanPham['id'] ?>">
+                                                    <button class="btn btn-info" title="Quản lý biến thể"><i class="fas fa-tags"></i></button>
+                                                </a>
+                                                <a
                                                     href="<?= BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">
                                                     <button class="btn btn-primary"><i class="far fa-eye"></i></button>
                                                 </a>

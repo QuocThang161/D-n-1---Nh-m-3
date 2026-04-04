@@ -77,12 +77,15 @@
                                     </div>
                                     <div class="availability">
                                         <i class="fa fa-check-circle"></i>
-                                        <?php if (!empty($listSanPhamBienThe)) : ?>
-                                        <span id="availability_text">Chọn biến thể để xem tồn kho</span>
-                                        <!-- FIX: không dùng san_phams.so_luong nếu có biến thể -->
+                                        <span>Trạng thái: </span>
+                                        <?php if ($sanPham['trang_thai'] == 1) : ?>
+                                        <span class="text-success">Còn bán</span>
                                         <?php else : ?>
-                                        <span><?= $sanPham['so_luong'] . ' trong kho' ?></span>
-                                        <!-- FALLBACK: sản phẩm không có biến thể -->
+                                        <span class="text-danger">Dừng bán</span>
+                                        <?php endif; ?>
+
+                                        <?php if (empty($listSanPhamBienThe)) : ?>
+                                        <span> | <?= $sanPham['so_luong'] . ' sản phẩm trong kho' ?></span>
                                         <?php endif; ?>
                                     </div>
                                     <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>

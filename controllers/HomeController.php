@@ -20,6 +20,22 @@ class HomeController
         require_once './views/home.php';
     }
 
+    public function cuaHang(){
+        // Lấy id_dan_muc từ URL nếu có
+        $id_dan_muc = $_GET['id_dan_muc'] ?? null;
+
+        if ($id_dan_muc) {
+            // Nếu có id_dan_muc, lọc sản phẩm theo danh mục đó
+            $listSanPham = $this->modelSanPham->getListSanPhamDanhMuc($id_dan_muc);
+        } else {
+            // Nếu không có, lấy toàn bộ sản phẩm
+            $listSanPham = $this->modelSanPham->getAllSanPham();
+        }
+
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc(); // Lấy để hiện menu & sidebar
+        require_once './views/cuaHang.php';
+    }
+
     public function chiTietSanPham(){
         $id = $_GET['id_san_pham'];
 

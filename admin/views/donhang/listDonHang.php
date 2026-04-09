@@ -14,7 +14,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Quản lý danh mục sản phẩm</h1>
+          <h1>Quản lý danh sách đơn hàng</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -27,9 +27,6 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <a href="<?= BASE_URL_ADMIN . '?act=form-them-danh-muc' ?>">
-                <button class="btn btn-success">Thêm danh mục</button>
-              </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -37,25 +34,35 @@
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th>Tên danh mục</th>
-                    <th>Mô tả</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Tên người nhận</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
                     <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($listDanhMuc as $key => $danhMuc) : ?>
+                  <?php foreach ($listDonHang as $key => $donHang) : ?>
                     <tr>
                       <td><?= $key + 1 ?></td>
-                      <td><?= $danhMuc['ten_danh_muc'] ?></td>
-                      <td><?= $danhMuc['mo_ta'] ?></td>
+                      <td><?= $donHang['ma_don_hang'] ?></td>
+                      <td><?= $donHang['ten_nguoi_nhan'] ?></td>
+                      <td><?= $donHang['sdt_nguoi_nhan'] ?></td>
+                      <td><?= $donHang['ngay_dat'] ?></td>
+                      <td><?= number_format($donHang['tong_tien']) ?>đ</td>
+                      <td><?= $donHang['ten_trang_thai'] ?></td>
                       <td>
-                        <a href="<?= BASE_URL_ADMIN . '?act=form-sua-danh-muc&id_danh_muc=' . $danhMuc['id'] ?>">
-                          <button class="btn btn-warning">Sửa</button>
-                        </a>
-                        <a href="<?= BASE_URL_ADMIN . '?act=xoa-danh-muc&id_danh_muc=' . $danhMuc['id'] ?>" 
-                          onclick="return confirm('Bạn có đồng ý xóa hay không?')">
-                          <button class="btn btn-danger">Xóa</button>
-                        </a>
+                        <div class="btn-group">
+                          <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>">
+                            <button class="btn btn-primary"><i class="far fa-eye"></i></button>
+                          </a>
+                          <a href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $donHang['id'] ?>">
+                            <button class="btn btn-warning"><i class="fas fa-cogs"></i></button>
+                          </a>
+                        </div>
+                        
                       </td>
                     </tr>
                   <?php endforeach ?>
@@ -63,8 +70,12 @@
                 <tfoot>
                   <tr>
                     <th>STT</th>
-                    <th>Tên danh mục</th>
-                    <th>Mô tả</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Tên người nhận</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
                     <th>Thao tác</th>
                   </tr>
                 </tfoot>

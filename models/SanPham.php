@@ -1,28 +1,31 @@
 <?php
-class SanPham
-{
-    public $conn;
+class SanPham {
+    public  $conn;
+
     public function __construct()
     {
         $this->conn = connectDB();
     }
-    public function getAllSanPham()
-    {
+
+    public function getAllSanPham(){
         try {
             $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
             FROM san_phams
-            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id';
-            
+            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+            ';
             $stmt = $this->conn->prepare($sql);
+
             $stmt->execute();
+            
             return $stmt->fetchAll();
         } catch (Exception $e) {
-            echo " lỗi" . $e->getMessage();
+            echo "Lỗi" . $e->getMessage();
         }
     }
 
+
     public function getDetailSanPham($id){
-        try{
+        try {
             $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
             FROM san_phams
             INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
@@ -78,19 +81,51 @@ class SanPham
         }
     }
 
-       public function getAllSanPhamDanhMuc($danh_muc_id)
-    {
-        try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
-            FROM san_phams  
-            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-            WHERE san_phams.danh_muc_id = :danh_muc_id';
-            
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':danh_muc_id'=>$danh_muc_id]);
-            return $stmt->fetchAll();
-        } catch (Exception $e) {
-            echo " lỗi" . $e->getMessage();
+       public function getListSanPhamDanhMuc($danh_muc_id, $current_product_id = null) {
+    try {
+        // Thêm điều kiện loại trừ sản phẩm đang xem
+        $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
+                FROM san_phams  
+                INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+                WHERE san_phams.danh_muc_id = :danh_muc_id';
+        
+        if ($current_product_id) {
+            $sql .= ' AND san_phams.id <> :id'; // <> là dấu khác trong SQL
         }
+
+        $stmt = $this->conn->prepare($sql);
+        
+        $params = [':danh_muc_id' => $danh_muc_id];
+        if ($current_product_id) {
+            $params[':id'] = $current_product_id;
+        }
+
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        echo " lỗi: " . $e->getMessage();
     }
+}
+
+public function addBinhLuan($san_pham_id, $tai_khoan_id, $noi_dung, $ngay_dang) {
+    try {
+        
+        $sql = 'INSERT INTO binh_luans (san_pham_id, tai_khoan_id, noi_dung, ngay_dang, trang_thai) 
+                VALUES (:san_pham_id, :tai_khoan_id, :noi_dung, :ngay_dang, 1)';
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            ':san_pham_id' => $san_pham_id,
+            ':tai_khoan_id' => $tai_khoan_id,
+            ':noi_dung' => $noi_dung,
+            ':ngay_dang' => $ngay_dang
+        ]);
+
+        return true;
+    } catch (Exception $e) {
+        echo "Lỗi thêm bình luận: " . $e->getMessage();
+        return false;
+    }
+}
 }

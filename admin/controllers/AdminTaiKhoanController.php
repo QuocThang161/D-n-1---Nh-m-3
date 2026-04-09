@@ -90,7 +90,7 @@ class AdminTaiKhoanController
         deleteSessionError();
     }
 
-    public function postEditCaNhanQuanTri()
+    public function postEditQuanTri()
     {
 
         // Kiểm tra xem dữ liệu có phải đc submit lên không
@@ -310,23 +310,62 @@ class AdminTaiKhoanController
         }
     }
 
+    public function postEditCaNhanQuanTri()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $ho_ten = trim($_POST['ho_ten'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $so_dien_thoai = trim($_POST['so_dien_thoai'] ?? '');
+            $ngay_sinh = trim($_POST['ngay_sinh'] ?? '');
+            $dia_chi = trim($_POST['dia_chi'] ?? '');
+
+            $errors = [];
+            if (empty($ho_ten)) {
+                $errors['ho_ten'] = 'Họ tên không được để trống';
+            }
+            if (empty($email)) {
+                $errors['email'] = 'Email không được để trống';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Email không hợp lệ';
+            }
+
+            $_SESSION['errors'] = $errors;
+
+            if (empty($errors)) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_admin']);
+                $trang_thai = $user['trang_thai'] ?? 1;
+
+                $status = $this->modelTaiKhoan->updateTaiKhoan(
+                    $user['id'],
+                    $ho_ten,
+                    $email,
+                    $so_dien_thoai,
+                    $trang_thai
+                );
+
+                if ($status) {
+                    // Nếu đổi email, cập nhật session để các trang khác dùng đúng
+                    if ($email !== $_SESSION['user_admin']) {
+                        $_SESSION['user_admin'] = $email;
+                    }
+                    $_SESSION['success'] = 'Cập nhật thông tin cá nhân thành công';
+                } else {
+                    $_SESSION['errors']['general'] = 'Có lỗi xảy ra khi cập nhật thông tin';
+                }
+                $_SESSION['flash'] = true;
+            } else {
+                $_SESSION['flash'] = true;
+            }
+
+            header("Location: " . BASE_URL_ADMIN . '?act=form-sua-thong-tin-ca-nhan-quan-tri');
+            exit();
+        }
+    }
 
     public function formEditCaNhanQuanTri(){
-        if (empty($_SESSION['user_admin'])) {
-            header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
-            exit();
-        }
-
         $email = $_SESSION['user_admin'];
-        $thongTin = $this->modelTaiKhoan->getTaiKhoanformEmail($email);
-
-        if (!$thongTin || !is_array($thongTin)) {
-            // nếu user không tìm thấy, logout và chuyển về login
-            unset($_SESSION['user_admin']);
-            header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');
-            exit();
-        }
-
+        $thongTin = $this->modelTaiKhoan->getTaiKhoanFromEmail($email);
+        // var_dump($thongTin);die;
         require_once './views/taikhoan/canhan/editCaNhan.php';
         deleteSessionError();
     }
@@ -347,7 +386,7 @@ class AdminTaiKhoanController
             }
 
             // Lấy thông tin user từ session
-            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_admin']);
             if (!$user || !is_array($user)) {
                 unset($_SESSION['user_admin']);
                 header('Location: ' . BASE_URL_ADMIN . '?act=login-admin');

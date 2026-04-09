@@ -17,15 +17,7 @@
                     <h1>Quản lý danh sách đơn hàng</h1>
                 </div>
                 <div class="col-sm-2">
-                    <form action="" method="post">
-                        <select name="" id="">
-                            <?php foreach($listTrangThaiDonHang as $key => $trangThai): ?>
-                            <option <?= $trangThai['id'] == $donHang['trang_thai_id'] ? 'selected' : ''?>
-                                <?= $trangThai['id'] < $donHang['trang_thai_id'] ? 'disabled' : ''?>
-                                value="<?= $trangThai['id']?>"><?= $trangThai['ten_trang_thai']?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </form>
+                    <a href="<?= BASE_URL_ADMIN . '?act=don-hang' ?>" class="btn btn-secondary float-right">Quay lại</a>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -57,7 +49,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <h4>
-                                    <i class="fas fa-cat"></i> Shop giày TBT
+                                    <i class="fas fa-shoe-prints"></i> Shop giày TBT
                                     <small class="float-right">Ngày đặt: <?= formatDate($donHang['ngay_dat']) ?></small>
                                 </h4>
                             </div>
@@ -90,7 +82,7 @@
                             <div class="col-sm-4 invoice-col">
                                 <b>Mã đơn hàng: <?=$donHang['ma_don_hang']; ?></b><br>
                                 <br>
-                                <b>Tổng tiền: <?=$donHang['tong_tien']; ?></b>
+                                <b>Tổng tiền: <?= number_format($donHang['tong_tien'] ?? 0)  ?>đ</b>
                                 <br>
                                 <b>Ghi chú: <?=$donHang['ghi_chu']; ?></b>
                                 <br>
@@ -114,16 +106,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $tong_tien = 0; ?>
+                                        <?php $tong_tien_sanpham = 0; ?>
                                         <?php foreach($sanPhamDonHang as $key =>$sanPham): ?>
                                         <tr>
                                             <td><?= $key+1?></td>
                                             <td><?= $sanPham['ten_san_pham']?></td>
-                                            <td><?= $sanPham['don_gia']?></td>
+                                            <td><?= number_format($sanPham['don_gia']) ?>đ</td>
                                             <td><?= $sanPham['so_luong']?></td>
-                                            <td><?= $sanPham['thanh_tien']?></td>
+                                            <td><?= number_format($sanPham['thanh_tien']) ?>đ</td>
                                         </tr>
-                                        <?php $tong_tien += $sanPham['thanh_tien']; ?>
+                                        <?php $tong_tien_sanpham += $sanPham['thanh_tien']; ?>
                                         <?php endforeach;?>
                                     </tbody>
                                 </table>
@@ -137,23 +129,23 @@
 
                             <!-- /.col -->
                             <div class="col-6">
-                                <p class="lead">Amount Due 2/22/2014</p>
+                                <p class="lead"></p>
 
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tr>
                                             <th style="width:50%">Thành tiền:</th>
                                             <td>
-                                                <?php echo $tong_tien?>
+                                                <?= number_format($tong_tien_sanpham) ?>đ
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Vận chuyển:</th>
-                                            <td>200.000</td>
+                                            <td>30,000đ</td>
                                         </tr>
                                         <tr>
                                             <th>Tổng tiền</th>
-                                            <td><?= $tong_tien+200000?></td>
+                                            <td><?= number_format($tong_tien_sanpham + 30000) ?>đ</td>
                                         </tr>
                                     </table>
                                 </div>

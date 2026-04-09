@@ -16,7 +16,6 @@
                 <div class="col-sm-11">
                     <h1>Sửa thông tin sản phẩm: <?= $sanPham['ten_san_pham'] ?></h1>
                 </div>
-
                 <div class="col-sm-1">
                     <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="btn btn-secondary">Quay lại</a>
                 </div>
@@ -38,8 +37,7 @@
                             </button>
                         </div>
                     </div>
-                    <form action="<?= BASE_URL_ADMIN . '?act=sua-san-pham' ?>" method="post"
-                        enctype="multipart/form-data">
+                    <form action="<?= BASE_URL_ADMIN . '?act=sua-san-pham' ?>" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="form-group">
                                 <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
@@ -153,7 +151,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer text-center">

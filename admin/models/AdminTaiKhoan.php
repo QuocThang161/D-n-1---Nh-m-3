@@ -35,7 +35,7 @@ class AdminTaiKhoan
                 ':email' => $email,
                 ':password' => $password,
                 ':chuc_vu_id' => $chuc_vu_id,
-                ':ngay_sinh' => '1990-01-01',
+                ':ngay_sinh' => $ngay_sinh ?? null,
                 ':gioi_tinh' => 0,
                 ':so_dien_thoai' => '',
                 ':dia_chi' => '',
@@ -171,7 +171,7 @@ class AdminTaiKhoan
         }
     }
 
-    public function getTaiKhoanformEmail($email){
+    public function getTaiKhoanFromEmail($email){
         try {
             $sql = 'SELECT * FROM tai_khoans WHERE email = :email';
 

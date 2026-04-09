@@ -27,11 +27,7 @@ function connectDB()
 // Thêm file 
 function uploadFile($file, $folderUpload)
 {
-    if (!isset($file['name']) || $file['error'] !== 0) {
-        return null;
-    }
-    
-    $pathStorage = $folderUpload . time() . '_' . basename($file['name']);
+    $pathStorage = $folderUpload . time() . $file['name'];
 
     $from = $file['tmp_name'];
     $to = PATH_ROOT . $pathStorage;
@@ -45,12 +41,14 @@ function uploadFile($file, $folderUpload)
 // Xóa file 
 function deleteFile($file)
 {
-    $pathDelete = PATH_ROOT . $file;
-    if (file_exists($pathDelete)) {
-        unlink($pathDelete);
+    // Chỉ thực hiện xóa nếu đường dẫn file không rỗng và thực sự tồn tại
+    if (!empty($file)) {
+        $pathDelete = PATH_ROOT . $file;
+        if (file_exists($pathDelete) && is_file($pathDelete)) {
+            unlink($pathDelete);
+        }
     }
 }
-
 
 // Xóa session sau khi load trang 
 function deleteSessionError()
@@ -67,11 +65,7 @@ function deleteSessionError()
 
 function uploadFileAlbum($file, $folderUpload, $key)
 {
-    if (!isset($file['name'][$key]) || $file['error'][$key] !== 0) {
-        return null;
-    }
-    
-    $pathStorage = $folderUpload . time() . '_' . basename($file['name'][$key]);
+    $pathStorage = $folderUpload . time() . $file['name'][$key];
 
     $from = $file['tmp_name'][$key];
     $to = PATH_ROOT . $pathStorage;

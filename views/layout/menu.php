@@ -41,8 +41,8 @@
 
                                             </ul>
                                         </li>
-                                        <li><a href="contact-us.html">Giới thiệu</a></li>
-                                        <li><a href="contact-us.html">Liên hệ</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>">Giới thiệu</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=lien-he' ?>">Liên hệ</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->
@@ -70,16 +70,40 @@
                                             <i class="pe-7s-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
-                                            <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
-                                            <li><a href="login-register.html">Đăng ký</a></li>
-                                            <li><a href="my-account.html">Tài khoản</a></li>
+                                            <?php if (!isset($_SESSION['user_client'])) { ?>
+                                                <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
+                                            <?php } else { ?>
+                                                <li><a href="<?= BASE_URL . '?act=thong-tin-tai-khoan' ?>"><?= $_SESSION['user_client']['ho_ten'] ?></a></li>
+                                                <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Lịch sử mua hàng</a>
+                                                </li>
+                                            <?php } ?>
                                         </ul>
                                     </li>
 
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="pe-7s-shopbag"></i>
-                                            <div class="notification">2</div>
+                                            <div class="notification">
+                                                <?php
+                                                // Logic lấy dữ liệu (giữ nguyên hoặc đưa lên đầu file cho sạch code)
+                                                if (isset($_SESSION['user_client'])) {
+                                                    require_once './models/GioHang.php';
+                                                    $modelGioHang = new GioHang();
+                                                    $tai_khoan_id = $_SESSION['user_client']['id'];
+
+                                                    $gioHang = $modelGioHang->getGioHangFromUser($tai_khoan_id);
+                                                    if ($gioHang) {
+                                                        $chiTietGioHangMini = $modelGioHang->getDetailGioHang($gioHang['id']);
+                                                        // Đếm tổng số loại sản phẩm hoặc tổng số lượng
+                                                        echo count($chiTietGioHangMini);
+                                                    } else {
+                                                        echo 0;
+                                                    }
+                                                } else {
+                                                    echo 0;
+                                                }
+                                                ?>
+                                            </div>
                                         </a>
                                     </li>
                                 </ul>

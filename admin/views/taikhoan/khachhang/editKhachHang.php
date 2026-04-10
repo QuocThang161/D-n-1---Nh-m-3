@@ -30,9 +30,17 @@
                             <h3 class="card-title">Sửa thông tin tài khoản khách hàng: <?= $khachHang['ho_ten']; ?></h3>
                         </div>
 
-                        <form action="<?= BASE_URL_ADMIN . '?act=sua-khach-hang' ?>" method="POST">
+                        <form action="<?= BASE_URL_ADMIN . '?act=sua-khach-hang' ?>" method="POST"
+                            enctype="multipart/form-data">
                             <input type="hidden" name="khach_hang_id" value="<?= $khachHang['id'] ?>">
                             <div class="card-body">
+                                <div class="form-group">
+                                    <label>Ảnh đại diện</label> <br>
+                                    <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" style="width: 100px" alt=""
+                                        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?20200919003010'">
+                                    <input type="file" class="form-control" name="anh_dai_dien">
+                                </div>
+
                                 <div class="form-group">
                                     <label>Họ tên</label>
                                     <input type="text" class="form-control" name="ho_ten"

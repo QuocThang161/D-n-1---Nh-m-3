@@ -25,8 +25,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" style="width: 70%" alt=""
-                        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?20200919003010'">
+                    <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" style="width: 70%" alt="" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?20200919003010'">
                 </div>
                 <div class="col-6">
                     <div class="container">
@@ -83,31 +82,29 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($listDonHang as $key => $donHang) : ?>
-                                <tr>
-                                    <td><?= $key + 1 ?></td>
-                                    <td><?= $donHang['ma_don_hang'] ?></td>
-                                    <td><?= $donHang['ten_nguoi_nhan'] ?></td>
-                                    <td><?= $donHang['sdt_nguoi_nhan'] ?></td>
-                                    <td><?= $donHang['ngay_dat'] ?></td>
-                                    <td><?= $donHang['tong_tien'] ?></td>
-                                    <td><?= $donHang['ten_trang_thai'] ?></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a
-                                                href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                <button class="btn btn-primary"><i class="far fa-eye"></i></button>
-                                            </a>
-                                            <a
-                                                href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                <button class="btn btn-warning"><i class="fas fa-cogs"></i></button>
-                                            </a>
-                                        </div>
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td><?= $donHang['ma_don_hang'] ?></td>
+                                        <td><?= $donHang['ten_nguoi_nhan'] ?></td>
+                                        <td><?= $donHang['sdt_nguoi_nhan'] ?></td>
+                                        <td><?= $donHang['ngay_dat'] ?></td>
+                                        <td><?= $donHang['tong_tien'] ?></td>
+                                        <td><?= $donHang['ten_trang_thai'] ?></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>">
+                                                    <button class="btn btn-primary"><i class="far fa-eye"></i></button>
+                                                </a>
+                                                <a href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $donHang['id'] ?>">
+                                                    <button class="btn btn-warning"><i class="fas fa-cogs"></i></button>
+                                                </a>
+                                            </div>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 <?php endforeach ?>
                             </tbody>
-
+                            
                         </table>
                     </div>
                 </div>
@@ -129,33 +126,30 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($listBinhLuan as $key => $binhLuan) : ?>
-                                <tr>
-                                    <td><?= $key + 1 ?></td>
-                                    <td>
-                                        <a target="_blank"
-                                            href="<?= BASE_URL_ADMIN. '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id'];?>">
-                                            <?= $binhLuan['ten_san_pham'] ?>
-                                        </a>
-                                    </td>
-                                    <td><?= $binhLuan['noi_dung'] ?></td>
-                                    <td><?= $binhLuan['ngay_dang'] ?></td>
-                                    <td><?= $binhLuan['trang_thai'] == 1 ? 'Hiển thị' : 'Bị ẩn' ?></td>
-                                    <td>
-                                        <form action="<?= BASE_URL_ADMIN . '?act=update-trang-thai-binh-luan' ?>"
-                                            method="POST">
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td>
+                                            <a target="_blank" href="<?= BASE_URL_ADMIN. '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id'];?>">
+                                                <?= $binhLuan['ten_san_pham'] ?>
+                                            </a>
+                                        </td>
+                                        <td><?= $binhLuan['noi_dung'] ?></td>
+                                        <td><?= $binhLuan['ngay_dang'] ?></td>
+                                        <td><?= $binhLuan['trang_thai'] == 1 ? 'Hiển thị' : 'Bị ẩn' ?></td>
+                                        <td>
+                                        <form action="<?= BASE_URL_ADMIN . '?act=update-trang-thai-binh-luan' ?>" method="POST">
                                             <input type="hidden" name="id_binh_luan" value="<?= $binhLuan['id'] ?>">
                                             <input type="hidden" name="name_view" value="detail_khach">
-                                            <button onclick="return confirm('Bạn có muốn ẩn bình luận này không?')"
-                                                class="btn btn-warning">
+                                            <button onclick="return confirm('Bạn có muốn ẩn bình luận này không?')" class="btn btn-warning">
                                                 <?= $binhLuan['trang_thai'] == 1 ? 'Ẩn':'Bỏ ẩn' ?>
                                             </button>
                                         </form>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 <?php endforeach ?>
                             </tbody>
-
+                            
                         </table>
                     </div>
                 </div>
@@ -175,19 +169,18 @@
 
 </body>
 <script>
-$(function() {
+  $(function() {
     $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
     });
-});
+  });
 </script>
-
 </html>

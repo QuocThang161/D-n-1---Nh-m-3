@@ -27,19 +27,10 @@
                                 <!-- main menu navbar start -->
                                 <nav class="desktop-menu">
                                     <ul>
-                                        <li><a href="<?= BASE_URL ?>">Trang chủ </i></a>
-
-                                        </li>
-
-
-                                        <li><a href="#">Sản phẩm <i class="fa fa-angle-down"></i></a>
-                                            <ul class="dropdown">
-                                                <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-                                                <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-                                                <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-                                                <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-
-                                            </ul>
+                                        <li><a href="<?= BASE_URL ?>">Trang chủ</a></li>
+                                        <li>
+                                            <a href="<?= BASE_URL . '?act=cua-hang' ?>">Cửa hàng
+                                                <i class="fa fa-angle-down"></i></a>
                                         </li>
                                         <li><a href="contact-us.html">Giới thiệu</a></li>
                                         <li><a href="contact-us.html">Liên hệ</a></li>
@@ -58,8 +49,11 @@
                             <div class="header-search-container">
                                 <button class="search-trigger d-xl-none d-lg-block"><i
                                         class="pe-7s-search"></i></button>
-                                <form class="header-search-box d-lg-none d-xl-block">
-                                    <input type="text" placeholder="Nhập tên sản phẩm..." class="header-search-field">
+                                <form action="<?= BASE_URL ?>" method="get"
+                                    class="header-search-box d-lg-none d-xl-block">
+                                    <input type="hidden" name="act" value="cua-hang">
+                                    <input type="text" name="search" placeholder="Nhập tên sản phẩm..."
+                                        class="header-search-field">
                                     <button class="header-search-btn"><i class="pe-7s-search"></i></button>
                                 </form>
                             </div>
@@ -70,16 +64,26 @@
                                             <i class="pe-7s-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
+                                            <?php if(!isset($_SESSION['user_client'])){?>
                                             <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
-                                            <li><a href="login-register.html">Đăng ký</a></li>
-                                            <li><a href="my-account.html">Tài khoản</a></li>
+                                            <?php } else {
+                                                $userModel = new TaiKhoan();
+                                                $userInfo = $userModel->getTaiKhoanFromEmail($_SESSION['user_client']);
+                                            ?>
+                                            <li><a
+                                                    href="<?= BASE_URL . '?act=thong-tin-tai-khoan' ?>"><?= htmlspecialchars($userInfo['ho_ten'] ?? 'Người dùng') ?></a>
+                                            </li>
+                                            <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Lịch sử mua hàng</a>
+                                            </li>
+                                            <?php }?>
                                         </ul>
                                     </li>
 
+                                    <?php $cartSummary = getCartSummary(); ?>
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="pe-7s-shopbag"></i>
-                                            <div class="notification">2</div>
+                                            <div class="notification"><?= $cartSummary['count'] ?: 0 ?></div>
                                         </a>
                                     </li>
                                 </ul>

@@ -27,11 +27,7 @@ function connectDB()
 // Thêm file 
 function uploadFile($file, $folderUpload)
 {
-    if (!isset($file['name']) || $file['error'] !== 0) {
-        return null;
-    }
-    
-    $pathStorage = $folderUpload . time() . '_' . basename($file['name']);
+    $pathStorage = $folderUpload . time() . $file['name'];
 
     $from = $file['tmp_name'];
     $to = PATH_ROOT . $pathStorage;
@@ -51,7 +47,6 @@ function deleteFile($file)
     }
 }
 
-
 // Xóa session sau khi load trang 
 function deleteSessionError()
 {
@@ -67,11 +62,7 @@ function deleteSessionError()
 
 function uploadFileAlbum($file, $folderUpload, $key)
 {
-    if (!isset($file['name'][$key]) || $file['error'][$key] !== 0) {
-        return null;
-    }
-    
-    $pathStorage = $folderUpload . time() . '_' . basename($file['name'][$key]);
+    $pathStorage = $folderUpload . time() . $file['name'][$key];
 
     $from = $file['tmp_name'][$key];
     $to = PATH_ROOT . $pathStorage;
@@ -102,6 +93,53 @@ function checkLoginAdmin()
         header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
         exit();
     }
+}
+
+function getCartSummary()
+{
+    $summary = [
+        'items' => [],
+        'count' => 0,
+        'subtotal' => 0,
+    ];
+
+    if (!isset($_SESSION['user_client'])) {
+        return $summary;
+    }
+
+    $userModel = new TaiKhoan();
+    $cartModel = new GioHang();
+
+    $sessionUser = $_SESSION['user_client'];
+    if (is_array($sessionUser)) {
+        $user = $sessionUser;
+    } else {
+        $user = $userModel->getTaiKhoanFromEmail($sessionUser);
+    }
+
+    if (!$user) {
+        return $summary;
+    }
+
+    $gioHang = $cartModel->getGioHangFromUser($user['id']);
+    if (!$gioHang) {
+        return $summary;
+    }
+
+    $items = $cartModel->getDetailGioHang($gioHang['id']);
+    if (!$items) {
+        return $summary;
+    }
+
+    $summary['items'] = $items;
+
+    foreach ($items as $item) {
+        $unitPrice = !empty($item['gia_khuyen_mai']) ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
+        $summary['count'] += intval($item['so_luong']);
+        $summary['subtotal'] += $unitPrice * intval($item['so_luong']);
+    }
+
+    return $summary;
 }
 
 function formatPrice($price)

@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-12 product-image-thumbs">
                             <?php foreach ($listAnhSanPham as $key => $anhSP) : ?>
-                            <div class="product-image-thumb <?= $anhSP[$key] == 0 ? 'active' : '' ?>"><img
+                            <div class="product-image-thumb <?= $key == 0 ? 'active' : '' ?>"><img
                                     src="<?= BASE_URL . $anhSP['link_hinh_anh']; ?>" alt="Product Image"></div>
                             <?php endforeach ?>
                         </div>
@@ -49,14 +49,50 @@
                         <h4 class="mt-3">Ngày nhập: <small><?= $sanPham['ngay_nhap'] ?></small></h4>
                         <h4 class="mt-3">Danh mục: <small><?= $sanPham['ten_danh_muc'] ?></small></h4>
                         <h4 class="mt-3">Trạng thái:
-                            <small><?= $sanPham['trang_thai'] == 1 ? 'Còn bán' : 'Dừng bán' ?></small></h4>
+                            <small><?= $sanPham['trang_thai'] == 1 ? 'Còn bán' : 'Dừng bán' ?></small>
+                        </h4>
                         <h4 class="mt-3">Mô tả: <small><?= $sanPham['mo_ta'] ?></small></h4>
 
 
                     </div>
                 </div>
 
+
+
                 <div class="col-12">
+                    <hr>
+                    <h2>Biến thể sản phẩm</h2>
+                    <div class="mb-3">
+                        <a class="btn btn-success"
+                            href="<?= BASE_URL_ADMIN . '?act=form-them-bien-the&id_san_pham=' . $sanPham['id'] ?>">Thêm
+                            biến thể</a>
+                        <a class="btn btn-primary"
+                            href="<?= BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $sanPham['id'] ?>">Danh
+                            sách biến thể</a>
+                    </div>
+                    <div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu sắc</th>
+                                    <th>Size</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($listBienThe as $key=>$bienThe): ?>
+                                <tr>
+                                    <td><?= $key + 1 ?></td>
+                                    <td><?= htmlspecialchars($bienThe['mau_sac']) ?></td>
+                                    <td><?= htmlspecialchars($bienThe['size']) ?></td>
+                                    <td><?= $bienThe['so_luong_bien_the'] ?? $bienThe['so_luong'] ?? 0 ?></td>
+                                    <!-- FIX: dùng so_luong_bien_the để tránh undefined index -->
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>
+                    </div>
                     <hr>
                     <h2>Bình luận của sản phẩm</h2>
                     <div>

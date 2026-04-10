@@ -1,171 +1,167 @@
-    <?php
+<?php
+
 class AdminSanPhamController
 {
     public $modelSanPham;
-        public $modelDanhMuc;
+    public $modelDanhMuc;
 
-        public function __construct()
-        {
-            $this->modelSanPham = new AdminSanPham();
-            $this->modelDanhMuc = new AdminDanhMuc();
-        }
+    public function __construct()
+    {
+        $this->modelSanPham = new AdminSanPham();
+        $this->modelDanhMuc = new AdminDanhMuc();
+    }
+
     public function danhSachSanPham()
-        {
+    {
 
-            $listSanPham = $this->modelSanPham->getAllSanPham();
+        $listSanPham = $this->modelSanPham->getAllSanPham();
 
-            require_once './views/sanpham/listSanPham.php';
-        }
+        require_once './views/sanpham/listSanPham.php';
+    }
 
-        public function formAddSanPham()
-        {
-            // Hàm này dùng để hiển thị form nhập
-            $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
+    public function formAddSanPham()
+    {
+        // Hàm này dùng để hiển thị form nhập
+        $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
 
-            require_once './views/sanpham/addSanPham.php';
+        require_once './views/sanpham/addSanPham.php';
 
-            // Xóa session sau khi load trang 
-            deleteSessionError();
-        }
+        // Xóa session sau khi load trang 
+        deleteSessionError();
+    }
 
     public function postAddSanPham()
-        {
-            // Hàm này dùng để xử lý thêm dữ liệu
+    {
+        // Hàm này dùng để xử lý thêm dữ liệu
 
-            // Kiểm tra xem dữ liệu có phải đc submit lên không
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Lấy ra dữ liệu
-                $ten_san_pham = $_POST['ten_san_pham'] ?? '';
-                $gia_san_pham = $_POST['gia_san_pham'] ?? '';
-                $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
-                $so_luong = $_POST['so_luong'] ?? '';
-                $ngay_nhap = $_POST['ngay_nhap'] ?? '';
-                $danh_muc_id = $_POST['danh_muc_id'] ?? '';
-                $trang_thai = $_POST['trang_thai'] ?? '';
-                $mo_ta = $_POST['mo_ta'] ?? '';
+        // Kiểm tra xem dữ liệu có phải đc submit lên không
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Lấy ra dữ liệu
+            $ten_san_pham = $_POST['ten_san_pham'] ?? '';
+            $gia_san_pham = $_POST['gia_san_pham'] ?? '';
+            $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? '';
+            $ngay_nhap = $_POST['ngay_nhap'] ?? '';
+            $danh_muc_id = $_POST['danh_muc_id'] ?? '';
+            $trang_thai = $_POST['trang_thai'] ?? '';
+            $mo_ta = $_POST['mo_ta'] ?? '';
 
-                $hinh_anh = $_FILES['hinh_anh'] ?? null;
+            $hinh_anh = $_FILES['hinh_anh'] ?? null;
 
-                // Lưu hình ảnh vào 
-                $file_thumb = uploadFile($hinh_anh, './uploads/');
+            // Lưu hình ảnh vào 
+            $file_thumb = uploadFile($hinh_anh, 'uploads/');
 
-                // mảy hình ảnh 
-                $img_array = $_FILES['img_array'] ?? ['name' => []];
+            // mảng hình ảnh 
+            $img_array = $_FILES['img_array'];
 
 
 
-                // Tạo 1 mảng trống để chứa dữ liệu
-                $errors = [];
+            // Tạo 1 mảng trống để chứa dữ liệu
+            $errors = [];
 
-                if (empty($ten_san_pham)) {
-                    $errors['ten_san_pham'] = 'Tên sản phẩm không được để trống';
-                }
-                if (empty($gia_san_pham)) {
-                    $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
-                }
-                if (empty($gia_khuyen_mai)) {
-                    $errors['gia_khuyen_mai'] = 'giá khuyến mãi sản phẩm không được để trống';
-                }
-                if (empty($so_luong)) {
-                    $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
-                }
-                if (empty($ngay_nhap)) {
-                    $errors['ngay_nhap'] = 'ngày nhập sản phẩm không được để trống';
-                }
-                if (empty($danh_muc_id)) {
-                    $errors['danh_muc_id'] = 'danh mục sản phẩm phải chọn';
-                }
-                if (empty($trang_thai)) {
-                    $errors['trang_thai'] = 'trạng thái sản phẩm phải chọn';
-                }
-                if (empty($hinh_anh) || $hinh_anh['error'] !== 0) {
-                    $errors['hinh_anh'] = 'Phải chọn ảnh sản phẩm';
-                }
+            if (empty($ten_san_pham)) {
+                $errors['ten_san_pham'] = 'Tên sản phẩm không được để trống';
+            }
+            if (empty($gia_san_pham)) {
+                $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
+            }
+            if (empty($so_luong)) {
+                $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
+            }
+            if (empty($ngay_nhap)) {
+                $errors['ngay_nhap'] = 'ngày nhập sản phẩm không được để trống';
+            }
+            if (empty($danh_muc_id)) {
+                $errors['danh_muc_id'] = 'danh mục sản phẩm phải chọn';
+            }
+            if (empty($trang_thai)) {
+                $errors['trang_thai'] = 'trạng thái sản phẩm phải chọn';
+            }
+            if ($hinh_anh['error'] !== 0) {
+                $errors['hinh_anh'] = 'Phải chọn ảnh sản phẩm';
+            }
 
-                $_SESSION['error'] = $errors;
+            $_SESSION['error'] = $errors;
 
+
+            // Nếu ko có lỗi thì tiến hành thêm sản phẩm
+            if (empty($errors)) {
                 // Nếu ko có lỗi thì tiến hành thêm sản phẩm
-                if (empty($errors) && !empty($file_thumb)) {
-                    // Nếu ko có lỗi thì tiến hành thêm sản phẩm
-                    // var_dump('Oke');
+                // var_dump('Oke');
 
-                    $san_pham_id = $this->modelSanPham->insertSanPham(
-                        $ten_san_pham,
-                        $gia_san_pham,
-                        $gia_khuyen_mai,
-                        $so_luong,
-                        $ngay_nhap,
-                        $danh_muc_id,
-                        $trang_thai,
-                        $mo_ta,
-                        $file_thumb
-                    );
+                $san_pham_id = $this->modelSanPham->insertSanPham(
+                    $ten_san_pham,
+                    $gia_san_pham,
+                    $gia_khuyen_mai,
+                    $so_luong,
+                    $ngay_nhap,
+                    $danh_muc_id,
+                    $trang_thai,
+                    $mo_ta,
+                    $file_thumb
+                );
 
-                    // Kiểm tra xem sản phẩm đã được thêm hay chưa
-                    if (!empty($san_pham_id)) {
-                        // Xử lý thêm album ảnh sản phẩm img_array
-                        if (!empty($img_array['name'])) {
-                            foreach ($img_array['name'] as $key => $value) {
-                                $file = [
-                                    'name' => $img_array['name'][$key],
-                                    'type' => $img_array['type'][$key],
-                                    'tmp_name' => $img_array['tmp_name'][$key],
-                                    'error' => $img_array['error'][$key],
-                                    'size' => $img_array['size'][$key]
-                                ];
+                // Xử lý thêm album ảnh sản phẩm img_array
+                if (!empty($img_array['name'][0])) {
+                    foreach ($img_array['name'] as $key => $value) {
+                        $file = [
+                            'name' => $img_array['name'][$key],
+                            'type' => $img_array['type'][$key],
+                            'tmp_name' => $img_array['tmp_name'][$key],
+                            'error' => $img_array['error'][$key],
+                            'size' => $img_array['size'][$key]
+                        ];
 
-                                $link_hinh_anh = uploadFile($file, './uploads/');
-                                if (!empty($link_hinh_anh)) {
-                                    $this->modelSanPham->insertAlbumAnhSanPham($san_pham_id, $link_hinh_anh);
-                                }
-                            }
-                        }
-
-                        header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
-                        exit();
-                    } else {
-                        $_SESSION['error']['general'] = 'Lỗi khi thêm sản phẩm vào cơ sở dữ liệu';
-                        $_SESSION['flash'] = true;
-                        header("Location: " . BASE_URL_ADMIN . '?act=form-them-san-pham');
-                        exit();
+                        $link_hinh_anh = uploadFile($file, 'uploads/');
+                        $this->modelSanPham->insertAlbumAnhSanPham($san_pham_id, $link_hinh_anh);
                     }
-                } else {
-                    // Trả về form và lỗi
-                    // Đặt chỉ thị xóa session sau khi hiển thị form 
-                    $_SESSION['flash'] = true;
-
-                    header("Location: " . BASE_URL_ADMIN . '?act=form-them-san-pham');
-                    exit();
                 }
+
+
+                header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+                exit();
+            } else {
+                // Trả về form và lỗi
+                // Đặt chỉ thị xóa session sau khi hiển thị form 
+                $_SESSION['flash'] = true;
+
+                header("Location: " . BASE_URL_ADMIN . '?act=form-them-san-pham');
+                exit();
             }
         }
+    }
 
-    public function formEditSanPham(){
-        // hàm này dùng để hiển thị form nhập
-        //lấy ra thông tin của sản phẩm cần sửa
+    public function formEditSanPham()
+    {
+        // Hàm này dùng để hiển thị form nhập
+        // Lấy ra thông tin của sản phẩm cần sửa
         $id = $_GET['id_san_pham'];
         $sanPham = $this->modelSanPham->getDetailSanPham($id);
         $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
         $listDanhMuc = $this->modelDanhMuc->getAllDanhMuc();
-        if($sanPham){
+        if ($sanPham) {
             require_once './views/sanpham/editSanPham.php';
             deleteSessionError();
-        }else{
+        } else {
             header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
             exit();
         }
     }
 
-    public function postEditSanPham(){
-        // hàm này để xử lí thêm dữ liệu
-        // kiểm tra xem dữ liệu có phải đc submit lên không
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // lấy ra dữ liệu
-            // lấy ra dữ liệu của sản phẩm
+
+    public function postEditSanPham()
+    {
+        // Hàm này dùng để xử lý thêm dữ liệu
+
+        // Kiểm tra xem dữ liệu có phải đc submit lên không
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Lấy ra dữ liệu
+            // Lấy ra dữ liệu cũ của sản phẩm 
+
             $san_pham_id = $_POST['san_pham_id'] ?? '';
-            // truy vấn
+            // Truy vấn  
             $sanPhamOld = $this->modelSanPham->getDetailSanPham($san_pham_id);
-            $old_file = $sanPhamOld['hinh_anh']; // lấy ảnh cũ để phục vụ cho sửa ảnh
+            $old_file = $sanPhamOld['hinh_anh']; // Lấy ảnh cũ để phục vụ cho sửa ảnh
 
             $ten_san_pham = $_POST['ten_san_pham'] ?? '';
             $gia_san_pham = $_POST['gia_san_pham'] ?? '';
@@ -175,189 +171,286 @@ class AdminSanPhamController
             $danh_muc_id = $_POST['danh_muc_id'] ?? '';
             $trang_thai = $_POST['trang_thai'] ?? '';
             $mo_ta = $_POST['mo_ta'] ?? '';
-            $hinh_anh = $_FILES['hinh_anh'] ?? null;
-        
 
+            $hinh_anh = $_FILES['hinh_anh'] ?? null;
+
+
+
+
+            // Tạo 1 mảng trống để chứa dữ liệu
             $errors = [];
-            if(empty($ten_san_pham)){
+
+            if (empty($ten_san_pham)) {
                 $errors['ten_san_pham'] = 'Tên sản phẩm không được để trống';
             }
-            if(empty($gia_san_pham)){
+            if (empty($gia_san_pham)) {
                 $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
             }
-            if(empty($so_luong)){
+            if (empty($so_luong)) {
                 $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
             }
-            if(empty($ngay_nhap)){
+            if (empty($ngay_nhap)) {
                 $errors['ngay_nhap'] = 'ngày nhập sản phẩm không được để trống';
             }
-            if(empty($danh_muc_id)){
-                $errors['danh_muc_id'] = 'danh mục sản phẩm không được để trống';
+            if (empty($danh_muc_id)) {
+                $errors['danh_muc_id'] = 'danh mục sản phẩm phải chọn';
             }
-            if(empty($trang_thai)){
-                $errors['trang_thai'] = 'trạng thái sản phẩm không được để trống';
+            if (empty($trang_thai)) {
+                $errors['trang_thai'] = 'trạng thái sản phẩm phải chọn';
             }
-            
+
             $_SESSION['error'] = $errors;
+            // var_dump($errors);die;
 
-            
             // logic sửa ảnh 
-                if (!empty($hinh_anh) && $hinh_anh['error'] == UPLOAD_ERR_OK) {
-                    // upload ảnh mới lên 
-                    $new_file = uploadFile($hinh_anh, './uploads/');
+            if (isset($hinh_anh) && $hinh_anh['error'] == UPLOAD_ERR_OK) {
+                // upload ảnh mới lên 
+                $new_file = uploadFile($hinh_anh, 'uploads/');
 
-                    if (!empty($old_file) && !empty($new_file)) { // Nếu có ảnh cũ thì xóa đi
-                        deleteFile($old_file);
-                    }
-                } else {
-                    $new_file = $old_file;
+                if (!empty($old_file)) { // Nếu có ảnh cũ thì xóa đi
+                    deleteFile($old_file);
                 }
+            } else {
+                $new_file = $old_file;
+            }
 
-            // nếu không có lỗi thì tiến hành thêm sản phẩm
-            if(empty($errors)){
-                
-            
-        // nếu không có lỗi thì tiến hành thêm sản phẩm
+            // Nếu ko có lỗi thì tiến hành thêm sản phẩm
+            if (empty($errors)) {
 
-         $this->modelSanPham->updateSanPham($san_pham_id, $ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $new_file);
-       
-        header("location: " . BASE_URL_ADMIN . '?act=san-pham');
-        exit();
-    }else{
-        // trả về form và lỗi
-        // đặt chỉ thị xóa session sau khi hiển thị form
-        $_SESSION['flash']=true;
-        header("Location: ". BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $san_pham_id);
-        exit();
-    }
-        }
-    }
+                // Nếu ko có lỗi thì tiến hành thêm sản phẩm
+                // var_dump('Oke');
 
-    public function postEditAnhSanPham()
-        {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $san_pham_id = $_POST['san_pham_id'] ?? '';
+                $this->modelSanPham->updateSanPham(
+                    $san_pham_id,
+                    $ten_san_pham,
+                    $gia_san_pham,
+                    $gia_khuyen_mai,
+                    $so_luong,
+                    $ngay_nhap,
+                    $danh_muc_id,
+                    $trang_thai,
+                    $mo_ta,
+                    $new_file
+                );
 
-                // Lấy danh sách ảnh hiện tại của sản phẩm
-                $listAnhSanPhamCurrent = $this->modelSanPham->getListAnhSanPham($san_pham_id);
+                // Chuyển hướng về trang chi tiết sản phẩm để thấy ngay dữ liệu mới
+                header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
+                exit();
+            } else {
+                // Trả về form và lỗi
+                // Đặt chỉ thị xóa session sau khi hiển thị form 
+                $_SESSION['flash'] = true;
 
-                // xử lý các ảnh được gửi từ form
-                $img_array = $_FILES['img_array'] ?? ['name' => []];
-                $img_delete = isset($_POST['img_delete']) && !empty($_POST['img_delete']) ? array_filter(explode(',', $_POST['img_delete'])) : [];
-                $current_img_ids = $_POST['current_img_ids'] ?? [];
-
-                // Khai báo mảng để lưu ảnh thêm mới hoặc thay thế ảnh cũ 
-                $upload_file = [];
-
-                // Upload ảnh mới hoặc thay thế ảnh cũ 
-                if (!empty($img_array['name'])) {
-                    foreach ($img_array['name'] as $key => $value) {
-                        if ($img_array['error'][$key] == UPLOAD_ERR_OK) {
-                            $new_file = uploadFileAlbum($img_array, './uploads/', $key);
-                            if ($new_file) {
-                                $upload_file[] = [
-                                    'id' => $current_img_ids[$key] ?? null,
-                                    'file' => $new_file
-                                ];
-                            }
-                        }
-                    }
-                }
-
-                // Lưu ảnh mới vào db và xóa ảnh cũ nếu có 
-                foreach ($upload_file as $file_info) {
-                    if (!empty($file_info['id'])) {
-                        $anhDetail = $this->modelSanPham->getDetailAnhSanPham($file_info['id']);
-                        if ($anhDetail) {
-                            $old_file = $anhDetail['link_hinh_anh'];
-
-                            // cập nhật ảnh cũ
-                            $this->modelSanPham->updateAnhSanPham($file_info['id'], $file_info['file']);
-
-                            // xóa ảnh cũ
-                            deleteFile($old_file);
-                        }
-                    } else {
-                        // Thêm ảnh mới 
-                        $this->modelSanPham->insertAlbumAnhSanPham($san_pham_id, $file_info['file']);
-                    }
-                }
-
-                // Xử lý xóa ảnh 
-                foreach ($listAnhSanPhamCurrent as $anhSP) {
-                    $anh_id = $anhSP['id'];
-                    if (in_array($anh_id, $img_delete)) {
-                        // Xóa ảnh trong db
-                        $this->modelSanPham->destroyAnhSanPham($anh_id);
-
-                        // Xóa file 
-                        deleteFile($anhSP['link_hinh_anh']);
-                    }
-                }
                 header("Location: " . BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $san_pham_id);
                 exit();
             }
         }
+    }
 
+    // // Sửa album ảnh
+    // - Sửa ảnh cũ
+    //  + Thêm ảnh mới 
+    //  + Không thêm ảnh mới
+    // - Không sửa ảnh cũ
+    //  + Thêm ảnh mới 
+    //  + Không thêm ảnh mới 
+    // - Xóa ảnh cũ
+    //  + Thêm ảnh mới 
+    //  + Không thêm ảnh mới 
 
-        public function detailSanPham()
-        {
-            $id = $_GET['id_san_pham'];
+    public function postEditAnhSanPham()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $san_pham_id = $_POST['san_pham_id'] ?? '';
 
-            $sanPham = $this->modelSanPham->getDetailSanPham($id);
+            // Lấy danh sách ảnh hiện tại của sản phẩm
+            $listAnhSanPhamCurrent = $this->modelSanPham->getListAnhSanPham($san_pham_id);
 
-            $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+            // xử lý các ảnh được gửi từ form
+            $img_array = $_FILES['img_array'];
+            $img_delete = isset($_POST['img_delete']) ? explode(',', $_POST['img_delete']) : [];
+            $current_img_ids = $_POST['current_img_ids'] ?? [];
 
-            $listBinhLuan = $this->modelSanPham->getBinhLuanFromSanPham($id);
-            // var_dump($listAnhSanPham);die;
-            if ($sanPham) {
-                require_once './views/sanpham/detailSanPham.php';
-            } else {
-                header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
-                exit();
+            // Khai báo mảng để lưu ảnh thêm mới hoặc thay thế ảnh cũ 
+            $upload_file = [];
+
+            // Upload ảnh mới hoặc thay thế ảnh cũ 
+            foreach ($img_array['name'] as $key => $value) {
+                if ($img_array['error'][$key] == UPLOAD_ERR_OK) {
+                    $new_file = uploadFileAlbum($img_array, 'uploads/', $key);
+                    if ($new_file) {
+                        $upload_file[] = [
+                            'id' => $current_img_ids[$key] ?? null,
+                            'file' => $new_file
+                        ];
+                    }
+                }
             }
-        }
 
-        public function updateTrangThaiBinhLuan()
-        {
-            $id_binh_luan = $_POST['id_binh_luan'];
-            $name_view = $_POST['name_view'];
-            $binhLuan = $this->modelSanPham->getDetailBinhLuan($id_binh_luan);
+            // Lưu ảnh mới vào db và xóa ảnh cũ nếu có 
+            foreach ($upload_file as $file_info) {
+                if ($file_info['id']) {
+                    $old_file = $this->modelSanPham->getDetailAnhSanPham($file_info['id'])['link_hinh_anh'];
 
-            if ($binhLuan) {
-                $trang_thai_update = '';
-                if ($binhLuan['trang_thai'] == 1) {
-                    $trang_thai_update = 2;
+                    // cập nhật ảnh cũ
+                    $this->modelSanPham->updateAnhSanPham($file_info['id'], $file_info['file']);
+
+                    // xóa ảnh cũ
+                    deleteFile($old_file);
                 } else {
-                    $trang_thai_update = 1;
+                    // Thêm ảnh mới 
+                    $this->modelSanPham->insertAlbumAnhSanPham($san_pham_id, $file_info['file']);
                 }
-                $status = $this->modelSanPham->updateTrangThaiBinhLuan($id_binh_luan, $trang_thai_update);
-                if ($status) {
-                    if ($name_view == 'detail_khach') {
-                        header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $binhLuan['tai_khoan_id']);
-                    }else{
-                        header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id']);
-                    }
+            }
+
+            // Xử lý xóa ảnh 
+            foreach ($listAnhSanPhamCurrent as $anhSP) {
+                $anh_id = $anhSP['id'];
+                if (in_array($anh_id, $img_delete)) {
+                    // Xóa ảnh trong db
+                    $this->modelSanPham->destroyAnhSanPham($anh_id);
+
+                    // Xóa file 
+                    deleteFile($anhSP['link_hinh_anh']);
                 }
+            }
+            header("Location: " . BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
+        }
+    }
+
+
+    public function deleteSanPham()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+
+        $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+
+
+        if ($sanPham) {
+            deleteFile($sanPham['hinh_anh']);
+            $this->modelSanPham->destroySanPham($id);
+        }
+        if ($listAnhSanPham) {
+            foreach ($listAnhSanPham as $key => $anhSP) {
+                deleteFile($anhSP['link_hinh_anh']);
+                $this->modelSanPham->destroyAnhSanPham($anhSP['id']);
             }
         }
 
-        public function deleteSanPham(){
-            $id = $_GET['id_san_pham'];
-            $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+        exit();
+    }
 
-            $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
-            if($sanPham){
-                deleteFile($sanPham['hinh_anh']);
-                $this->modelSanPham->destroySanPham($id);
-                if($listAnhSanPham){
-                    foreach ($listAnhSanPham as $key => $anhSP) {
-                        deleteFile($anhSP['link_hinh_anh']);
-                        $this->modelSanPham->destroyAnhSanPham($anhSP['id']);
-                    }
-                }
-            }
+
+    public function detailSanPham()
+    {
+        $id = $_GET['id_san_pham'];
+
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+
+        $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+
+        $listBinhLuan = $this->modelSanPham->getBinhLuanFromSanPham($id);
+
+        $listBienThe = $this->modelSanPham->getVariantsBySanPhamId($id);
+        // var_dump($listAnhSanPham);die;
+        if ($sanPham) {
+            require_once './views/sanpham/detailSanPham.php';
+        } else {
             header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
             exit();
         }
+    }
+
+    public function listVariantSanPham()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        $listBienThe = $this->modelSanPham->getVariantsBySanPhamId($id);
+
+        require_once './views/sanpham/listVariant.php';
+    }
+
+    public function formAddVariant()
+    {
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        require_once './views/sanpham/addVariant.php';
+    }
+
+    public function postAddVariant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $san_pham_id = $_POST['san_pham_id'];
+            $mau_sac = $_POST['mau_sac'] ?? '';
+            $size = $_POST['size'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? 0;
+
+            $this->modelSanPham->insertVariant($san_pham_id, $mau_sac, $size, $so_luong);
+            header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
+        }
+    }
+
+    public function formEditVariant()
+    {
+        $id = $_GET['id'];
+        $variant = $this->modelSanPham->getVariantById($id);
+        $sanPham = $this->modelSanPham->getDetailSanPham($variant['san_pham_id']);
+        require_once './views/sanpham/editVariant.php';
+    }
+
+    public function postEditVariant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'];
+            $san_pham_id = $_POST['san_pham_id'];
+            $mau_sac = $_POST['mau_sac'] ?? '';
+            $size = $_POST['size'] ?? '';
+            $so_luong = $_POST['so_luong'] ?? 0;
+
+            $this->modelSanPham->updateVariant($id, $mau_sac, $size, $so_luong);
+            header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+            exit();
+        }
+    }
+
+    public function deleteVariant()
+    {
+        $id = $_GET['id'];
+        $variant = $this->modelSanPham->getVariantById($id);
+        $san_pham_id = $variant['san_pham_id'];
+        $this->modelSanPham->deleteVariant($id);
+        header('Location: ' . BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $san_pham_id);
+        exit();
+    }
+
+    public function updateTrangThaiBinhLuan()
+    {
+        $id_binh_luan = $_POST['id_binh_luan'];
+        $name_view = $_POST['name_view'];
+        $binhLuan = $this->modelSanPham->getDetailBinhLuan($id_binh_luan);
+
+        if ($binhLuan) {
+            $trang_thai_update = '';
+            if ($binhLuan['trang_thai'] == 1) {
+                $trang_thai_update = 2;
+            } else {
+                $trang_thai_update = 1;
+            }
+            $status = $this->modelSanPham->updateTrangThaiBinhLuan($id_binh_luan, $trang_thai_update);
+            if ($status) {
+                if ($name_view == 'detail_khach') {
+                    header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $binhLuan['tai_khoan_id']);
+                }else{
+                    header("Location: " . BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $binhLuan['san_pham_id']);
+                }
+                exit();
+            }
+        }
+        header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+        exit();
+    }
 }

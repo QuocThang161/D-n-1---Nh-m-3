@@ -25,8 +25,8 @@ class AdminTaiKhoan
 
     public function insertTaiKhoan($ho_ten, $email, $password, $chuc_vu_id){
         try {
-            $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id, ngay_sinh, gioi_tinh, so_dien_thoai, dia_chi, trang_thai)
-                    VALUES (:ho_ten, :email, :password, :chuc_vu_id, :ngay_sinh, :gioi_tinh, :so_dien_thoai, :dia_chi, :trang_thai)';
+            $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id)
+                    VALUES (:ho_ten, :email, :password, :chuc_vu_id)';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -35,16 +35,11 @@ class AdminTaiKhoan
                 ':email' => $email,
                 ':password' => $password,
                 ':chuc_vu_id' => $chuc_vu_id,
-                ':ngay_sinh' => '1990-01-01',
-                ':gioi_tinh' => 0,
-                ':so_dien_thoai' => '',
-                ':dia_chi' => '',
-                ':trang_thai' => 1,
             ]);
 
             return true;
         } catch (Exception $e) {
-            throw new Exception("Lỗi thêm tài khoản: " . $e->getMessage());
+            echo "lỗi" . $e->getMessage();
         }
     }
 
@@ -145,31 +140,43 @@ class AdminTaiKhoan
         }
     }
 
-    public function checkLogin($email, $mat_khau){
-        try {
-            $sql = "SELECT * FROM tai_khoans WHERE email = :email";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute(['email'=>$email]);
-            $user = $stmt->fetch();
+  public function checkLogin($email, $mat_khau){
+    try {
+        $sql = "SELECT * FROM tai_khoans WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':email'=>$email]);
+        $user = $stmt->fetch();
 
-            if ($user && password_verify($mat_khau, $user['mat_khau'])) {
+        // var_dump(password_verify($mat_khau, $user['mat_khau']));
+        // die;
+
+        if ($user) {
+            if (password_verify($mat_khau, $user['mat_khau'])) {
+
                 if ($user['chuc_vu_id'] == 1) {
+
                     if ($user['trang_thai'] == 1) {
-                        return $user['email']; // Trường hợp đăng nhập thành công
-                    }else{
+                        return $user; 
+                    } else {
                         return "Tài khoản bị cấm";
                     }
-                }else{
+
+                } else {
                     return "Tài khoản không có quyền đăng nhập";
                 }
-            }else{
-                return "Bạn nhập sai thông tin mật khẩu hoặc tài khoản";
+
+            } else {
+                return "Sai mật khẩu";
             }
-        } catch (\Exception $e) {
-            echo "lỗi" . $e->getMessage();
-            return false;
+        } else {
+            return "Email không tồn tại";
         }
+
+    } catch (\Exception $e) {
+        echo "lỗi" . $e->getMessage();
+        return false;
     }
+}
 
     public function getTaiKhoanformEmail($email){
         try {

@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Quản lý danh sách sản phẩm</h1>
+                    <h1>Quản lý danh sản phẩm</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-header">
                             <a href="<?= BASE_URL_ADMIN . '?act=form-them-san-pham' ?>">
-                                <button class="btn btn-success">Thêm thú cưng mới</button>
+                                <button class="btn btn-success">Thêm sản phẩm mới</button>
                             </a>
                         </div>
                         <!-- /.card-header -->
@@ -62,6 +62,10 @@
                                         <td><?= $sanPham['trang_thai'] == 1 ? 'Còn bán':'Dừng bán'; ?></td>
                                         <td>
                                             <div class="btn-group">
+                                                <a
+                                                    href="<?= BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $sanPham['id'] ?>">
+                                                    <button class="btn btn-info" title="Quản lý biến thể"><i class="fas fa-tags"></i></button>
+                                                </a>
                                                 <a
                                                     href="<?= BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">
                                                     <button class="btn btn-primary"><i class="far fa-eye"></i></button>

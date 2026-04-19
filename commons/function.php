@@ -135,8 +135,8 @@ function getCartSummary()
 
     foreach ($items as $item) {
         $unitPrice = !empty($item['gia_khuyen_mai']) ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
-        $summary['count'] += intval($item['so_luong']);
-        $summary['subtotal'] += $unitPrice * intval($item['so_luong']);
+        $summary['count'] += intval($item['so_luong_gio']);
+        $summary['subtotal'] += $unitPrice * intval($item['so_luong_gio']);
     }
 
     return $summary;

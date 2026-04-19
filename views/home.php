@@ -28,7 +28,7 @@
             </div>
             <!-- single slider item start -->
             <div class="hero-single-slide hero-overlay">
-                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider2.jpg">
+                <div class="hero-slider-item bg-img" data-bg="assets/img/slider/slider1.png">
                     <div class="container">
                         <div class="row">
 
@@ -230,16 +230,19 @@
                     <div class="testimonial-thumb-wrapper">
                         <div class="testimonial-thumb-carousel">
                             <div class="testimonial-thumb">
-                                <img src="assets/img/testimonial/1.png" alt="testimonial-thumb">
+                                <img src="#" alt="TBT">
                             </div>
                             <div class="testimonial-thumb">
-                                <img src="assets/img/testimonial/2.png" alt="testimonial-thumb">
+                                <img src="#" alt="TBT">
+
                             </div>
                             <div class="testimonial-thumb">
-                                <img src="assets/img/testimonial/3.png" alt="testimonial-thumb">
+                                <img src="#" alt="TBT">
+
                             </div>
                             <div class="testimonial-thumb">
-                                <img src="assets/img/testimonial/2.png" alt="testimonial-thumb">
+                                <img src="#" alt="TBT">
+
                             </div>
                         </div>
                     </div>
@@ -270,17 +273,16 @@
                         <div class="blog-post-item">
                             <figure class="blog-thumb">
                                 <a href="blog-details.html">
-                                    <img src="https://azpet.com.vn/wp-content/uploads/2022/10/ky-sinh-trung-mau-o-cho.jpg"
-                                        alt="blog image">
+                                    <img src="./assets/img/blog/blog.jpg" alt="blog image">
                                 </a>
                             </figure>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <p>25/03/2019 | <a href="#">Corano</a></p>
+                                    <p>25/03/2019 | <a href="#">TBT</a></p>
                                 </div>
                                 <h5 class="blog-title">
-                                    <a href="blog-details.html">Ký Sinh Trùng Máu Ở Chó – Căn Bệnh Không Thể Khỏi
-                                        100%</a>
+                                    <a href="blog-details.html"> Siêu bão Ragasa và cách bảo quản giày da trong mùa mưa
+                                        bão</a>
                                 </h5>
                             </div>
                         </div>
@@ -290,16 +292,16 @@
                         <div class="blog-post-item">
                             <figure class="blog-thumb">
                                 <a href="blog-details.html">
-                                    <img src="https://azpet.com.vn/wp-content/uploads/2022/10/benh-rang-mieng-o-cho.jpg"
-                                        alt="blog image">
+                                    <img src="./assets/img/blog/blog1.jpg" alt="blog image">
                                 </a>
                             </figure>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <p>25/03/2019 | <a href="#">Corano</a></p>
+                                    <p>25/03/2019 | <a href="#">TBT</a></p>
                                 </div>
                                 <h5 class="blog-title">
-                                    <a href="blog-details.html">Bệnh Răng Miệng Ở Chó – Tuyệt Đối Không Nên Ngó Lơ</a>
+                                    <a href="blog-details.html">Bộ sưu tập Sneaker Roots & Essence – Khi bản ngã hòa
+                                        cùng thiên nhiên</a>
                                 </h5>
                             </div>
                         </div>
@@ -309,16 +311,16 @@
                         <div class="blog-post-item">
                             <figure class="blog-thumb">
                                 <a href="blog-details.html">
-                                    <img src="https://azpet.com.vn/wp-content/uploads/2022/10/benh-rang-mieng-o-meo.jpg"
-                                        alt="blog image">
+                                    <img src="./assets/img/blog/blog2.jpg" alt="blog image">
                                 </a>
                             </figure>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <p>25/03/2019 | <a href="#">Corano</a></p>
+                                    <p>25/03/2019 | <a href="#">TBT</a></p>
                                 </div>
                                 <h5 class="blog-title">
-                                    <a href="blog-details.html">Bệnh Răng Miệng Ở Mèo – “Sát Thủ” Âm Thầm</a>
+                                    <a href="blog-details.html">Sale Quốc Khánh 2/9 Lucas Shoes – 4 ngày cuối: chốt deal
+                                        up to 70% + A80 đồng giá</a>
                                 </h5>
                             </div>
                         </div>
@@ -328,16 +330,16 @@
                         <div class="blog-post-item">
                             <figure class="blog-thumb">
                                 <a href="blog-details.html">
-                                    <img src="https://azpet.com.vn/wp-content/uploads/2022/10/2-phuong-phap-tieu-diet-tan-goc-ve-ran-o-cho-meo.jpg"
-                                        alt="blog image">
+                                    <img src="./assets/img/blog/blog2.jpg" alt="blog image">
                                 </a>
                             </figure>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <p>25/03/2019 | <a href="#">Corano</a></p>
+                                    <p>25/03/2019 | <a href="#">TBT</a></p>
                                 </div>
                                 <h5 class="blog-title">
-                                    <a href="blog-details.html">2 Phương Pháp Tiêu Diệt Ve, Rận Tận Gốc Ở Chó Mèo</a>
+                                    <a href="blog-details.html">Sale Quốc Khánh 2/9 Lucas Shoes – 4 ngày cuối: chốt deal
+                                        up to 70% + A80 đồng giá</a>
                                 </h5>
                             </div>
                         </div>
@@ -347,20 +349,21 @@
                         <div class="blog-post-item">
                             <figure class="blog-thumb">
                                 <a href="blog-details.html">
-                                    <img src="https://azpet.com.vn/wp-content/uploads/2022/10/tat-ca-nhung-gi-ban-can-biet-ve-ve-ran-o-cho-meo.jpg"
-                                        alt="blog image">
+                                    <img src="./assets/img/blog/blog2.jpg" alt="blog image">
                                 </a>
                             </figure>
                             <div class="blog-content">
                                 <div class="blog-meta">
-                                    <p>25/03/2019 | <a href="#">Corano</a></p>
+                                    <p>25/03/2019 | <a href="#">TBT</a></p>
                                 </div>
                                 <h5 class="blog-title">
-                                    <a href="blog-details.html">Tất Cả Những Gì Bạn Cần Biết Về Ve, Rận Ở Chó Mèo</a>
+                                    <a href="blog-details.html">Sale Quốc Khánh 2/9 Lucas Shoes – 4 ngày cuối: chốt deal
+                                        up to 70% + A80 đồng giá</a>
                                 </h5>
                             </div>
                         </div>
                         <!-- blog post item end -->
+
                     </div>
                 </div>
             </div>

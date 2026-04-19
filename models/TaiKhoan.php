@@ -41,14 +41,11 @@ class TaiKhoan
             }
 
             if ($user && $passwordMatches) {
-                if ($user['chuc_vu_id'] == 2) {
-                    if ($user['trang_thai'] == 1) {
-                        return $user['email']; // Trường hợp đăng nhập thành công
-                    } else {
-                        return "Tài khoản bị cấm";
-                    }
+                if ($user['trang_thai'] == 1) {
+                    // Trả về toàn bộ mảng user để đồng bộ dữ liệu với Controller và Admin
+                    return $user; 
                 } else {
-                    return "Tài khoản không có quyền đăng nhập";
+                    return "Tài khoản đang bị khóa hoặc chưa kích hoạt";
                 }
             } else {
                 return "Bạn nhập sai thông tin mật khẩu hoặc tài khoản";
@@ -161,4 +158,24 @@ class TaiKhoan
         return false;
     }
 }
+
+    public function insertTaiKhoan($ho_ten, $email, $mat_khau, $chuc_vu_id, $so_dien_thoai = null, $ngay_sinh = null, $dia_chi = null) {
+        try {
+            $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id, trang_thai, so_dien_thoai, ngay_sinh, dia_chi) 
+                    VALUES (:ho_ten, :email, :mat_khau, :chuc_vu_id, :trang_thai, :so_dien_thoai, :ngay_sinh, :dia_chi)';
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([
+                ':ho_ten' => $ho_ten,
+                ':email' => $email,
+                ':mat_khau' => $mat_khau,
+                ':chuc_vu_id' => $chuc_vu_id,
+                ':trang_thai' => 1, // Mặc định trạng thái là hoạt động (1)
+                ':so_dien_thoai' => $so_dien_thoai,
+                ':ngay_sinh' => $ngay_sinh,
+                ':dia_chi' => $dia_chi
+            ]);
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
 }

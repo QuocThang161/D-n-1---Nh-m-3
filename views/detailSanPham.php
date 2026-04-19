@@ -78,14 +78,15 @@
                                     <div class="availability">
                                         <i class="fa fa-check-circle"></i>
                                         <span>Trạng thái: </span>
-                                        <?php if ($sanPham['trang_thai'] == 1) : ?>
+                                        <?php if ($sanPham['trang_thai'] == 1 && $sanPham['so_luong_thuc_te'] > 0) : ?>
                                         <span class="text-success">Còn bán</span>
                                         <?php else : ?>
-                                        <span class="text-danger">Dừng bán</span>
+                                        <span
+                                            class="text-danger"><?= $sanPham['trang_thai'] != 1 ? 'Dừng bán' : 'Hết hàng' ?></span>
                                         <?php endif; ?>
 
                                         <?php if (empty($listSanPhamBienThe)) : ?>
-                                        <span> | <?= $sanPham['so_luong'] . ' sản phẩm trong kho' ?></span>
+                                        <span> | <?= $sanPham['so_luong_thuc_te'] . ' sản phẩm trong kho' ?></span>
                                         <?php endif; ?>
                                     </div>
                                     <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>
@@ -304,16 +305,29 @@
                                                 <div class="pro-qty"><input type="text" value="1" name="so_luong"></div>
                                             </div>
                                             <div class="action_link">
-                                                <button type="submit" class="btn btn-cart2" id="add-to-cart-btn"
-                                                    style="opacity: 1 !important; cursor: pointer !important;">Thêm
+                                                <?php if ($sanPham['trang_thai'] == 1 && $sanPham['so_luong_thuc_te'] > 0) : ?>
+                                                <button type="submit" class="btn btn-cart2" id="add-to-cart-btn">Thêm
                                                     giỏ hàng</button>
+                                                <?php else : ?>
+                                                <button type="button" class="btn btn-cart2 disabled" disabled
+                                                    style="background-color: #ccc; cursor: not-allowed;">Hết hàng / Dừng
+                                                    bán</button>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </form>
 
                                     <?php if (isset($_SESSION['error'])): ?>
                                     <div class="alert alert-danger mt-3">
-                                        <?= $_SESSION['error'] ?>
+                                        <?php 
+                                            if (is_array($_SESSION['error'])) {
+                                                foreach ($_SESSION['error'] as $error) {
+                                                    echo "<p class='mb-0'>$error</p>";
+                                                }
+                                            } else {
+                                                echo $_SESSION['error'];
+                                            }
+                                        ?>
                                     </div>
                                     <?php unset($_SESSION['error']); ?>
                                     <?php endif ?>

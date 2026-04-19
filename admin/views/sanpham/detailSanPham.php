@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Quản lý danh sách thú cưng</h1>
+                    <h1>Chi tiết sản phẩm</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -44,12 +44,20 @@
                         <hr>
                         <h4 class="mt-3">Giá tiền: <small><?= $sanPham['gia_san_pham'] ?></small></h4>
                         <h4 class="mt-3">Giá khuyến mãi: <small><?= $sanPham['gia_khuyen_mai'] ?></small></h4>
-                        <h4 class="mt-3">Số lượng: <small><?= $sanPham['so_luong'] ?></small></h4>
-                        <h4 class="mt-3">Lượt xem: <small><?= $sanPham['luot_xem'] ?></small></h4>
+                        <h4 class="mt-3">Số lượng: <small><?= $sanPham['so_luong_thuc_te'] ?></small></h4>
+                        <!-- <h4 class="mt-3">Lượt xem: <small><?= $sanPham['luot_xem'] ?></small></h4> -->
                         <h4 class="mt-3">Ngày nhập: <small><?= $sanPham['ngay_nhap'] ?></small></h4>
                         <h4 class="mt-3">Danh mục: <small><?= $sanPham['ten_danh_muc'] ?></small></h4>
                         <h4 class="mt-3">Trạng thái:
-                            <small><?= $sanPham['trang_thai'] == 1 ? 'Còn bán' : 'Dừng bán' ?></small>
+                            <small>
+                                <?php
+                                if ($sanPham['trang_thai'] == 1) {
+                                    echo ($sanPham['so_luong_thuc_te'] > 0) ? 'Còn bán' : 'Hết hàng (Dừng bán)';
+                                } else {
+                                    echo 'Dừng bán';
+                                }
+                                ?>
+                            </small>
                         </h4>
                         <h4 class="mt-3">Mô tả: <small><?= $sanPham['mo_ta'] ?></small></h4>
 
@@ -86,7 +94,7 @@
                                     <td><?= $key + 1 ?></td>
                                     <td><?= htmlspecialchars($bienThe['mau_sac']) ?></td>
                                     <td><?= htmlspecialchars($bienThe['size']) ?></td>
-                                    <td><?= $bienThe['so_luong_bien_the'] ?? $bienThe['so_luong'] ?? 0 ?></td>
+                                    <td><?= $bienThe['so_luong_bien_the'] ?? 0 ?></td>
                                     <!-- FIX: dùng so_luong_bien_the để tránh undefined index -->
                                 </tr>
                                 <?php endforeach;?>

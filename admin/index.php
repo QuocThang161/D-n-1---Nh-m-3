@@ -16,6 +16,7 @@ require_once './models/AdminDanhMuc.php';
 require_once './models/AdminSanPham.php';
 require_once './models/AdminDonHang.php';
 require_once './models/AdminTaiKhoan.php';
+require_once './models/AdminBaoCaoThongKe.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -78,7 +79,7 @@ match ($act) {
         'list-tai-khoan-khach-hang' =>(new AdminTaiKhoanController())->danhSachKhachHang(),
         'form-sua-khach-hang' =>(new AdminTaiKhoanController())->formEditKhachHang(),
         'sua-khach-hang' =>(new AdminTaiKhoanController())->postEditKhachHang(),
-        'chi-tiet-khach-hang' =>(new AdminTaiKhoanController())->deltailKhachHang(),
+        'chi-tiet-khach-hang' =>(new AdminTaiKhoanController())->detailKhachHang(),
 
         // route quản lý tài khoản cá nhân(quản trị)
 

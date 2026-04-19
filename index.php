@@ -36,6 +36,7 @@ match ($act) {
     'them-gio-hang' =>(new HomeController())->addGioHang(),
     'gio-hang' =>(new HomeController())->gioHang(),
     'xoa-san-pham-gio-hang' => (new HomeController())->xoaSanPhamGioHang(),
+    'update-so-luong-gio-hang' => (new HomeController())->updateSoLuongGioHang(),
     'thanh-toan' =>(new HomeController())->thanhToan(),
     'xu-ly-thanh-toan' =>(new HomeController())->postThanhToan(),
     'lich-su-mua-hang' =>(new HomeController())->lichSuMuaHang(),
@@ -46,8 +47,12 @@ match ($act) {
 
     // Auth
     'login' => (new HomeController())->formLogin(),
+    'dang-ky' => (new HomeController())->formRegister(),
+    'check-dang-ky' => (new HomeController())->postRegister(),
     'check-login' => (new HomeController())->postLogin(),
     'logout' => (new HomeController())->logout(),
     'thong-tin-tai-khoan' => (new HomeController())->thongTinTaiKhoan(),
     'sua-thong-tin-ca-nhan' => (new HomeController())->postEditCaNhan(),
+    
+    default => (new HomeController())->home(),
 };

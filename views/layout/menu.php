@@ -32,8 +32,8 @@
                                             <a href="<?= BASE_URL . '?act=cua-hang' ?>">Cửa hàng
                                                 <i class="fa fa-angle-down"></i></a>
                                         </li>
-                                        <li><a href="contact-us.html">Giới thiệu</a></li>
-                                        <li><a href="contact-us.html">Liên hệ</a></li>
+                                        <li><a href="contact-us.html"></a></li>
+                                        <li><a href="contact-us.html"></a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->

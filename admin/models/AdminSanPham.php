@@ -9,21 +9,24 @@ class AdminSanPham {
     }
 
     public function getAllSanPham(){
-        try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
-            FROM san_phams
-            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-            ';
+    try {
+        $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                COALESCE(SUM(san_pham_bien_the.so_luong_bien_the),0) AS so_luong_thuc_te
+                FROM san_phams
+                LEFT JOIN san_pham_bien_the 
+                    ON san_phams.id = san_pham_bien_the.san_pham_id
+                INNER JOIN danh_mucs 
+                    ON san_phams.danh_muc_id = danh_mucs.id
+                GROUP BY san_phams.id";
 
-            $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
 
-            $stmt->execute();
-
-            return $stmt->fetchAll();
-        } catch (Exception $e) {
-            echo "lỗi" . $e->getMessage();
-        }
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        echo "lỗi" . $e->getMessage();
     }
+}
 
     public function insertSanPham($ten_san_pham, $gia_san_pham, $gia_khuyen_mai, $so_luong, $ngay_nhap, $danh_muc_id, $trang_thai, $mo_ta, $hinh_anh){
         try {
@@ -72,21 +75,25 @@ class AdminSanPham {
     }
 
     public function getDetailSanPham($id){
-        try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
-            FROM san_phams
-            INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-            WHERE san_phams.id = :id';
+    try {
+        $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                COALESCE(SUM(san_pham_bien_the.so_luong_bien_the),0) AS so_luong_thuc_te
+                FROM san_phams
+                LEFT JOIN san_pham_bien_the 
+                    ON san_phams.id = san_pham_bien_the.san_pham_id
+                INNER JOIN danh_mucs 
+                    ON san_phams.danh_muc_id = danh_mucs.id
+                WHERE san_phams.id = :id
+                GROUP BY san_phams.id";
 
-            $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id'=>$id]);
 
-            $stmt->execute([':id'=>$id]);
-
-            return $stmt->fetch();
-        } catch (Exception $e) {
-            echo "lỗi" . $e->getMessage();
-        }
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        echo "lỗi" . $e->getMessage();
     }
+}
 
     public function getListAnhSanPham($id){
         try {
@@ -272,6 +279,16 @@ class AdminSanPham {
             return true;
         } catch (Exception $e) {
             echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function tangSoLuongBienThe($variant_id, $so_luong) {
+        try {
+            $sql = "UPDATE san_pham_bien_the SET so_luong_bien_the = so_luong_bien_the + :so_luong WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([':id' => $variant_id, ':so_luong' => $so_luong]);
+        } catch (Exception $e) {
+            return false;
         }
     }
 

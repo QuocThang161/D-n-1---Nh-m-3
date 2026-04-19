@@ -25,7 +25,9 @@ class GioHang
 
     public function getDetailGioHang($id){
         try {
-            $sql = 'SELECT chi_tiet_gio_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai,
+            $sql = 'SELECT chi_tiet_gio_hangs.*, 
+                           san_phams.ten_san_pham, san_phams.hinh_anh, san_phams.gia_san_pham, san_phams.gia_khuyen_mai,
+                           san_phams.so_luong AS so_luong_kho,
                    san_pham_bien_the.mau_sac, san_pham_bien_the.size AS bien_the_size
             FROM chi_tiet_gio_hangs
             INNER JOIN san_phams ON chi_tiet_gio_hangs.san_pham_id = san_phams.id
@@ -58,19 +60,19 @@ class GioHang
     public function updateSoLuong($gio_hang_id, $san_pham_id, $so_luong, $san_pham_bien_the_id = null){
         try {
             $sql = 'UPDATE chi_tiet_gio_hangs
-                    SET so_luong = :so_luong
+                    SET so_luong_gio = :so_luong
                     WHERE gio_hang_id = :gio_hang_id 
                       AND san_pham_id = :san_pham_id 
-                      AND (san_pham_bien_the_id = :bt_id OR (:bt_id_null IS NULL AND san_pham_bien_the_id IS NULL))
+                      AND (san_pham_bien_the_id <=> :bt_id)
             ';
+            // Toán tử <=> (NULL-safe equal) giúp so sánh chính xác cả khi giá trị là NULL
             $stmt = $this->conn->prepare($sql);
 
             $stmt->execute([
                 ':gio_hang_id' => $gio_hang_id, 
                 ':san_pham_id' => $san_pham_id, 
                 ':so_luong' => $so_luong, 
-                ':bt_id' => $san_pham_bien_the_id,
-                ':bt_id_null' => $san_pham_bien_the_id
+                ':bt_id' => $san_pham_bien_the_id
             ]);
 
             return true;
@@ -81,12 +83,12 @@ class GioHang
 
     public function addDetailGioHang($gio_hang_id, $san_pham_id, $so_luong, $san_pham_bien_the_id = null){
         try {
-            $sql = 'INSERT INTO chi_tiet_gio_hangs (gio_hang_id, san_pham_id, san_pham_bien_the_id, so_luong)
-                        VALUES (:gio_hang_id, :san_pham_id, :san_pham_bien_the_id, :so_luong)
+            $sql = 'INSERT INTO chi_tiet_gio_hangs (gio_hang_id, san_pham_id, san_pham_bien_the_id, so_luong_gio)
+                        VALUES (:gio_hang_id, :san_pham_id, :san_pham_bien_the_id, :so_luong_gio)
             ';
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id, ':san_pham_bien_the_id'=>$san_pham_bien_the_id, ':so_luong'=>$so_luong]);
+            $stmt->execute([':gio_hang_id'=>$gio_hang_id, ':san_pham_id'=>$san_pham_id, ':san_pham_bien_the_id'=>$san_pham_bien_the_id, ':so_luong_gio'=>$so_luong]);
             
             return true;
         } catch (Exception $e) {
@@ -99,14 +101,13 @@ class GioHang
             $sql = 'DELETE FROM chi_tiet_gio_hangs 
                     WHERE gio_hang_id = :gio_hang_id 
                       AND san_pham_id = :san_pham_id 
-                      AND (san_pham_bien_the_id = :bt_id OR (:bt_id_null IS NULL AND san_pham_bien_the_id IS NULL))';
+                      AND (san_pham_bien_the_id <=> :bt_id)';
             $stmt = $this->conn->prepare($sql);
 
             $stmt->execute([
                 ':gio_hang_id' => $gio_hang_id, 
                 ':san_pham_id' => $san_pham_id, 
-                ':bt_id' => $san_pham_bien_the_id,
-                ':bt_id_null' => $san_pham_bien_the_id
+                ':bt_id' => $san_pham_bien_the_id
             ]);
 
             return true;

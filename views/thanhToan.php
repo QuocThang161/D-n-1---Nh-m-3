@@ -101,14 +101,14 @@
                                                             <?= !empty($sanPham['bien_the_size']) ? ' / Size: ' . htmlspecialchars($sanPham['bien_the_size']) : '' ?>
                                                         </small>
                                                         <?php endif; ?>
-                                                        <strong> × <?= $sanPham['so_luong'] ?></strong>
+                                                        <strong> × <?= $sanPham['so_luong_gio'] ?></strong>
                                                     </a>
                                                 </td>
                                                 <td>
                                                     <?php 
                                                         $tongTien = 0;
-                                                        $price = $sanPham['gia_khuyen_mai'] ?? $sanPham['gia_san_pham'];
-                                                        $tongTien = $price * $sanPham['so_luong'];
+                                                        $price = ($sanPham['gia_khuyen_mai'] > 0) ? $sanPham['gia_khuyen_mai'] : $sanPham['gia_san_pham'];
+                                                        $tongTien = $price * $sanPham['so_luong_gio'];
                                                         $tongGioHang += $tongTien;
                                                         echo formatPrice($tongTien) . ' đ';
                                                     ?>

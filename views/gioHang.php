@@ -29,6 +29,19 @@
         <div class="container">
             <div class="section-bg-color">
                 <div class="row">
+                    <div class="col-12">
+                        <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger">
+                            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success">
+                            <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
                     <div class="col-lg-12">
                         <!-- Cart Table Area -->
                         <div class="cart-table table-responsive">
@@ -49,7 +62,7 @@
                                             $tongGioHang = 0; 
                                             foreach($chiTietGioHang as $key=>$sanPham): 
                                         ?>
-                                    <tr>
+                                    <tr class="cart-item-row">
                                         <td class="pro-thumbnail"><a href="#"><img class="img-fluid"
                                                     src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="Product" /></a>
                                         </td>
@@ -73,12 +86,39 @@
                                                 ?>
                                             </span></td>
                                         <td class="pro-quantity">
-                                            <div class="pro-qty"><input type="text" value="<?= $sanPham['so_luong'] ?>">
-                                            </div>
+                                            <form action="<?= BASE_URL . '?act=update-so-luong-gio-hang' ?>"
+                                                method="POST">
+                                                <input type="hidden" name="id_san_pham"
+                                                    value="<?= $sanPham['san_pham_id'] ?>">
+                                                <input type="hidden" name="id_bien_the"
+                                                    value="<?= $sanPham['san_pham_bien_the_id'] ?? '' ?>">
+                                                <div
+                                                    class="quantity-control d-flex align-items-center justify-content-center">
+                                                    <!-- Nút giảm số lượng: thuần PHP, không background, icon đen -->
+                                                    <button type="submit" name="so_luong"
+                                                        value="<?= $sanPham['so_luong_gio'] - 1 ?>"
+                                                        style="border: none; background: none; color: black; cursor: pointer; padding: 5px;">
+                                                        <i class="fa fa-minus" style="font-size: 12px;"></i>
+                                                    </button>
+
+                                                    <!-- Hiển thị số lượng hiện tại ở giữa -->
+                                                    <span class="mx-3 fw-bold"
+                                                        style="min-width: 20px; display: inline-block; text-align: center;">
+                                                        <?= $sanPham['so_luong_gio'] ?>
+                                                    </span>
+
+                                                    <!-- Nút tăng số lượng: thuần PHP, không background, icon đen -->
+                                                    <button type="submit" name="so_luong"
+                                                        value="<?= $sanPham['so_luong_gio'] + 1 ?>"
+                                                        style="border: none; background: none; color: black; cursor: pointer; padding: 5px;">
+                                                        <i class="fa fa-plus" style="font-size: 12px;"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </td>
-                                        <td class="pro-subtotal"><span>
+                                        <td class="pro-subtotal"><span class="item-subtotal">
                                                 <?php 
-                                                    $tongTien = $price * $sanPham['so_luong'];
+                                                    $tongTien = $price * $sanPham['so_luong_gio'];
                                                     $tongGioHang += $tongTien;
                                                     echo formatPrice($tongTien) . ' đ';
                                                 ?>
@@ -106,7 +146,7 @@
                                     <table class="table">
                                         <tr>
                                             <td>Tổng tiền sản phẩm</td>
-                                            <td><?= formatPrice($tongGioHang) . 'đ' ?></td>
+                                            <td class="cart-total-amount"><?= formatPrice($tongGioHang) . 'đ' ?></td>
                                         </tr>
                                         <tr>
                                             <td>Vận chuyển</td>
@@ -114,7 +154,8 @@
                                         </tr>
                                         <tr class="total">
                                             <td>Tổng thanh toán</td>
-                                            <td class="total-amount"><?= formatPrice($tongGioHang + 30000) . 'đ' ?></td>
+                                            <td class="grand-total-amount">
+                                                <?= formatPrice($tongGioHang + 30000) . 'đ' ?></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -132,5 +173,4 @@
 
 
 <?php require_once 'layout/miniCart.php'; ?>
-
 <?php require_once 'layout/footer.php'; ?>

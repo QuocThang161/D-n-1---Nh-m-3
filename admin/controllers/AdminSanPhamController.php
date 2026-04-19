@@ -40,7 +40,7 @@ class AdminSanPhamController
             $ten_san_pham = $_POST['ten_san_pham'] ?? '';
             $gia_san_pham = $_POST['gia_san_pham'] ?? '';
             $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
-            $so_luong = $_POST['so_luong'] ?? '';
+            $so_luong = 0; // Bắt buộc set 0 khi thêm mới, tồn kho sẽ tăng khi thêm biến thể
             $ngay_nhap = $_POST['ngay_nhap'] ?? '';
             $danh_muc_id = $_POST['danh_muc_id'] ?? '';
             $trang_thai = $_POST['trang_thai'] ?? '';
@@ -64,9 +64,6 @@ class AdminSanPhamController
             }
             if (empty($gia_san_pham)) {
                 $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
-            }
-            if (empty($so_luong)) {
-                $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
             }
             if (empty($ngay_nhap)) {
                 $errors['ngay_nhap'] = 'ngày nhập sản phẩm không được để trống';
@@ -166,7 +163,7 @@ class AdminSanPhamController
             $ten_san_pham = $_POST['ten_san_pham'] ?? '';
             $gia_san_pham = $_POST['gia_san_pham'] ?? '';
             $gia_khuyen_mai = $_POST['gia_khuyen_mai'] ?? '';
-            $so_luong = $_POST['so_luong'] ?? '';
+            $so_luong = $sanPhamOld['so_luong']; // Không cập nhật cột so_luong cũ từ form
             $ngay_nhap = $_POST['ngay_nhap'] ?? '';
             $danh_muc_id = $_POST['danh_muc_id'] ?? '';
             $trang_thai = $_POST['trang_thai'] ?? '';
@@ -185,9 +182,6 @@ class AdminSanPhamController
             }
             if (empty($gia_san_pham)) {
                 $errors['gia_san_pham'] = 'giá sản phẩm không được để trống';
-            }
-            if (empty($so_luong)) {
-                $errors['so_luong'] = 'số lượng sản phẩm không được để trống';
             }
             if (empty($ngay_nhap)) {
                 $errors['ngay_nhap'] = 'ngày nhập sản phẩm không được để trống';

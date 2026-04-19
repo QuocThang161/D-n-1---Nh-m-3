@@ -358,7 +358,7 @@ class AdminTaiKhoanController
                     }
                     $_SESSION['success'] = 'Cập nhật thông tin cá nhân thành công';
                 } else {
-                    $_SESSION['errors']['general'] = 'Có lỗi xảy ra khi cập nhật thông tin';
+                    $_SESSION['error']['general'] = 'Có lỗi xảy ra khi cập nhật thông tin';
                 }
                 $_SESSION['flash'] = true;
             } else {

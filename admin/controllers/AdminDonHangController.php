@@ -7,6 +7,7 @@ class AdminDonHangController
     public function __construct()
     {
         $this->modelDonHang = new AdminDonHang();
+        $this->modelSanPham = new AdminSanPham();
     }
 
     public function danhSachDonHang()
@@ -59,69 +60,109 @@ class AdminDonHangController
     }
 
 
-    public function postEditDonHang()
+   public function postEditDonHang()
     {
-        // Hàm này dùng để xử lý thêm dữ liệu
-
-        // Kiểm tra xem dữ liệu có phải đc submit lên không
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Lấy ra dữ liệu
 
             $don_hang_id = $_POST['don_hang_id'] ?? '';
 
+            // Lấy đơn cũ
+            $donHangOld = $this->modelDonHang->getDetailDonHang($don_hang_id);
 
-            $ten_nguoi_nhan = $_POST['ten_nguoi_nhan'] ?? '';
-            $sdt_nguoi_nhan = $_POST['sdt_nguoi_nhan'] ?? '';
-            $email_nguoi_nhan = $_POST['email_nguoi_nhan'] ?? '';
-            $dia_chi_nguoi_nhan = $_POST['dia_chi_nguoi_nhan'] ?? '';
-            $ghi_chu = $_POST['ghi_chu'] ?? '';
-            $trang_thai_id = $_POST['trang_thai_id'] ?? '';
+            if (!$donHangOld) {
+                $_SESSION['error'] = 'Đơn hàng không tồn tại';
+                header("Location: " . BASE_URL_ADMIN . '?act=don-hang');
+                exit();
+            }
 
+            // Lấy dữ liệu + trim
+            $ten_nguoi_nhan = trim($_POST['ten_nguoi_nhan'] ?? '');
+            $sdt_nguoi_nhan = trim($_POST['sdt_nguoi_nhan'] ?? '');
+            $email_nguoi_nhan = trim($_POST['email_nguoi_nhan'] ?? '');
+            $dia_chi_nguoi_nhan = trim($_POST['dia_chi_nguoi_nhan'] ?? '');
+            $ghi_chu = trim($_POST['ghi_chu'] ?? '');
+            $trang_thai_id = (int)($_POST['trang_thai_id'] ?? 0);
 
-            // Tạo 1 mảng trống để chứa dữ liệu
             $errors = [];
 
-            if (empty($ten_nguoi_nhan)) {
+            // VALIDATE
+            if ($ten_nguoi_nhan === '') {
                 $errors['ten_nguoi_nhan'] = 'Tên người nhận không được để trống';
             }
-            if (empty($sdt_nguoi_nhan)) {
-                $errors['sdt_nguoi_nhan'] = 'SDT người nhận không được để trống';
+
+            if ($sdt_nguoi_nhan === '') {
+                $errors['sdt_nguoi_nhan'] = 'SĐT không được để trống';
+            } elseif (!preg_match('/^[0-9]{9,11}$/', $sdt_nguoi_nhan)) {
+                $errors['sdt_nguoi_nhan'] = 'SĐT không hợp lệ';
             }
-            if (empty($email_nguoi_nhan)) {
-                $errors['email_nguoi_nhan'] = 'Email người nhận không được để trống';
+
+            if ($email_nguoi_nhan === '') {
+                $errors['email_nguoi_nhan'] = 'Email không được để trống';
+            } elseif (!filter_var($email_nguoi_nhan, FILTER_VALIDATE_EMAIL)) {
+                $errors['email_nguoi_nhan'] = 'Email không hợp lệ';
             }
-            if (empty($dia_chi_nguoi_nhan)) {
-                $errors['dia_chi_nguoi_nhan'] = 'Địa chỉ người nhận không được để trống';
+
+            if ($dia_chi_nguoi_nhan === '') {
+                $errors['dia_chi_nguoi_nhan'] = 'Địa chỉ không được để trống';
             }
-            if (empty($trang_thai_id)) {
-                $errors['trang_thai_id'] = 'trạng thái đơn hàng';
+
+            if ($trang_thai_id === 0) {
+                $errors['trang_thai_id'] = 'Chọn trạng thái đơn hàng';
             }
 
             $_SESSION['error'] = $errors;
-            // var_dump($errors);die;
-            // Nếu ko có lỗi thì tiến hành sửa
-            // var_dump($don_hang_id);die;
+
+            // Nếu không lỗi
             if (empty($errors)) {
 
-                // Nếu ko có lỗi thì tiến hành thêm sản phẩm
-                // var_dump('Oke');
+                try {
+                
+                    $this->modelDonHang->conn->beginTransaction();
 
-                $abc = $this->modelDonHang->updateDonHang(
-                    $don_hang_id,
-                    $ten_nguoi_nhan,
-                    $sdt_nguoi_nhan,
-                    $email_nguoi_nhan,
-                    $dia_chi_nguoi_nhan,
-                    $ghi_chu,
-                    $trang_thai_id
-                );
+                    // UPDATE đơn hàng
+                    $status = $this->modelDonHang->updateDonHang(
+                        $don_hang_id,
+                        $ten_nguoi_nhan,
+                        $sdt_nguoi_nhan,
+                        $email_nguoi_nhan,
+                        $dia_chi_nguoi_nhan,
+                        $ghi_chu,
+                        $trang_thai_id
+                    );
 
-                // var_dump($abc);die;
-                header("Location: " . BASE_URL_ADMIN . '?act=don-hang');
-                exit();
+                    // Nếu chuyển sang huỷ → hoàn kho
+                    if ($status && $trang_thai_id == 11 && ($donHangOld['trang_thai_id'] ?? 0) != 11) {
+
+                        $sanPhamDonHang = $this->modelDonHang->getListSpDonHang($don_hang_id);
+
+                        foreach ($sanPhamDonHang as $item) {
+
+                            if (!empty($item['san_pham_bien_the_id']) && $item['so_luong'] > 0) {
+
+                                $this->modelSanPham->tangSoLuongBienThe(
+                                    $item['san_pham_bien_the_id'],
+                                    (int)$item['so_luong']
+                                );
+                            }
+                        }
+                    }
+
+                   
+                    $this->modelDonHang->conn->commit();
+
+                    header("Location: " . BASE_URL_ADMIN . '?act=don-hang');
+                    exit();
+
+                } catch (Exception $e) {
+
+                    
+                    $this->modelDonHang->conn->rollBack();
+
+                    die("Lỗi hệ thống: " . $e->getMessage());
+                }
+
             } else {
-                // Trả về form và lỗi
-                // Đặt chỉ thị xóa session sau khi hiển thị form 
+
                 $_SESSION['flash'] = true;
 
                 header("Location: " . BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $don_hang_id);

@@ -57,14 +57,23 @@
                                                 onerror="this.onerror=null; this.src='https://cutepetshop.vn/wp-content/uploads/2023/05/11-buc-hinh-nen-thu-cung-dang-yeu-3.jpg'">
                                         </td>
                                         <td><?= $sanPham['gia_san_pham'] ?></td>
-                                        <td><?= $sanPham['so_luong'] ?></td>
+                                        <td><?= $sanPham['so_luong_thuc_te'] ?></td>
                                         <td><?= $sanPham['ten_danh_muc'] ?></td>
-                                        <td><?= $sanPham['trang_thai'] == 1 ? 'Còn bán':'Dừng bán'; ?></td>
+                                        <td>
+                                            <?php
+                                            if ($sanPham['trang_thai'] == 1) {
+                                                echo ($sanPham['so_luong_thuc_te'] > 0) ? '<span class="badge badge-success">Còn bán</span>' : '<span class="badge badge-danger">Hết hàng</span>';
+                                            } else {
+                                                echo '<span class="badge badge-secondary">Dừng bán</span>';
+                                            }
+                                            ?>
+                                        </td>
                                         <td>
                                             <div class="btn-group">
                                                 <a
                                                     href="<?= BASE_URL_ADMIN . '?act=variant-san-pham&id_san_pham=' . $sanPham['id'] ?>">
-                                                    <button class="btn btn-info" title="Quản lý biến thể"><i class="fas fa-tags"></i></button>
+                                                    <button class="btn btn-info" title="Quản lý biến thể"><i
+                                                            class="fas fa-tags"></i></button>
                                                 </a>
                                                 <a
                                                     href="<?= BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">

@@ -9,9 +9,12 @@ class SanPham {
 
     public function getAllSanPham(){
         try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
+            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                           COALESCE(SUM(san_pham_bien_the.so_luong_bien_the), 0) AS so_luong_thuc_te
             FROM san_phams
             INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+            LEFT JOIN san_pham_bien_the ON san_phams.id = san_pham_bien_the.san_pham_id
+            GROUP BY san_phams.id
             ';
             $stmt = $this->conn->prepare($sql);
 
@@ -26,10 +29,13 @@ class SanPham {
 
     public function getDetailSanPham($id){
         try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
+            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                           COALESCE(SUM(san_pham_bien_the.so_luong_bien_the), 0) AS so_luong_thuc_te
             FROM san_phams
             INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-            WHERE san_phams.id = :id';
+            LEFT JOIN san_pham_bien_the ON san_phams.id = san_pham_bien_the.san_pham_id
+            WHERE san_phams.id = :id
+            GROUP BY san_phams.id';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -136,42 +142,12 @@ class SanPham {
         }
     }
 
-    // 3. Kiểm tra tồn kho (nếu so_luong <= 0 thì hết hàng)
+    // Giữ lại để tương thích ngược nếu cần, nhưng chuyển sang dùng so_luong_bien_the
     public function checkVariantStock($id)
     {
         $variant = $this->getVariantById($id);
-        if (!$variant) {
-            return ['ok' => false, 'message' => 'Biến thể không tồn tại'];
-        }
-
-        if ((int)$variant['so_luong_bien_the'] <= 0) {
-            return ['ok' => false, 'message' => 'Hết hàng'];
-        }
-
-        return ['ok' => true, 'message' => 'Còn hàng', 'variant' => $variant];
-    }
-
-    // 4. Trừ số lượng khi mua (không cho trừ khi không đủ)
-    public function decreaseVariantStock($id, $qty)
-    {
-        if ($qty <= 0) {
-            return ['success' => false, 'message' => 'Số lượng phải lớn hơn 0'];
-        }
-
-        $variant = $this->getVariantById($id);
-        if (!$variant) {
-            return ['success' => false, 'message' => 'Biến thể không tồn tại'];
-        }
-
-        if ((int)$variant['so_luong_bien_the'] < $qty) {
-            return ['success' => false, 'message' => 'Không đủ hàng'];
-        }
-
-        $sql = 'UPDATE san_pham_bien_the SET so_luong_bien_the = so_luong_bien_the - :qty WHERE id = :id';
-        $stmt = $this->conn->prepare($sql);
-        $ok = $stmt->execute([':qty' => $qty, ':id' => $id]);
-
-        return ['success' => $ok, 'message' => $ok ? 'Đã trừ tồn kho' : 'Cập nhật tồn kho thất bại'];
+        $ok = ($variant && (int)$variant['so_luong_bien_the'] > 0);
+        return ['ok' => $ok, 'message' => $ok ? 'Còn hàng' : 'Hết hàng', 'variant' => $variant];
     }
 
     public function getBinhLuanFromSanPham($id){
@@ -211,10 +187,13 @@ class SanPham {
 
     public function getListSanPhamDanhMuc($danh_muc_id){
         try {
-            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc
+            $sql = 'SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                           COALESCE(SUM(san_pham_bien_the.so_luong_bien_the), 0) AS so_luong_thuc_te
             FROM san_phams
             INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-            WHERE san_phams.danh_muc_id = :danh_muc_id';
+            LEFT JOIN san_pham_bien_the ON san_phams.id = san_pham_bien_the.san_pham_id
+            WHERE san_phams.danh_muc_id = :danh_muc_id
+            GROUP BY san_phams.id';
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([':danh_muc_id' => $danh_muc_id]);
             
@@ -235,10 +214,12 @@ class SanPham {
         }
     }
 
-    public function countAllSanPham() {
+    public function countAllSanPham($search = null) {
         try {
-            $sql = 'SELECT COUNT(*) FROM san_phams';
+            $sql = 'SELECT COUNT(*) FROM san_phams WHERE 1';
+            if ($search) $sql .= " AND ten_san_pham LIKE :search";
             $stmt = $this->conn->prepare($sql);
+            if ($search) $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchColumn();
         } catch (Exception $e) {
@@ -246,26 +227,34 @@ class SanPham {
         }
     }
 
-    public function countSanPhamByDanhMuc($danh_muc_id) {
+    public function countSanPhamByDanhMuc($danh_muc_id, $search = null) {
         try {
             $sql = 'SELECT COUNT(*) FROM san_phams WHERE danh_muc_id = :danh_muc_id';
+            if ($search) $sql .= " AND ten_san_pham LIKE :search";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':danh_muc_id' => $danh_muc_id]);
+            $stmt->bindValue(':danh_muc_id', $danh_muc_id);
+            if ($search) $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+            $stmt->execute();
             return $stmt->fetchColumn();
         } catch (Exception $e) {
             echo "Lỗi: " . $e->getMessage();
         }
     }
 
-    public function getSanPhamPage($limit, $offset, $sort = '') {
+    public function getSanPhamPage($limit, $offset, $sort = '', $search = null) {
         $orderBy = $this->getOrderByString($sort);
         try {
-            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                           COALESCE(SUM(san_pham_bien_the.so_luong_bien_the), 0) AS so_luong_thuc_te
                     FROM san_phams
                     INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-                    $orderBy
-                    LIMIT :limit OFFSET :offset";
+                    LEFT JOIN san_pham_bien_the ON san_phams.id = san_pham_bien_the.san_pham_id
+                    WHERE 1";
+            if ($search) $sql .= " AND ten_san_pham LIKE :search";
+            $sql .= " GROUP BY san_phams.id $orderBy LIMIT :limit OFFSET :offset";
+            
             $stmt = $this->conn->prepare($sql);
+            if ($search) $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
             // Cần bindValue để ép kiểu số nguyên cho LIMIT/OFFSET
             $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
             $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
@@ -276,17 +265,21 @@ class SanPham {
         }
     }
 
-    public function getSanPhamByDanhMucPage($danh_muc_id, $limit, $offset, $sort = '') {
+    public function getSanPhamByDanhMucPage($danh_muc_id, $limit, $offset, $sort = '', $search = null) {
         $orderBy = $this->getOrderByString($sort);
         try {
-            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc,
+                           COALESCE(SUM(san_pham_bien_the.so_luong_bien_the), 0) AS so_luong_thuc_te
                     FROM san_phams
                     INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
-                    WHERE san_phams.danh_muc_id = :danh_muc_id
-                    $orderBy
-                    LIMIT :limit OFFSET :offset";
+                    LEFT JOIN san_pham_bien_the ON san_phams.id = san_pham_bien_the.san_pham_id
+                    WHERE san_phams.danh_muc_id = :danh_muc_id";
+            if ($search) $sql .= " AND ten_san_pham LIKE :search";
+            $sql .= " GROUP BY san_phams.id $orderBy LIMIT :limit OFFSET :offset";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':danh_muc_id', $danh_muc_id);
+            if ($search) $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
             $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
             $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
             $stmt->execute();
@@ -312,4 +305,35 @@ class SanPham {
         }
     }
 
+    public function tangSoLuongBienThe($variant_id, $so_luong) {
+        try {
+            $sql = "UPDATE san_pham_bien_the SET so_luong_bien_the = so_luong_bien_the + :so_luong WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([':id' => $variant_id, ':so_luong' => $so_luong]);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function checkSoLuongBienThe($variant_id, $so_luong) {
+        try {
+            $sql = "SELECT so_luong_bien_the FROM san_pham_bien_the WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':id' => $variant_id]);
+            $current_qty = $stmt->fetchColumn();
+            return $current_qty >= $so_luong;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function giamSoLuongBienThe($variant_id, $so_luong) {
+        try {
+            $sql = "UPDATE san_pham_bien_the SET so_luong_bien_the = so_luong_bien_the - :so_luong WHERE id = :id AND so_luong_bien_the >= :so_luong";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([':id' => $variant_id, ':so_luong' => $so_luong]);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
